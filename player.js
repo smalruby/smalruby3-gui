@@ -17,12 +17,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(46);
 /* harmony import */ var _components_box_box_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
-/* harmony import */ var _containers_gui_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(109);
+/* harmony import */ var _containers_gui_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(110);
 /* harmony import */ var _lib_hash_parser_hoc_jsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(132);
-/* harmony import */ var _lib_app_state_hoc_jsx__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(102);
+/* harmony import */ var _lib_app_state_hoc_jsx__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(103);
 /* harmony import */ var _lib_titled_hoc_jsx__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(265);
 /* harmony import */ var _reducers_mode__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(73);
-/* harmony import */ var _player_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(754);
+/* harmony import */ var _player_css__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(755);
 /* harmony import */ var _player_css__WEBPACK_IMPORTED_MODULE_12___default = /*#__PURE__*/__webpack_require__.n(_player_css__WEBPACK_IMPORTED_MODULE_12__);
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -116,7 +116,7 @@ exports.locals = {
 
 /***/ }),
 
-/***/ 754:
+/***/ 755:
 /***/ (function(module, exports, __webpack_require__) {
 
 
