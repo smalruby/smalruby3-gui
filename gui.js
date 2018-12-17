@@ -43,7 +43,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
 
 
 var onClickLogo = function onClickLogo() {
-  window.location = 'https://smalruby.jp/smalruby3-gui';
+  window.location = 'https://smalruby.jp';
 };
 /*
  * Render the GUI playground. This is a separate function because importing anything
