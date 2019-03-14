@@ -48,7 +48,7 @@ export default function (Generator) {
     };
 
     Generator.data_deleteoflist = function (block) {
-        const index = Generator.valueToCode(block, 'INDEX', Generator.ORDER_NONE) - 1 || 0;
+        const index = Generator.valueToCode(block, 'INDEX', Generator.ORDER_NONE)  || 0;
         const list = getListName(block);
         return `${list}.delete_at(${Generator.nosToCode(index)})\n`;
     };
@@ -59,21 +59,21 @@ export default function (Generator) {
     };
 
     Generator.data_insertatlist = function (block) {
-        const index = Generator.valueToCode(block, 'INDEX', Generator.ORDER_NONE) - 1 || 0;
+        const index = Generator.valueToCode(block, 'INDEX', Generator.ORDER_NONE)  || 0;
         const item = Generator.valueToCode(block, 'ITEM', Generator.ORDER_NONE) || '0';
         const list = getListName(block);
         return `${list}.insert(${index}, ${Generator.nosToCode(item)})\n`;
     };
 
     Generator.data_replaceitemoflist = function (block) {
-        const index = Generator.valueToCode(block, 'INDEX', Generator.ORDER_INDEX) - 1 || 0;
+        const index = Generator.valueToCode(block, 'INDEX', Generator.ORDER_INDEX)  || 0;
         const item = Generator.valueToCode(block, 'ITEM', Generator.ORDER_NONE) || '0';
         const list = getListName(block);
         return `${list}[${index}] = ${Generator.nosToCode(item)}\n`;
     };
 
     Generator.data_itemoflist = function (block) {
-        const index = Generator.valueToCode(block, 'INDEX', Generator.ORDER_INDEX) - 1 || 0;
+        const index = Generator.valueToCode(block, 'INDEX', Generator.ORDER_INDEX)  || 0;
         const list = getListName(block);
         return [`${list}[${index}]`, Generator.ORDER_FUNCTION_CAL];
     };
