@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google" value="notranslate">
+    <link rel="shortcut icon" href="static/title.ico">
+    <title>Smalruby 3.0 GUI</title>
+    
+    <script src="static/javascripts/opal.min.js"
+            onload="Opal.load('opal');
+                    Opal.config.unsupported_features_severity = 'ignore';">
+    </script>
+    <script src="static/javascripts/opal-parser.min.js"
+            onload="Opal.load('opal-parser');
+                    Opal.load('parser');
+                    Opal.load('parser/ruby23');
+                    Opal.Parser.CurrentRuby = Opal.Parser.Ruby23;">
+    </script>
+  </head>
+  <body>
+  <script type="text/javascript" src="lib.min.js"></script><script type="text/javascript" src="chunks/gui.js"></script></body>
+</html>
