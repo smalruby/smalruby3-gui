@@ -61,7 +61,7 @@ const getItemImageSource = function (item) {
     }
 
     // TODO: adjust libraries to be more storage-friendly; don't use split() here.
-    const md5 = item.md5 || item.baseLayerMD5;
+    const md5 = item.md5 || item.md5ext || item.baseLayerMD5;
     if (md5) {
         const [assetId, fileExtension] = md5.split('.');
         return {
