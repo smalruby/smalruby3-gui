@@ -17,6 +17,14 @@ import SensingConverter from './sensing';
 import OperatorsConverter from './operators';
 import VariablesConverter from './variables';
 import MyBlocksConverter from './my-blocks';
+import MusicConverter from './music';
+import PenConverter from './pen';
+import MicroBitConverter from './microbit';
+import EV3Converter from './ev3';
+import Wedo2Converter from './wedo2';
+
+/* eslint-disable no-invalid-this */
+const ColorRegexp = /^#[0-9a-fA-F]{6}$/;
 
 /**
  * Class for a block converter that translates ruby code into the blocks.
@@ -25,6 +33,12 @@ class RubyToBlocksConverter {
     constructor (vm) {
         this.vm = vm;
         this._converters = [
+            MusicConverter,
+            PenConverter,
+            MicroBitConverter,
+            EV3Converter,
+            Wedo2Converter,
+
             MotionConverter,
             LooksConverter,
             SoundConverter,
@@ -338,6 +352,10 @@ class RubyToBlocksConverter {
         return this._isNumber(block) || this._isString(block) || this._isValueBlock(block);
     }
 
+    _isColorOrBlock (colorOrBlock) {
+        return this._isBlock(colorOrBlock) || (this._isString(colorOrBlock) && ColorRegexp.test(colorOrBlock));
+    }
+
     _isFalseOrBooleanBlock (block) {
         if (this._isFalse(block)) {
             return true;
@@ -361,6 +379,30 @@ class RubyToBlocksConverter {
 
     _isVariableBlock (block) {
         return /_variable$/.test(this._getBlockType(block));
+    }
+
+    _isRubyExpression (block) {
+        return this._isBlock(block) && block.opcode === 'ruby_expression';
+    }
+
+    _getRubyExpression (block) {
+        if (this._isRubyExpression(block)) {
+            const textBlock = this._context.blocks[block.inputs.EXPRESSION.block];
+            return textBlock.fields.TEXT.value;
+        }
+        return null;
+    }
+
+    _isRubyStatement (block) {
+        return this._isBlock(block) && block.opcode === 'ruby_statement';
+    }
+
+    _getRubyStatement (block) {
+        if (this._isRubyStatement(block)) {
+            const textBlock = this._context.blocks[block.inputs.STATEMENT.block];
+            return textBlock.fields.TEXT.value;
+        }
+        return null;
     }
 
     _createBlock (opcode, type, attributes = {}) {
@@ -458,6 +500,22 @@ class RubyToBlocksConverter {
             shadowBlock = this._createNumberBlock(opcode, shadowValue);
         }
         this._addInput(block, name, this._createNumberBlock(opcode, inputValue), shadowBlock);
+    }
+
+    _addNoteInput (block, name, inputValue, shadowValue) {
+        let shadowBlock;
+        const opcode = 'note';
+        if (!this._isNumber(inputValue)) {
+            shadowBlock = this._createNoteBlock(opcode, shadowValue);
+        }
+        this._addInput(block, name, this._createNoteBlock(opcode, inputValue), shadowBlock);
+    }
+
+    _createNoteBlock (opcode, value) {
+        if (this._isNumber(value) || value === '') {
+            return this._createFieldBlock(opcode, 'NOTE', value.toString());
+        }
+        return value;
     }
 
     _addTextInput (block, name, inputValue, shadowValue) {

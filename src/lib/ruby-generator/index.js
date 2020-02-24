@@ -21,7 +21,11 @@ import PenBlocks from './pen.js';
 import VideoBlocks from './video.js';
 import Text2SpeechBlocks from './text2speech.js';
 import TranslateBlocks from './translate.js';
+import MakeyMakeyBlocks from './makeymakey.js';
 import MicrobitBlocks from './microbit.js';
+import BoostBlocks from './boost.js';
+import EV3Blocks from './ev3.js';
+import WeDo2Blocks from './wedo2.js';
 
 const SCALAR_TYPE = '';
 const LIST_TYPE = 'list';
@@ -445,6 +449,10 @@ PenBlocks(RubyGenerator);
 VideoBlocks(RubyGenerator);
 Text2SpeechBlocks(RubyGenerator);
 TranslateBlocks(RubyGenerator);
+MakeyMakeyBlocks(RubyGenerator);
 MicrobitBlocks(RubyGenerator);
+BoostBlocks(RubyGenerator);
+EV3Blocks(RubyGenerator);
+WeDo2Blocks(RubyGenerator);
 
 export default RubyGenerator;
