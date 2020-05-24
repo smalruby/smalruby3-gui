@@ -1,4 +1,5 @@
 /* global Opal */
+import {defineMessages} from 'react-intl';
 import _ from 'lodash';
 import log from '../log';
 import Blockly from 'scratch-blocks';
@@ -23,9 +24,50 @@ import MicroBitConverter from './microbit';
 import EV3Converter from './ev3';
 import Wedo2Converter from './wedo2';
 import GdxForConverter from './gdx_for';
+import MeshConverter from './mesh';
+import SmalrubotS1Converter from './smalrubot_s1';
+
+const messages = defineMessages({
+    couldNotConvertPremitive: {
+        defaultMessage: '"{ SOURCE }" could not be converted the block.',
+        description: 'Error message for converting ruby to block when find the premitive',
+        id: 'gui.smalruby3.rubyToBlocksConverter.couldNotConvertPremitive'
+    },
+    wrongInstruction: {
+        defaultMessage: '"{ SOURCE }" is the wrong instruction.',
+        description: 'Error message for converting ruby to block when find the wrong instruction',
+        id: 'gui.smalruby3.rubyToBlocksConverter.wrongInstruction'
+    }
+});
 
 /* eslint-disable no-invalid-this */
 const ColorRegexp = /^#[0-9a-fA-F]{6}$/;
+
+// from scratch-vm/src/serialization/sb3.js
+const CORE_EXTENSIONS = [
+    'argument',
+    'colour',
+    'control',
+    'data',
+    'event',
+    'looks',
+    'math',
+    'motion',
+    'operator',
+    'procedures',
+    'sensing',
+    'sound'
+];
+
+// from scratch-vm/src/serialization/sb3.js
+const getExtensionIdForOpcode = function (opcode) {
+    const index = opcode.indexOf('_');
+    const prefix = opcode.substring(0, index);
+    if (CORE_EXTENSIONS.indexOf(prefix) === -1) {
+        if (prefix !== '') return prefix;
+    }
+    return null;
+};
 
 /**
  * Class for a block converter that translates ruby code into the blocks.
@@ -33,6 +75,7 @@ const ColorRegexp = /^#[0-9a-fA-F]{6}$/;
 class RubyToBlocksConverter {
     constructor (vm) {
         this.vm = vm;
+        this._translator = message => message.defaultMessage;
         this._converters = [
             MusicConverter,
             PenConverter,
@@ -40,6 +83,8 @@ class RubyToBlocksConverter {
             EV3Converter,
             Wedo2Converter,
             GdxForConverter,
+            MeshConverter,
+            SmalrubotS1Converter,
 
             MotionConverter,
             LooksConverter,
@@ -74,12 +119,17 @@ class RubyToBlocksConverter {
         return this._context.broadcastMsgs;
     }
 
+    setTranslatorFunction (translator) {
+        this._translator = translator;
+    }
+
     reset () {
         this._context = {
             currentNode: null,
             errors: [],
             argumentBlocks: {},
             procedureCallBlocks: {},
+            extensionIDs: new Set(),
 
             blocks: {},
             blockTypes: {},
@@ -113,7 +163,10 @@ class RubyToBlocksConverter {
                 } else if (block instanceof Primitive) {
                     throw new RubyToBlocksConverterError(
                         block.node,
-                        `could not convert primitive: ${this._getSource(block.node)}`
+                        this._translator(
+                            messages.couldNotConvertPremitive,
+                            {SOURCE: this._getSource(block.node)}
+                        )
                     );
                 } else {
                     throw new Error(`invalid block: ${block}`);
@@ -124,8 +177,16 @@ class RubyToBlocksConverter {
                 if (this._isRubyBlock(block)) {
                     throw new RubyToBlocksConverterError(
                         block.node,
-                        `could not convert ${block.opcode}: ${this._getSource(block.node)}`
+                        this._translator(
+                            messages.wrongInstruction,
+                            {SOURCE: this._getSource(block.node)}
+                        )
                     );
+                }
+
+                const extensionID = getExtensionIdForOpcode(block.opcode);
+                if (extensionID) {
+                    this._context.extensionIDs.add(extensionID);
                 }
             });
             return true;
@@ -136,10 +197,12 @@ class RubyToBlocksConverter {
                 error = this._toErrorAnnotation(loc.$line(), loc.$column(), e.$message());
             } else if (e instanceof RubyToBlocksConverterError) {
                 const loc = e.node.$loc();
-                error = this._toErrorAnnotation(loc.$line(), loc.$column(), e.message);
+                error = this._toErrorAnnotation(loc.$line(), loc.$column(), e.message, this._getSource(e.node));
             } else if (this._context.currentNode) {
                 const loc = this._context.currentNode.$loc();
-                error = this._toErrorAnnotation(loc.$line(), loc.$column(), e.message);
+                error = this._toErrorAnnotation(
+                    loc.$line(), loc.$column(), e.message, this._getSource(this._context.currentNode)
+                );
             } else {
                 error = this._toErrorAnnotation(1, 0, e.message);
             }
@@ -179,14 +242,24 @@ class RubyToBlocksConverter {
             }
         });
 
-        Object.keys(target.blocks._blocks).forEach(blockId => {
-            target.blocks.deleteBlock(blockId);
-        });
-        Object.keys(this._context.blocks).forEach(blockId => {
-            target.blocks.createBlock(this._context.blocks[blockId]);
+        const extensionPromises = [];
+        this._context.extensionIDs.forEach(extensionID => {
+            if (!this.vm.extensionManager.isExtensionLoaded(extensionID)) {
+                extensionPromises.push(this.vm.extensionManager.loadExtensionURL(extensionID));
+            }
         });
 
-        this.vm.emitWorkspaceUpdate();
+        return Promise.all(extensionPromises).then(() => {
+            Object.keys(target.blocks._blocks).forEach(blockId => {
+                target.blocks.deleteBlock(blockId);
+            });
+
+            Object.keys(this._context.blocks).forEach(blockId => {
+                target.blocks.createBlock(this._context.blocks[blockId]);
+            });
+
+            this.vm.emitWorkspaceUpdate();
+        });
     }
 
     _callConvertersHandler (handlerName) {
@@ -273,23 +346,21 @@ class RubyToBlocksConverter {
         });
     }
 
-    _toErrorAnnotation (row, column, message) {
+    _toErrorAnnotation (row, column, message, source) {
         if (row === Opal.nil) {
             row = 0;
         } else {
             row -= 1;
         }
-        let columnText = '';
         if (column === Opal.nil) {
             column = 0;
-        } else {
-            columnText = `${column}: `;
         }
         return {
             row: row,
             column: column,
             type: 'error',
-            text: `${columnText}${message}`
+            text: message,
+            source: source
         };
     }
 
@@ -313,6 +384,10 @@ class RubyToBlocksConverter {
 
     _isNumber (value) {
         return _.isNumber(value) || (value && (value.type === 'int' || value.type === 'float'));
+    }
+
+    _isTrue (value) {
+        return value === true || (value && value.type === 'true');
     }
 
     _isFalse (value) {
@@ -684,26 +759,40 @@ class RubyToBlocksConverter {
         return b;
     }
 
-    _popWaitBlock (block) {
-        if (!block) {
+    _removeWaitBlocks (block) {
+        if (!block || block === Opal.nil) {
             return null;
         }
 
-        const b = this._lastBlock(block);
-        if (b.opcode === 'ruby_statement') {
-            const textBlock = this._context.blocks[b.inputs.STATEMENT.block];
-            if (textBlock.fields.TEXT.value === 'wait') {
-                if (b.parent) {
-                    const parent = this._context.blocks[b.parent];
-                    if (parent.next === b.id) {
-                        parent.next = null;
-                    }
+        let firstBlock = null;
+        let b = block;
+        let prev = b.parent;
+        while (b) {
+            let isWaitBlock = false;
+            if (b.opcode === 'ruby_statement') {
+                const textBlock = this._context.blocks[b.inputs.STATEMENT.block];
+                if (textBlock.fields.TEXT.value === 'wait') {
+                    isWaitBlock = true;
                 }
-                delete this._context.blocks[b.id];
-                return b;
             }
+            if (isWaitBlock) {
+                delete this._context.blocks[b.id];
+                if (prev) {
+                    this._context.blocks[prev].next = null;
+                }
+            } else {
+                if (firstBlock === null) {
+                    firstBlock = b;
+                }
+                b.parent = prev;
+                if (prev) {
+                    this._context.blocks[prev].next = b.id;
+                }
+                prev = b.id;
+            }
+            b = this._context.blocks[b.next];
         }
-        return null;
+        return firstBlock;
     }
 
     _getBlockType (block) {
@@ -720,6 +809,15 @@ class RubyToBlocksConverter {
     _changeBlock (block, opcode, blockType) {
         block.opcode = opcode;
         this._setBlockType(block, blockType);
+        return block;
+    }
+
+    _changeRubyExpressionBlock (block, opcode, blockType) {
+        this._changeBlock(block, opcode, blockType);
+
+        delete this._context.blocks[block.inputs.EXPRESSION.block];
+        delete block.inputs.EXPRESSION;
+
         return block;
     }
 
@@ -1167,17 +1265,29 @@ class RubyToBlocksConverter {
     }
 }
 
-const targetCodeToBlocks = function (vm, target, code, errors = []) {
+/**
+ * Null of RubyToBlocksConverter
+ */
+const NullRubyToBlocksConverter = {
+    result: true,
+    errors: [],
+    apply: () => Promise.resolve()
+};
+
+const targetCodeToBlocks = function (vm, target, code, intl) {
     const converter = new RubyToBlocksConverter(vm);
-    if (converter.targetCodeToBlocks(target, code)) {
-        converter.applyTargetBlocks(target);
-        return true;
+    if (intl) {
+        converter.setTranslatorFunction(intl.formatMessage);
     }
-    converter.errors.forEach(e => errors.push(e));
-    return false;
+    converter.result = converter.targetCodeToBlocks(target, code);
+    if (converter.result) {
+        converter.apply = () => converter.applyTargetBlocks(target);
+    }
+    return converter;
 };
 
 export {
     RubyToBlocksConverter as default,
+    NullRubyToBlocksConverter,
     targetCodeToBlocks
 };

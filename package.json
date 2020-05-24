@@ -1,6 +1,6 @@
 {
   "name": "smalruby3-gui",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "GraphicaL User Interface for creating and running Smalruby 3.0 projects",
   "main": "./dist/smalruby3-gui.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "build": "npm run clean && npm run setup-opal && webpack --progress --colors --bail",
     "clean": "rimraf ./static/javascripts/setup-opal.js && rimraf ./build && mkdirp build && rimraf ./dist && mkdirp dist",
     "deploy": "touch build/.nojekyll && gh-pages -t -d build -m \"Build for $(git log --pretty=format:%H -n1) [skip ci]\"",
+    "deploy:smalruby.app": "rimraf node_modules/gh-pages/.cache && echo \"smalruby.app\" > build/CNAME && touch build/.nojekyll && gh-pages -t -d build -m \"Build for $(git log --pretty=format:%H -n1) [skip ci]\"",
     "prune": "./prune-gh-pages.sh",
     "i18n:push": "tx-push-src scratch-editor interface translations/en.json",
     "i18n:src": "rimraf ./translations/messages/src && babel src > tmp.js && rimraf tmp.js && build-i18n-src ./translations/messages/src ./translations/ && npm run i18n:push",
@@ -45,7 +46,7 @@
     "babel-loader": "^8.0.4",
     "base64-loader": "1.0.0",
     "bowser": "1.9.4",
-    "chromedriver": "80.0.0",
+    "chromedriver": "^80.0.2",
     "classnames": "2.2.6",
     "computed-style-to-inline-style": "3.0.0",
     "copy-webpack-plugin": "^4.5.1",
@@ -114,13 +115,12 @@
     "redux-throttle": "0.1.1",
     "rimraf": "^2.6.1",
     "scratch-audio": "0.1.0-prerelease.20190925183642",
-    "scratch-blocks": "0.1.0-prerelease.1582033791",
-    "scratch-l10n": "3.7.20200218213016",
-    "scratch-paint": "0.2.0-prerelease.20200213174123",
-    "scratch-render": "0.1.0-prerelease.20200205011809",
-    "scratch-storage": "1.3.2",
-    "scratch-svg-renderer": "0.2.0-prerelease.20200205003400",
-    "scratch-vm": "0.2.0-prerelease.20191227164934",
+    "scratch-blocks": "0.1.0-prerelease.20200520151625",
+    "scratch-l10n": "3.9.20200519213537",
+    "scratch-paint": "0.2.0-prerelease.20200519194740",
+    "scratch-render": "0.1.0-prerelease.20200512203149",
+    "scratch-storage": "1.3.3",
+    "scratch-svg-renderer": "0.2.0-prerelease.20200507183648",
     "selenium-webdriver": "3.6.0",
     "shelljs": "^0.8.3",
     "startaudiocontext": "1.2.1",
@@ -147,10 +147,12 @@
     ],
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/__mocks__/fileMock.js",
-      "\\.(css|less)$": "<rootDir>/test/__mocks__/styleMock.js"
+      "\\.(css|less)$": "<rootDir>/test/__mocks__/styleMock.js",
+      "editor-msgs(\\.js)?$": "<rootDir>/test/__mocks__/editor-msgs-mock.js"
     }
   },
   "dependencies": {
-    "lodash.camelcase": "^4.3.0"
+    "lodash.camelcase": "^4.3.0",
+    "scratch-vm": "github:smalruby/scratch-vm#develop"
   }
 }

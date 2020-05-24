@@ -2,6 +2,7 @@ import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
 import VM from 'scratch-vm';
+import {injectIntl, intlShape} from 'react-intl';
 import {connect} from 'react-redux';
 
 import ControlsComponent from '../components/controls/controls.jsx';
@@ -19,18 +20,22 @@ class Controls extends React.Component {
     handleGreenFlagClick (e) {
         e.preventDefault();
 
-        if (!this.props.targetCodeToBlocks()) {
+        const converter = this.props.targetCodeToBlocks(this.props.intl.formatMessage);
+        if (!converter.result) {
             return;
         }
-
-        if (e.shiftKey) {
-            this.props.vm.setTurboMode(!this.props.turbo);
-        } else {
-            if (!this.props.isStarted) {
-                this.props.vm.start();
-            }
-            this.props.vm.greenFlag();
-        }
+        const shiftKey = e.shiftKey;
+        converter.apply()
+            .then(() => {
+                if (shiftKey) {
+                    this.props.vm.setTurboMode(!this.props.turbo);
+                } else {
+                    if (!this.props.isStarted) {
+                        this.props.vm.start();
+                    }
+                    this.props.vm.greenFlag();
+                }
+            });
     }
     handleStopAllClick (e) {
         e.preventDefault();
@@ -58,6 +63,7 @@ class Controls extends React.Component {
 }
 
 Controls.propTypes = {
+    intl: intlShape.isRequired,
     isStarted: PropTypes.bool.isRequired,
     projectRunning: PropTypes.bool.isRequired,
     targetCodeToBlocks: PropTypes.func,
@@ -73,4 +79,7 @@ const mapStateToProps = state => ({
 // no-op function to prevent dispatch prop being passed to component
 const mapDispatchToProps = () => ({});
 
-export default RubyToBlocksConverterHOC(connect(mapStateToProps, mapDispatchToProps)(Controls));
+export default RubyToBlocksConverterHOC(injectIntl(connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Controls)));

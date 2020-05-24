@@ -1,6 +1,7 @@
 import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {injectIntl, intlShape} from 'react-intl';
 import {connect} from 'react-redux';
 import AceEditor from 'react-ace';
 import {
@@ -32,11 +33,28 @@ class RubyTab extends React.Component {
                   this.props.vm.editingTarget && this.props.rubyCode.target &&
                   this.props.vm.editingTarget.id !== targetId;
             if (changedTarget || this.props.blocksTabVisible) {
-                if (this.props.targetCodeToBlocks()) {
-                    modified = false;
-                } else {
-                    this.aceEditorRef.editor.focus();
+                const converter = this.props.targetCodeToBlocks(this.props.intl);
+                if (converter.result) {
+                    converter.apply().then(() => {
+                        modified = false;
+
+                        if (!modified) {
+                            if ((this.props.isVisible && !prevProps.isVisible) ||
+                                (this.props.editingTarget && this.props.editingTarget !== prevProps.editingTarget)) {
+                                this.props.updateRubyCodeTargetState(this.props.vm.editingTarget);
+                            }
+                        }
+
+                        if (this.props.isVisible && !prevProps.isVisible) {
+                            this.aceEditorRef.editor.renderer.updateFull();
+                            this.aceEditorRef.editor.focus();
+                        }
+                    });
+                    return;
                 }
+                const error = converter.errors[0];
+                this.aceEditorRef.editor.moveCursorTo(error.row, error.column);
+                this.aceEditorRef.editor.focus();
             }
         }
 
@@ -57,7 +75,6 @@ class RubyTab extends React.Component {
         this.aceEditorRef = ref;
     }
 
-
     render () {
         const {
             onChange,
@@ -65,7 +82,8 @@ class RubyTab extends React.Component {
         } = this.props;
         const {
             code,
-            errors
+            errors,
+            markers
         } = rubyCode;
         return (
             <AceEditor
@@ -73,6 +91,7 @@ class RubyTab extends React.Component {
                 editorProps={{$blockScrolling: true}}
                 fontSize={16}
                 height="inherit"
+                markers={markers}
                 mode="ruby"
                 name="ruby-editor"
                 ref={this.setAceEditorRef}
@@ -99,6 +118,7 @@ class RubyTab extends React.Component {
 RubyTab.propTypes = {
     blocksTabVisible: PropTypes.bool,
     editingTarget: PropTypes.string,
+    intl: intlShape.isRequired,
     isVisible: PropTypes.bool,
     onChange: PropTypes.func,
     rubyCode: rubyCodeShape,
@@ -118,7 +138,7 @@ const mapDispatchToProps = dispatch => ({
     updateRubyCodeTargetState: target => dispatch(updateRubyCodeTarget(target))
 });
 
-export default RubyToBlocksConverterHOC(connect(
+export default RubyToBlocksConverterHOC(injectIntl(connect(
     mapStateToProps,
     mapDispatchToProps
-)(RubyTab));
+)(RubyTab)));

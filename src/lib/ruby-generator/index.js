@@ -27,6 +27,8 @@ import BoostBlocks from './boost.js';
 import EV3Blocks from './ev3.js';
 import WeDo2Blocks from './wedo2.js';
 import GdxForBlocks from './gdx_for.js';
+import MeshBlocks from './mesh.js';
+import SmalrubotS1Blocks from './smalrubot_s1.js';
 
 const SCALAR_TYPE = '';
 const LIST_TYPE = 'list';
@@ -434,7 +436,6 @@ RubyGenerator.getScripts = function () {
 MathBlocks(RubyGenerator);
 TextBlocks(RubyGenerator);
 ColourBlocks(RubyGenerator);
-
 MotionBlocks(RubyGenerator);
 LooksBlocks(RubyGenerator);
 SoundBlocks(RubyGenerator);
@@ -456,5 +457,7 @@ BoostBlocks(RubyGenerator);
 EV3Blocks(RubyGenerator);
 WeDo2Blocks(RubyGenerator);
 GdxForBlocks(RubyGenerator);
+MeshBlocks(RubyGenerator);
+SmalrubotS1Blocks(RubyGenerator);
 
 export default RubyGenerator;

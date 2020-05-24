@@ -46,6 +46,16 @@ import gdxforInsetIconURL from './gdxfor/gdxfor-small.svg';
 import gdxforConnectionIconURL from './gdxfor/gdxfor-illustration.svg';
 import gdxforConnectionSmallIconURL from './gdxfor/gdxfor-small.svg';
 
+import meshIconURL from './mesh/mesh.png';
+import meshInsetIconURL from './mesh/mesh-small.png';
+import meshConnectionIconURL from './mesh/mesh-illustration.png';
+import meshConnectionSmallIconURL from './mesh/mesh-small.png';
+
+import smalrubotS1IconURL from './smalrubot-s1/smalrubot-s1.png';
+import smalrubotS1InsetIconURL from './smalrubot-s1/smalrubot-s1-small.png';
+import smalrubotS1ConnectionIconURL from './smalrubot-s1/smalrubot-s1-illustration.png';
+import smalrubotS1ConnectionSmallIconURL from './smalrubot-s1/smalrubot-s1-small.png';
+
 export default [
     {
         name: (
@@ -317,5 +327,74 @@ export default [
             />
         ),
         helpLink: 'https://scratch.mit.edu/vernier'
+    },
+    {
+        name: (
+            <FormattedMessage
+                defaultMessage="Mesh"
+                description="Name for the 'Mesh' extension"
+                id="gui.smalruby3.extension.mesh.name"
+            />
+        ),
+        extensionId: 'mesh',
+        iconURL: meshIconURL,
+        insetIconURL: meshInsetIconURL,
+        description: (
+            <FormattedMessage
+                defaultMessage="Allowing users to interact over a computer network."
+                description="Description for the 'Mesh' extension"
+                id="gui.smalruby3.extension.mesh.description"
+            />
+        ),
+        featured: true,
+        bluetoothRequired: false,
+        internetConnectionRequired: true,
+        launchPeripheralConnectionFlow: true,
+        useAutoScan: false,
+        connectionIconURL: meshConnectionIconURL,
+        connectionSmallIconURL: meshConnectionSmallIconURL,
+        connectingMessage: (
+            <FormattedMessage
+                defaultMessage="Connecting"
+                description="Message to help people connect to Mesh network."
+                id="gui.smalruby3.extension.mesh.connectingMessage"
+            />
+        ),
+        helpLink: 'https://github.com/smalruby/smalruby3-gui/wiki/Mesh'
+    },
+    {
+        name: (
+            <FormattedMessage
+                defaultMessage="Smalrubot S1"
+                description="Name for the 'Smalrubot S1' extension"
+                id="gui.smalruby3.extension.smalrubotS1.name"
+            />
+        ),
+        extensionId: 'smalrubotS1',
+        iconURL: smalrubotS1IconURL,
+        insetIconURL: smalrubotS1InsetIconURL,
+        description: (
+            <FormattedMessage
+                defaultMessage="Control the Smalrubot S1."
+                description="Description for the 'Smalrubot S1' extension"
+                id="gui.smalruby3.extension.smalrubotS1.description"
+            />
+        ),
+        featured: true,
+        disabled: false,
+        bluetoothRequired: false,
+        internetConnectionRequired: false,
+        launchPeripheralConnectionFlow: true,
+        useAutoScan: true,
+        connectionIconURL: smalrubotS1ConnectionIconURL,
+        connectionSmallIconURL: smalrubotS1ConnectionSmallIconURL,
+        connectingMessage: (
+            <FormattedMessage
+                defaultMessage="Connecting"
+                description="Message to help people connect to their Smalrubot S1."
+                id="gui.smalruby3.extension.smalrubotS1.connectingMessage"
+            />
+        ),
+        helpLink: 'https://github.com/smalruby/smalruby3-gui/wiki/SmalrubotS1'
     }
 ];

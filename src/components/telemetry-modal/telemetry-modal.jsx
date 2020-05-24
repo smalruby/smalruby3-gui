@@ -91,6 +91,17 @@ class TelemetryModal extends React.PureComponent {
                     <p><FormattedMessage {...messages.bodyText1} /></p>
                     <p><FormattedMessage
                         {...messages.bodyText2}
+                        values={{
+                            privacyPolicyLink: (<a
+                                className={styles.privacyPolicyLink}
+                                href="https://scratch.mit.edu/privacy_policy/"
+                                onClick={this.props.onShowPrivacyPolicy}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <FormattedMessage {...messages.privacyPolicyLink} />
+                            </a>)
+                        }}
                     /></p>
                     <Box className={styles.buttonRow}>
                         <button
