@@ -120,7 +120,8 @@ TelemetryModal.propTypes = {
     onCancel: PropTypes.func,
     onOptIn: PropTypes.func.isRequired,
     onOptOut: PropTypes.func.isRequired,
-    onRequestClose: PropTypes.func
+    onRequestClose: PropTypes.func,
+    onShowPrivacyPolicy: PropTypes.func
 };
 
 export default injectIntl(TelemetryModal);
