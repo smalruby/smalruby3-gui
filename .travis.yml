@@ -18,8 +18,9 @@ before_install:
 # package-lock.json was introduced in npm@5
 - '[[ $(node -v) =~ ^v9.*$ ]] || npm install -g npm@latest' # skipped when using node 9
 install:
+- rm -rf node_modules/scratch-vm
 - npm --production=false install
-- npm --production=false update
+- (cd node_modules/scratch-vm && npm --production=false install && $(npm bin)/webpack --colors --bail --silent)
 script:
 - npm run test:lint
 - npm run test:unit
@@ -31,4 +32,10 @@ deploy:
     branch:
     - develop
   skip_cleanup: true
-  script: npm run deploy -- -x -e $TRAVIS_BRANCH -r https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
+  script: npm run deploy -- -x -r https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
+- provider: script
+  on:
+    branch:
+    - develop
+  skip_cleanup: true
+  script: npm run deploy:smalruby.app -- -x -r https://${GH_TOKEN}@github.com/smalruby/smalruby.app.git

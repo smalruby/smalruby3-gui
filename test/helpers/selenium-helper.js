@@ -20,9 +20,11 @@ class SeleniumHelper {
             'clickText',
             'clickButton',
             'clickXpath',
+            'clickBlocksCategory',
             'elementIsVisible',
             'findByText',
             'findByXpath',
+            'notExistsByXpath',
             'getDriver',
             'getSauceDriver',
             'getLogs',
@@ -30,6 +32,8 @@ class SeleniumHelper {
             'rightClickText',
             'takeScreenshot'
         ]);
+
+        this.Key = webdriver.Key; // map Key constants, for sending special keys
     }
 
     elementIsVisible (element, timeoutMessage = 'elementIsVisible timed out') {
@@ -58,6 +62,10 @@ class SeleniumHelper {
 
         // Stub getUserMedia to always not allow access
         args.push('--use-fake-ui-for-media-stream=deny');
+
+        // Suppress complaints about AudioContext starting before a user gesture
+        // This is especially important on Windows, where Selenium directs JS console messages to stdout
+        args.push('--autoplay-policy=no-user-gesture-required');
 
         chromeCapabilities.set('chromeOptions', {args});
         chromeCapabilities.setLoggingPrefs({
@@ -97,6 +105,11 @@ class SeleniumHelper {
         return this.findByXpath(`//body//${scope || '*'}//*[contains(text(), '${text}')]`);
     }
 
+    notExistsByXpath (xpath) {
+        return this.driver.findElements(By.xpath(xpath))
+            .then(elements => elements.length === 0 || elements.every(i => !i.isDisplayed()));
+    }
+
     loadUri (uri) {
         const WINDOW_WIDTH = 1024;
         const WINDOW_HEIGHT = 768;
@@ -133,6 +146,17 @@ class SeleniumHelper {
 
     clickText (text, scope) {
         return this.findByText(text, scope).then(el => el.click());
+    }
+
+    async clickBlocksCategory (categoryText) {
+        // The toolbox is destroyed and recreated several times, so avoid clicking on a nonexistent element and erroring
+        // out. First we wait for the block pane itself to appear, then wait 100ms for the toolbox to finish refreshing,
+        // then finally click the toolbox text.
+
+        await this.findByXpath('//div[contains(@class, "blocks_blocks")]');
+        await this.driver.sleep(100);
+        await this.clickText(categoryText, 'div[contains(@class, "blocks_blocks")]');
+        await this.driver.sleep(500); // Wait for scroll to finish
     }
 
     rightClickText (text, scope) {

@@ -55,7 +55,6 @@ const GdxForConverter = {
                 break;
             }
         }
-        
         return block;
     }
 };

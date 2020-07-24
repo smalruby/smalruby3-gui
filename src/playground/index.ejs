@@ -4,6 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="google" value="notranslate">
+    <%
+        const originTrials = htmlWebpackPlugin.options.originTrials;
+        if (originTrials) {
+    %>
+    <!-- Chrome Origin Trials: https://developers.chrome.com/origintrials -->
+    <%
+            Object.keys(originTrials).forEach(apiName => {
+    %>
+    <!-- <%= apiName %> API -->
+    <%
+                for (const info of originTrials[apiName]) {
+    %>
+    <!-- https://<%= info['matchSubdomains'] ? '.*' : '' %><%= info['origin'] %> -->
+    <meta http-equiv="origin-trial" content="<%= info['token'] %>">
+    <%
+                }
+            });
+        }
+    %>
     <link rel="shortcut icon" href="static/title.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
     <% if (htmlWebpackPlugin.options.sentryConfig) { %>
@@ -15,6 +34,15 @@
         <!-- /Sentry -->
     <% } %>
     <script src="static/javascripts/setup-opal.js"></script>
+    <style type="text/css">
+        <!--
+        .ruby-error {
+            background-color: pink;
+            position: absolute;
+            z-index: 3;
+        }
+        -->
+    </style>
   </head>
   <body>
   </body>

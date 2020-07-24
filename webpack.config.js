@@ -1,6 +1,7 @@
 const defaultsDeep = require('lodash.defaultsdeep');
 var path = require('path');
 var webpack = require('webpack');
+var fs = require('fs');
 
 // Plugins
 var CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -20,6 +21,7 @@ const base = {
     devServer: {
         contentBase: path.resolve(__dirname, 'build'),
         host: '0.0.0.0',
+        disableHostCheck: true,
         port: process.env.PORT || 8601
     },
     output: {
@@ -142,26 +144,38 @@ module.exports = [
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'gui'],
                 template: 'src/playground/index.ejs',
-                title: 'Smalruby 3.0 GUI',
-                sentryConfig: process.env.SENTRY_CONFIG ? '"' + process.env.SENTRY_CONFIG + '"' : null
+                title: 'Smalruby',
+                sentryConfig: process.env.SENTRY_CONFIG ? '"' + process.env.SENTRY_CONFIG + '"' : null,
+                originTrials: JSON.parse(fs.readFileSync('origin-trials.json'))
+            }),
+            new HtmlWebpackPlugin({
+                chunks: ['lib.min', 'gui'],
+                template: 'src/playground/index.ejs',
+                filename: 'ja.html',
+                title: 'スモウルビー',
+                sentryConfig: process.env.SENTRY_CONFIG ? '"' + process.env.SENTRY_CONFIG + '"' : null,
+                originTrials: JSON.parse(fs.readFileSync('origin-trials.json'))
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'blocksonly'],
                 template: 'src/playground/index.ejs',
                 filename: 'blocks-only.html',
-                title: 'Smalruby 3.0 GUI: Blocks Only Example'
+                title: 'Smalruby 3.0 GUI: Blocks Only Example',
+                originTrials: JSON.parse(fs.readFileSync('origin-trials.json'))
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'compatibilitytesting'],
                 template: 'src/playground/index.ejs',
                 filename: 'compatibility-testing.html',
-                title: 'Smalruby 3.0 GUI: Compatibility Testing'
+                title: 'Smalruby 3.0 GUI: Compatibility Testing',
+                originTrials: JSON.parse(fs.readFileSync('origin-trials.json'))
             }),
             new HtmlWebpackPlugin({
                 chunks: ['lib.min', 'player'],
                 template: 'src/playground/index.ejs',
                 filename: 'player.html',
-                title: 'Smalruby 3.0 GUI: Player Example'
+                title: 'Smalruby 3.0 GUI: Player Example',
+                originTrials: JSON.parse(fs.readFileSync('origin-trials.json'))
             }),
             new CopyWebpackPlugin([{
                 from: 'static',
@@ -223,6 +237,12 @@ module.exports = [
                 new CopyWebpackPlugin([{
                     from: 'extension-worker.{js,js.map}',
                     context: 'node_modules/scratch-vm/dist/web'
+                }]),
+                // Include library JSON files for scratch-desktop to use for downloading
+                new CopyWebpackPlugin([{
+                    from: 'src/lib/libraries/*.json',
+                    to: 'libraries',
+                    flatten: true
                 }])
             ])
         })) : []

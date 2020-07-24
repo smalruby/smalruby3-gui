@@ -1,4 +1,5 @@
 /* global Opal */
+import {defineMessages} from 'react-intl';
 import _ from 'lodash';
 import log from '../log';
 import Blockly from 'scratch-blocks';
@@ -17,11 +18,56 @@ import SensingConverter from './sensing';
 import OperatorsConverter from './operators';
 import VariablesConverter from './variables';
 import MyBlocksConverter from './my-blocks';
-import MicroBitConverter from './microbit';
 import MusicConverter from './music';
+import PenConverter from './pen';
+import MicroBitConverter from './microbit';
 import EV3Converter from './ev3';
 import Wedo2Converter from './wedo2';
 import GdxForConverter from './gdx_for';
+import MeshConverter from './mesh';
+import SmalrubotS1Converter from './smalrubot_s1';
+
+const messages = defineMessages({
+    couldNotConvertPremitive: {
+        defaultMessage: '"{ SOURCE }" could not be converted the block.',
+        description: 'Error message for converting ruby to block when find the premitive',
+        id: 'gui.smalruby3.rubyToBlocksConverter.couldNotConvertPremitive'
+    },
+    wrongInstruction: {
+        defaultMessage: '"{ SOURCE }" is the wrong instruction.',
+        description: 'Error message for converting ruby to block when find the wrong instruction',
+        id: 'gui.smalruby3.rubyToBlocksConverter.wrongInstruction'
+    }
+});
+
+/* eslint-disable no-invalid-this */
+const ColorRegexp = /^#[0-9a-fA-F]{6}$/;
+
+// from scratch-vm/src/serialization/sb3.js
+const CORE_EXTENSIONS = [
+    'argument',
+    'colour',
+    'control',
+    'data',
+    'event',
+    'looks',
+    'math',
+    'motion',
+    'operator',
+    'procedures',
+    'sensing',
+    'sound'
+];
+
+// from scratch-vm/src/serialization/sb3.js
+const getExtensionIdForOpcode = function (opcode) {
+    const index = opcode.indexOf('_');
+    const prefix = opcode.substring(0, index);
+    if (CORE_EXTENSIONS.indexOf(prefix) === -1) {
+        if (prefix !== '') return prefix;
+    }
+    return null;
+};
 
 /**
  * Class for a block converter that translates ruby code into the blocks.
@@ -29,7 +75,17 @@ import GdxForConverter from './gdx_for';
 class RubyToBlocksConverter {
     constructor (vm) {
         this.vm = vm;
+        this._translator = message => message.defaultMessage;
         this._converters = [
+            MusicConverter,
+            PenConverter,
+            MicroBitConverter,
+            EV3Converter,
+            Wedo2Converter,
+            GdxForConverter,
+            MeshConverter,
+            SmalrubotS1Converter,
+
             MotionConverter,
             LooksConverter,
             SoundConverter,
@@ -43,7 +99,8 @@ class RubyToBlocksConverter {
             MusicConverter,
             EV3Converter,
             Wedo2Converter,
-            GdxForConverter
+            GdxForConverter,
+            MyBlocksConverter
         ];
         this.reset();
     }
@@ -68,12 +125,17 @@ class RubyToBlocksConverter {
         return this._context.broadcastMsgs;
     }
 
+    setTranslatorFunction (translator) {
+        this._translator = translator;
+    }
+
     reset () {
         this._context = {
             currentNode: null,
             errors: [],
             argumentBlocks: {},
             procedureCallBlocks: {},
+            extensionIDs: new Set(),
 
             blocks: {},
             blockTypes: {},
@@ -107,10 +169,30 @@ class RubyToBlocksConverter {
                 } else if (block instanceof Primitive) {
                     throw new RubyToBlocksConverterError(
                         block.node,
-                        `could not convert primitive: ${this._getSource(block.node)}`
+                        this._translator(
+                            messages.couldNotConvertPremitive,
+                            {SOURCE: this._getSource(block.node)}
+                        )
                     );
                 } else {
                     throw new Error(`invalid block: ${block}`);
+                }
+            });
+            Object.keys(this._context.blocks).forEach(blockId => {
+                const block = this._context.blocks[blockId];
+                if (this._isRubyBlock(block)) {
+                    throw new RubyToBlocksConverterError(
+                        block.node,
+                        this._translator(
+                            messages.wrongInstruction,
+                            {SOURCE: this._getSource(block.node)}
+                        )
+                    );
+                }
+
+                const extensionID = getExtensionIdForOpcode(block.opcode);
+                if (extensionID) {
+                    this._context.extensionIDs.add(extensionID);
                 }
             });
             return true;
@@ -121,10 +203,12 @@ class RubyToBlocksConverter {
                 error = this._toErrorAnnotation(loc.$line(), loc.$column(), e.$message());
             } else if (e instanceof RubyToBlocksConverterError) {
                 const loc = e.node.$loc();
-                error = this._toErrorAnnotation(loc.$line(), loc.$column(), e.message);
+                error = this._toErrorAnnotation(loc.$line(), loc.$column(), e.message, this._getSource(e.node));
             } else if (this._context.currentNode) {
                 const loc = this._context.currentNode.$loc();
-                error = this._toErrorAnnotation(loc.$line(), loc.$column(), e.message);
+                error = this._toErrorAnnotation(
+                    loc.$line(), loc.$column(), e.message, this._getSource(this._context.currentNode)
+                );
             } else {
                 error = this._toErrorAnnotation(1, 0, e.message);
             }
@@ -164,14 +248,24 @@ class RubyToBlocksConverter {
             }
         });
 
-        Object.keys(target.blocks._blocks).forEach(blockId => {
-            target.blocks.deleteBlock(blockId);
-        });
-        Object.keys(this._context.blocks).forEach(blockId => {
-            target.blocks.createBlock(this._context.blocks[blockId]);
+        const extensionPromises = [];
+        this._context.extensionIDs.forEach(extensionID => {
+            if (!this.vm.extensionManager.isExtensionLoaded(extensionID)) {
+                extensionPromises.push(this.vm.extensionManager.loadExtensionURL(extensionID));
+            }
         });
 
-        this.vm.emitWorkspaceUpdate();
+        return Promise.all(extensionPromises).then(() => {
+            Object.keys(target.blocks._blocks).forEach(blockId => {
+                target.blocks.deleteBlock(blockId);
+            });
+
+            Object.keys(this._context.blocks).forEach(blockId => {
+                target.blocks.createBlock(this._context.blocks[blockId]);
+            });
+
+            this.vm.emitWorkspaceUpdate();
+        });
     }
 
     _callConvertersHandler (handlerName) {
@@ -258,23 +352,21 @@ class RubyToBlocksConverter {
         });
     }
 
-    _toErrorAnnotation (row, column, message) {
+    _toErrorAnnotation (row, column, message, source) {
         if (row === Opal.nil) {
             row = 0;
         } else {
             row -= 1;
         }
-        let columnText = '';
         if (column === Opal.nil) {
             column = 0;
-        } else {
-            columnText = `${column}: `;
         }
         return {
             row: row,
             column: column,
             type: 'error',
-            text: `${columnText}${message}`
+            text: message,
+            source: source
         };
     }
 
@@ -298,6 +390,10 @@ class RubyToBlocksConverter {
 
     _isNumber (value) {
         return _.isNumber(value) || (value && (value.type === 'int' || value.type === 'float'));
+    }
+
+    _isTrue (value) {
+        return value === true || (value && value.type === 'true');
     }
 
     _isFalse (value) {
@@ -348,6 +444,10 @@ class RubyToBlocksConverter {
         return this._isNumber(block) || this._isString(block) || this._isValueBlock(block);
     }
 
+    _isColorOrBlock (colorOrBlock) {
+        return this._isBlock(colorOrBlock) || (this._isString(colorOrBlock) && ColorRegexp.test(colorOrBlock));
+    }
+
     _isFalseOrBooleanBlock (block) {
         if (this._isFalse(block)) {
             return true;
@@ -371,6 +471,34 @@ class RubyToBlocksConverter {
 
     _isVariableBlock (block) {
         return /_variable$/.test(this._getBlockType(block));
+    }
+
+    _isRubyExpression (block) {
+        return this._isBlock(block) && block.opcode === 'ruby_expression';
+    }
+
+    _getRubyExpression (block) {
+        if (this._isRubyExpression(block)) {
+            const textBlock = this._context.blocks[block.inputs.EXPRESSION.block];
+            return textBlock.fields.TEXT.value;
+        }
+        return null;
+    }
+
+    _isRubyStatement (block) {
+        return this._isBlock(block) && block.opcode === 'ruby_statement';
+    }
+
+    _isRubyBlock (block) {
+        return this._isBlock(block) && block.opcode.match(/^ruby_/);
+    }
+
+    _getRubyStatement (block) {
+        if (this._isRubyStatement(block)) {
+            const textBlock = this._context.blocks[block.inputs.STATEMENT.block];
+            return textBlock.fields.TEXT.value;
+        }
+        return null;
     }
 
     _createBlock (opcode, type, attributes = {}) {
@@ -421,14 +549,16 @@ class RubyToBlocksConverter {
         return value;
     }
 
-    _createRubyExpressionBlock (expression) {
+    _createRubyExpressionBlock (expression, node) {
         const block = this._createBlock('ruby_expression', 'value_boolean');
+        block.node = node;
         this._addInput(block, 'EXPRESSION', this._createTextBlock(expression));
         return block;
     }
 
-    _createRubyStatementBlock (statement) {
+    _createRubyStatementBlock (statement, node) {
         const block = this._createBlock('ruby_statement', 'statement');
+        block.node = node;
         this._addInput(block, 'STATEMENT', this._createTextBlock(statement));
         return block;
     }
@@ -472,7 +602,7 @@ class RubyToBlocksConverter {
 
     _addNoteInput (block, name, inputValue, shadowValue) {
         let shadowBlock;
-        let opcode = 'note';
+        const opcode = 'note';
         if (!this._isNumber(inputValue)) {
             shadowBlock = this._createNoteBlock(opcode, shadowValue);
         }
@@ -635,26 +765,40 @@ class RubyToBlocksConverter {
         return b;
     }
 
-    _popWaitBlock (block) {
-        if (!block) {
+    _removeWaitBlocks (block) {
+        if (!block || block === Opal.nil) {
             return null;
         }
 
-        const b = this._lastBlock(block);
-        if (b.opcode === 'ruby_statement') {
-            const textBlock = this._context.blocks[b.inputs.STATEMENT.block];
-            if (textBlock.fields.TEXT.value === 'wait') {
-                if (b.parent) {
-                    const parent = this._context.blocks[b.parent];
-                    if (parent.next === b.id) {
-                        parent.next = null;
-                    }
+        let firstBlock = null;
+        let b = block;
+        let prev = b.parent;
+        while (b) {
+            let isWaitBlock = false;
+            if (b.opcode === 'ruby_statement') {
+                const textBlock = this._context.blocks[b.inputs.STATEMENT.block];
+                if (textBlock.fields.TEXT.value === 'wait') {
+                    isWaitBlock = true;
                 }
-                delete this._context.blocks[b.id];
-                return b;
             }
+            if (isWaitBlock) {
+                delete this._context.blocks[b.id];
+                if (prev) {
+                    this._context.blocks[prev].next = null;
+                }
+            } else {
+                if (firstBlock === null) {
+                    firstBlock = b;
+                }
+                b.parent = prev;
+                if (prev) {
+                    this._context.blocks[prev].next = b.id;
+                }
+                prev = b.id;
+            }
+            b = this._context.blocks[b.next];
         }
-        return null;
+        return firstBlock;
     }
 
     _getBlockType (block) {
@@ -671,6 +815,15 @@ class RubyToBlocksConverter {
     _changeBlock (block, opcode, blockType) {
         block.opcode = opcode;
         this._setBlockType(block, blockType);
+        return block;
+    }
+
+    _changeRubyExpressionBlock (block, opcode, blockType) {
+        this._changeBlock(block, opcode, blockType);
+
+        delete this._context.blocks[block.inputs.EXPRESSION.block];
+        delete block.inputs.EXPRESSION;
+
         return block;
     }
 
@@ -841,13 +994,13 @@ class RubyToBlocksConverter {
             rubyBlock = this._processStatement(rubyBlockNode);
         }
 
-        let block = this._callConvertersHandler('onSend', receiver, name, args, rubyBlockArgs, rubyBlock);
+        let block = this._callConvertersHandler('onSend', receiver, name, args, rubyBlockArgs, rubyBlock, node);
         if (!block) {
             if ((this._isSelf(receiver) || receiver === Opal.nil) && !rubyBlock) {
                 switch (name) {
                 case 'wait':
                     if (args.length === 0) {
-                        block = this._createRubyStatementBlock('wait');
+                        block = this._createRubyStatementBlock('wait', node);
                     }
                     break;
                 }
@@ -859,11 +1012,12 @@ class RubyToBlocksConverter {
 
             if (rubyBlockNode) {
                 block = this._createBlock('ruby_statement_with_block', 'statement');
+                block.node = node;
                 this._addTextInput(block, 'STATEMENT', this._getSource(node));
                 this._addTextInput(block, 'ARGS', this._getSource(rubyBlockArgsNode));
                 this._addSubstack(block, this._processStatement(rubyBlockNode));
             } else {
-                block = this._createRubyStatementBlock(this._getSource(node));
+                block = this._createRubyStatementBlock(this._getSource(node), node);
             }
         }
         return block;
@@ -924,6 +1078,7 @@ class RubyToBlocksConverter {
 
         const args = node.children.map(childNode => this._process(childNode));
         const block = this._createBlock('ruby_range', 'value_boolean');
+        block.node = node;
         this._addNumberInput(block, 'FROM', 'math_number', args[0], 1);
         this._addNumberInput(block, 'TO', 'math_number', args[1], 10);
         return block;
@@ -934,6 +1089,7 @@ class RubyToBlocksConverter {
 
         const args = node.children.map(childNode => this._process(childNode));
         const block = this._createBlock('ruby_exclude_range', 'value_boolean');
+        block.node = node;
         this._addNumberInput(block, 'FROM', 'math_number', args[0], 1);
         this._addNumberInput(block, 'TO', 'math_number', args[1], 10);
         return block;
@@ -967,7 +1123,8 @@ class RubyToBlocksConverter {
         const cond = this._processCondition(node.children[0]);
         const statement = this._processStatement(node.children[1]);
         let elseStatement;
-        if (node.$loc().$else() !== Opal.nil) {
+        if (node.children[2] !== Opal.nil ||
+            (node.$loc().$else && node.$loc().$else() !== Opal.nil)) {
             elseStatement = this._processStatement(node.children[2]);
         }
 
@@ -975,7 +1132,7 @@ class RubyToBlocksConverter {
         if (!block) {
             this._restoreContext(saved);
 
-            block = this._createRubyStatementBlock(this._getSource(node));
+            block = this._createRubyStatementBlock(this._getSource(node), node);
         }
         return block;
     }
@@ -992,7 +1149,7 @@ class RubyToBlocksConverter {
         if (!block) {
             this._restoreContext(saved);
 
-            block = this._createRubyStatementBlock(this._getSource(node));
+            block = this._createRubyStatementBlock(this._getSource(node), node);
         }
         return block;
     }
@@ -1010,7 +1167,7 @@ class RubyToBlocksConverter {
         if (!block) {
             this._restoreContext(saved);
 
-            block = this._createRubyStatementBlock(this._getSource(node));
+            block = this._createRubyStatementBlock(this._getSource(node), node);
         }
 
         return block;
@@ -1080,7 +1237,7 @@ class RubyToBlocksConverter {
         if (!block) {
             this._restoreContext(saved);
 
-            block = this._createRubyStatementBlock(this._getSource(node));
+            block = this._createRubyStatementBlock(this._getSource(node), node);
         }
 
         return block;
@@ -1107,24 +1264,36 @@ class RubyToBlocksConverter {
         if (!block) {
             this._restoreContext(saved);
 
-            block = this._createRubyStatementBlock(this._getSource(node));
+            block = this._createRubyStatementBlock(this._getSource(node), node);
         }
 
         return block;
     }
 }
 
-const targetCodeToBlocks = function (vm, target, code, errors = []) {
+/**
+ * Null of RubyToBlocksConverter
+ */
+const NullRubyToBlocksConverter = {
+    result: true,
+    errors: [],
+    apply: () => Promise.resolve()
+};
+
+const targetCodeToBlocks = function (vm, target, code, intl) {
     const converter = new RubyToBlocksConverter(vm);
-    if (converter.targetCodeToBlocks(target, code)) {
-        converter.applyTargetBlocks(target);
-        return true;
+    if (intl) {
+        converter.setTranslatorFunction(intl.formatMessage);
     }
-    converter.errors.forEach(e => errors.push(e));
-    return false;
+    converter.result = converter.targetCodeToBlocks(target, code);
+    if (converter.result) {
+        converter.apply = () => converter.applyTargetBlocks(target);
+    }
+    return converter;
 };
 
 export {
     RubyToBlocksConverter as default,
+    NullRubyToBlocksConverter,
     targetCodeToBlocks
 };

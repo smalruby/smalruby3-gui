@@ -3,7 +3,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import VM from 'scratch-vm';
-import {targetCodeToBlocks} from '../lib/ruby-to-blocks-converter';
+import {
+    NullRubyToBlocksConverter,
+    targetCodeToBlocks
+} from '../lib/ruby-to-blocks-converter';
 
 import {
     activateTab,
@@ -36,26 +39,29 @@ const RubyToBlocksConverterHOC = function (WrappedComponent) {
             ]);
         }
 
-        /**
-         * targetCodeToBlocks:
-         * @return {boolean} - True if succeeded to convert Ruby to Blocks
-         */
-        targetCodeToBlocks () {
+        targetCodeToBlocks (intl) {
             if (this.props.rubyCode.modified) {
-                const errors = [];
-                if (!targetCodeToBlocks(this.props.vm, this.props.rubyCode.target, this.props.rubyCode.code, errors)) {
+                const converter = targetCodeToBlocks(
+                    this.props.vm,
+                    this.props.rubyCode.target,
+                    this.props.rubyCode.code,
+                    intl
+                );
+                if (!converter.result) {
                     this.props.vm.setEditingTarget(this.props.rubyCode.target.id);
                     if (!this.props.rubyCode.target.isStage) {
                         this.props.onHighlightTarget(this.props.rubyCode.target.id);
                     }
                     this.props.onActivateRubyTab();
                     this.props.onShowConvertRubyToBlocksErrorAlert();
-                    this.props.updateRubyCodeErrorsState(errors);
-                    return false;
+                    this.props.updateRubyCodeErrorsState(converter.errors);
+                    return converter;
                 }
+                this.props.updateRubyCodeErrorsState(converter.errors);
                 this.props.convertedRubyCodeState();
+                return converter;
             }
-            return true;
+            return NullRubyToBlocksConverter;
         }
 
         render () {

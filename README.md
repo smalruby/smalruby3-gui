@@ -17,6 +17,8 @@ cd smarluby3-gui
 npm install
 ```
 
+**You may want to add `--depth=1` to the `git clone` command because there are some [large files in the git repository history](https://github.com/LLK/scratch-gui/issues/5140).**
+
 ## Getting started
 Running the project requires Node.js to be installed.
 
@@ -38,7 +40,7 @@ See [jest cli docs](https://facebook.github.io/jest/docs/en/cli.html#content) fo
 
 *NOTE: If you're a windows user, please run these scripts in Windows `cmd.exe`  instead of Git Bash/MINGW64.*
 
-Before running any test, make sure you have run `npm install` from this (scratch-gui) repository's top level.
+Before running any tests, make sure you have run `npm install` from this (scratch-gui) repository's top level.
 
 #### Main testing command
 
@@ -139,8 +141,8 @@ npm install  --no-optional --save-dev react-intl-redux@^0.7
 The dependency itself might have more missing dependencies, which will show up like this:
 
 ```
-user@machine:~/sources/scratch/scratch-gui (491-translatable-library-objects)$ npm install  --no-optional --save-dev react-intl-redux@^0.7
-scratch-gui@0.1.0 /media/cuideigin/Linux/sources/scratch/scratch-gui
+user@machine:/path/to/smalruby3-gui$ npm install  --no-optional --save-dev react-intl-redux@^0.7
+smalruby-gui@0.9.1 /path/to/smalruby3-gui
 ├── react-intl-redux@0.7.0
 └── UNMET PEER DEPENDENCY react-responsive@5.0.0
 ```

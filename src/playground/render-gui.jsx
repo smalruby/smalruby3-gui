@@ -5,7 +5,6 @@ import {compose} from 'redux';
 import AppStateHOC from '../lib/app-state-hoc.jsx';
 import GUI from '../containers/gui.jsx';
 import HashParserHOC from '../lib/hash-parser-hoc.jsx';
-import TitledHOC from '../lib/titled-hoc.jsx';
 import log from '../lib/log.js';
 
 const onClickLogo = () => {
@@ -37,13 +36,8 @@ export default appTarget => {
     // ability to compose reducers.
     const WrappedGui = compose(
         AppStateHOC,
-        HashParserHOC,
-        TitledHOC
+        HashParserHOC
     )(GUI);
-
-    // TODO a hack for testing the backpack, allow backpack host to be set by url param
-    const backpackHostMatches = window.location.href.match(/[?&]backpack_host=([^&]*)&?/);
-    const backpackHost = backpackHostMatches ? backpackHostMatches[1] : null;
 
     const scratchDesktopMatches = window.location.href.match(/[?&]isScratchDesktop=([^&]+)/);
     let simulateScratchDesktop;
@@ -67,6 +61,7 @@ export default appTarget => {
         // important: this is checking whether `simulateScratchDesktop` is truthy, not just defined!
         simulateScratchDesktop ?
             <WrappedGui
+                canEditTitle
                 isScratchDesktop
                 showTelemetryModal
                 canSave={false}
@@ -75,9 +70,7 @@ export default appTarget => {
                 onTelemetryModalOptOut={handleTelemetryModalOptOut}
             /> :
             <WrappedGui
-                backpackVisible
-                showComingSoon
-                backpackHost={backpackHost}
+                canEditTitle
                 canSave={false}
                 onClickLogo={onClickLogo}
             />,

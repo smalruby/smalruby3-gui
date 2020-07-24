@@ -1,6 +1,7 @@
 import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
+import {injectIntl, intlShape} from 'react-intl';
 import {connect} from 'react-redux';
 import {projectTitleInitialState} from '../reducers/project-title';
 import downloadBlob from '../lib/download-blob';
@@ -29,16 +30,18 @@ class SB3Downloader extends React.Component {
         ]);
     }
     downloadProject () {
-        if (!this.props.targetCodeToBlocks()) {
+        const converter = this.props.targetCodeToBlocks(this.props.intl);
+        if (!converter.result) {
             return;
         }
-
-        this.props.saveProjectSb3().then(content => {
-            if (this.props.onSaveFinished) {
-                this.props.onSaveFinished();
-            }
-            downloadBlob(this.props.projectFilename, content);
-        });
+        converter.apply()
+            .then(this.props.saveProjectSb3)
+            .then(content => {
+                if (this.props.onSaveFinished) {
+                    this.props.onSaveFinished();
+                }
+                downloadBlob(this.props.projectFilename, content);
+            });
     }
     render () {
         const {
@@ -62,6 +65,7 @@ const getProjectFilename = (curTitle, defaultTitle) => {
 SB3Downloader.propTypes = {
     children: PropTypes.func,
     className: PropTypes.string,
+    intl: intlShape.isRequired,
     onSaveFinished: PropTypes.func,
     projectFilename: PropTypes.string,
     saveProjectSb3: PropTypes.func,
@@ -76,7 +80,7 @@ const mapStateToProps = state => ({
     projectFilename: getProjectFilename(state.scratchGui.projectTitle, projectTitleInitialState)
 });
 
-export default RubyToBlocksConverterHOC(connect(
+export default RubyToBlocksConverterHOC(injectIntl(connect(
     mapStateToProps,
     () => ({}) // omit dispatch prop
-)(SB3Downloader));
+)(SB3Downloader)));
