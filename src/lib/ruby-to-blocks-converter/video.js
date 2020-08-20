@@ -27,6 +27,35 @@ const VideoConverter = {
                         );
                     }
                     break;
+                case "video_motion":
+                    if (args.length === 0) {
+                        block = this._createBlock(
+                            "videoSensing_videoOn",
+                            "value"
+                        );
+                        // this._addInput(
+                        //     block,
+                        //     "ATTRIBUTE",
+                        //     this._createFieldBlock(
+                        //         "videoSensing_menu_ATTRIBUTE",
+                        //         "ATTRIBUTE",
+                        //         args[0]
+                        //     )
+                        // );
+                        // this._addInput(
+                        //     block,
+                        //     "SUBJECT",
+                        //     this._createFieldBlock(
+                        //         "videoSensing_menu_SUBJECT",
+                        //         "SUBJECT",
+                        //         args[0]
+                        //     )
+                        // );
+                    }
+                    break;
+                // case "":
+                //     if
+                //     break;
             }
         }
         return block;
