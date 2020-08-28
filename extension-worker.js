@@ -228,9 +228,7 @@ var dispatch = __webpack_require__(7);
 
 var TargetType = __webpack_require__(19);
 
-var ExtensionWorker =
-/*#__PURE__*/
-function () {
+var ExtensionWorker = /*#__PURE__*/function () {
   function ExtensionWorker() {
     var _this = this;
 
@@ -443,7 +441,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function () { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
@@ -465,9 +463,7 @@ var log = __webpack_require__(1);
  */
 
 
-var WorkerDispatch =
-/*#__PURE__*/
-function (_SharedDispatch) {
+var WorkerDispatch = /*#__PURE__*/function (_SharedDispatch) {
   _inherits(WorkerDispatch, _SharedDispatch);
 
   var _super = _createSuper(WorkerDispatch);
@@ -657,9 +653,7 @@ var log = __webpack_require__(1);
  */
 
 
-var SharedDispatch =
-/*#__PURE__*/
-function () {
+var SharedDispatch = /*#__PURE__*/function () {
   function SharedDispatch() {
     _classCallCheck(this, SharedDispatch);
 
