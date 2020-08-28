@@ -56,7 +56,7 @@ import smalrubotS1InsetIconURL from './smalrubot-s1/smalrubot-s1-small.png';
 import smalrubotS1ConnectionIconURL from './smalrubot-s1/smalrubot-s1-illustration.png';
 import smalrubotS1ConnectionSmallIconURL from './smalrubot-s1/smalrubot-s1-small.png';
 
-export default [
+const extensions = [
     {
         name: (
             <FormattedMessage
@@ -398,3 +398,9 @@ export default [
         helpLink: 'https://github.com/smalruby/smalruby3-gui/wiki/SmalrubotS1'
     }
 ];
+
+// Injected for extra extensions
+import microbitMore from './microbitMore/entry.jsx';
+extensions.push(microbitMore);
+
+export default extensions;
