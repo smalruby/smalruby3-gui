@@ -15,6 +15,7 @@ import SoundConverter from './sound';
 import EventConverter from './event';
 import ControlConverter from './control';
 import SensingConverter from './sensing';
+import TranslateConverter from './translate';
 import OperatorsConverter from './operators';
 import VariablesConverter from './variables';
 import MyBlocksConverter from './my-blocks';
@@ -27,6 +28,7 @@ import Wedo2Converter from './wedo2';
 import GdxForConverter from './gdx_for';
 import MeshConverter from './mesh';
 import SmalrubotS1Converter from './smalrubot_s1';
+import translate from '../ruby-generator/translate';
 
 const messages = defineMessages({
     couldNotConvertPremitive: {
@@ -57,6 +59,7 @@ const CORE_EXTENSIONS = [
     'operator',
     'procedures',
     'sensing',
+    'translate',
     'sound'
 ];
 
@@ -94,6 +97,7 @@ class RubyToBlocksConverter {
             EventConverter,
             ControlConverter,
             SensingConverter,
+            TranslateConverter,
             OperatorsConverter,
             VariablesConverter,
             MyBlocksConverter

@@ -1,5 +1,5 @@
 {
-  "name": "smalruby3-gui",
+  "name": "package.json",
   "version": "1.0.1",
   "description": "GraphicaL User Interface for creating and running Smalruby 3.0 projects",
   "main": "./dist/smalruby3-gui.js",
@@ -153,5 +153,12 @@
   "dependencies": {
     "lodash.camelcase": "^4.3.0",
     "scratch-vm": "github:smalruby/scratch-vm#develop"
+  },
+  "bugs": {
+    "url": "https://github.com/smalruby/smalruby3-gui/issues"
+  },
+  "directories": {
+    "doc": "docs",
+    "test": "test"
   }
 }
