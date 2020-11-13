@@ -18,6 +18,8 @@ import 'brace/mode/ruby';
 import 'brace/theme/clouds';
 import 'brace/ext/language_tools';
 
+import MotionCompleter from './ruby-tab/motion-completer';
+
 class RubyTab extends React.Component {
     constructor (props) {
         super(props);
@@ -87,38 +89,9 @@ class RubyTab extends React.Component {
             markers
         } = rubyCode;
 
-        const customCompleter = {
-            getCompletions: function(editor, session, pos, prefix, callback) {
-                var completions = [];
-                // we can use session and pos here to decide what we are going to show
-                var words = [];
-                console.log("pos: ", pos);
-                if (pos.row === 0 && pos.column === 1) {
-                    words = [
-                        "self.when(:flag_clicked) do\n  \nend\n",
-                    ];
-                }
-                else {
-                    words = [
-                        "move(10)",
-                        "turn_right(15)",
-                        "turn_left(15)",
-                        'go_to("_random_")',
-                        "go_to([0, 0])",
-                        'glide("_random_", secs: 1)',
-                        "glide([0, 0], secs: 1)",
-                        "self.direction = 90",
-                    ];
-                }
-                words.forEach(function(w) {
-                    completions.push({
-                        value: w,
-                        meta: "my completion"
-                    });
-                });
-                callback(null, completions);
-            }
-        };
+        const completers = [
+            new MotionCompleter()
+        ];
 
         return (
             <AceEditor
@@ -134,7 +107,7 @@ class RubyTab extends React.Component {
                     tabSize: 2,
                     useSoftTabs: true,
                     showInvisibles: true,
-                    enableBasicAutocompletion: [customCompleter],
+                    enableBasicAutocompletion: completers,
                     enableLiveAutocompletion: true
                 }}
                 style={{
