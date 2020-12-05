@@ -77,10 +77,10 @@ class MotionCompleter {
                 meta: '向き'
             }
         ];
-        let completions = [];
-        words.forEach(function (w) {
-            completions.push(w);
-        });
+        const completions = [];
+        words.forEach(
+            w => completions.push(w)
+        );
         callback(null, completions);
     }
 }
