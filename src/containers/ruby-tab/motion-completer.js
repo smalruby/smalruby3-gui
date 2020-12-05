@@ -3,10 +3,9 @@
  */
 class MotionCompleter {
     getCompletions (editor, session, pos, prefix, callback) {
-        console.log("pos: ", pos);
         const words = [
             {
-                value:'move(10)',
+                value: 'move(10)',
                 meta: '10歩動かす'
             },
             {
@@ -19,7 +18,7 @@ class MotionCompleter {
             },
             {
                 value: 'go_to("_random_")',
-                meta: 'どこかの場所へ行く',
+                meta: 'どこかの場所へ行く'
             },
             {
                 value: 'go_to([0, 0])',
@@ -79,7 +78,7 @@ class MotionCompleter {
             }
         ];
         let completions = [];
-        words.forEach(function(w) {
+        words.forEach(function (w) {
             completions.push(w);
         });
         callback(null, completions);
