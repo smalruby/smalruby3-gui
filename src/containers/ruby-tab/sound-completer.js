@@ -3,11 +3,10 @@
  */
 class SoundCompleter {
     getCompletions (editor, session, pos, prefix, callback) {
-        console.log("pos: ", pos);
         const words = [
             {
                 value: 'play_until_done("ニャー")',
-                meta: '終わるまでニャーの音を鳴らす' 
+                meta: '終わるまでニャーの音を鳴らす'
             },
             {
                 value: 'play("ニャー")',
@@ -42,10 +41,10 @@ class SoundCompleter {
                 meta: '音量'
             }
         ];
-        let completions = [];
-        words.forEach(function(w) {
-            completions.push(w);
-        });
+        const completions = [];
+        words.forEach(
+            w => completions.push(w)
+        );
         callback(null, completions);
     }
 }
