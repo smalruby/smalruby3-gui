@@ -19,7 +19,9 @@ import 'brace/theme/clouds';
 import 'brace/ext/language_tools';
 
 import MotionCompleter from './ruby-tab/motion-completer';
+import LooksCompleter from './ruby-tab/looks-completer';
 import EventsCompleter from './ruby-tab/events-completer';
+import ControlCompleter from './ruby-tab/control-completer';
 
 class RubyTab extends React.Component {
     constructor (props) {
@@ -92,7 +94,9 @@ class RubyTab extends React.Component {
 
         const completers = [
             new MotionCompleter(),
-            new EventsCompleter()
+            new LooksCompleter(),
+            new EventsCompleter(),
+            new ControlCompleter()
         ];
 
         return (
