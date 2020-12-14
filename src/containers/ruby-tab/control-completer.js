@@ -50,9 +50,7 @@ class ControlCompleter {
             }
         ];
         let completions = [];
-        words.forEach(function (w) {
-            completions.push(w);
-        });
+        words.forEach(w => completions.push(w));
         callback(null, completions);
     }
 }
