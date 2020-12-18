@@ -97,10 +97,7 @@ class RubyTab extends React.Component {
 
         const completers = [
             new MotionCompleter(),
-            new SoundCompleter(),
-            new EventsCompleter(),
-            new SensingCompleter()
-            new ControlCompleter()
+            new EventsCompleter()
         ];
 
         return (
