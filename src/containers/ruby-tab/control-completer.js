@@ -49,7 +49,7 @@ class ControlCompleter {
                 meta: 'スプライトの他のスクリプトをを止める'
             }
         ];
-        let completions = [];
+        const completions = [];
         words.forEach(w => completions.push(w));
         callback(null, completions);
     }
