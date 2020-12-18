@@ -39,7 +39,7 @@ class Gdx_forCompleter {
             {
                 value: 'gdx_for_acceleration("x")',
                 meta: 'x方向への加速度'
-            },
+            }
         ];
         const completions = [];
         words.forEach(
