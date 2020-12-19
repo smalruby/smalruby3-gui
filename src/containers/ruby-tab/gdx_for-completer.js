@@ -1,7 +1,7 @@
 /**
  * Define Ruby code completer for Go Direct Force & Acceleration Blocks
  */
-class Gdx_forCompleter {
+class GdxForCompleter {
     getCompletions (editor, session, pos, prefix, callback) {
         const words = [
             {
@@ -49,4 +49,4 @@ class Gdx_forCompleter {
     }
 }
 
-export default Gdx_forCompleter;
+export default GdxForCompleter;
