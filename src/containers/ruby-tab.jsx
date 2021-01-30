@@ -16,6 +16,13 @@ import RubyToBlocksConverterHOC from '../lib/ruby-to-blocks-converter-hoc.jsx';
 
 import 'brace/mode/ruby';
 import 'brace/theme/clouds';
+import 'brace/ext/language_tools';
+
+import MotionCompleter from './ruby-tab/motion-completer';
+import SoundCompleter from './ruby-tab/sound-completer';
+import EventsCompleter from './ruby-tab/events-completer';
+import SensingCompleter from './ruby-tab/sensing-completer';
+import GdxForCompleter from './ruby-tab/gdx_for-completer';
 
 class RubyTab extends React.Component {
     constructor (props) {
@@ -85,6 +92,15 @@ class RubyTab extends React.Component {
             errors,
             markers
         } = rubyCode;
+
+        const completers = [
+            new MotionCompleter(),
+            new SoundCompleter(),
+            new EventsCompleter(),
+            new SensingCompleter(),
+            new GdxForCompleter()
+        ];
+
         return (
             <AceEditor
                 annotations={errors}
@@ -98,7 +114,9 @@ class RubyTab extends React.Component {
                 setOptions={{
                     tabSize: 2,
                     useSoftTabs: true,
-                    showInvisibles: true
+                    showInvisibles: true,
+                    enableBasicAutocompletion: completers,
+                    enableLiveAutocompletion: true
                 }}
                 style={{
                     border: '1px solid hsla(0, 0%, 0%, 0.15)',
