@@ -11,7 +11,7 @@ class VariableCompleter {
             {
                 value: 'hide_variable("$変数")',
                 meta: '変数 変数 を隠す'
-            },
+            }
         ];
         const completions = [];
         words.forEach(
