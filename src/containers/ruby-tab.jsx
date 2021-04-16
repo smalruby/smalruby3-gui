@@ -22,6 +22,7 @@ import MotionCompleter from './ruby-tab/motion-completer';
 import SoundCompleter from './ruby-tab/sound-completer';
 import EventsCompleter from './ruby-tab/events-completer';
 import SensingCompleter from './ruby-tab/sensing-completer';
+import VariableCompleter from './ruby-tab/variable-completer';
 import GdxForCompleter from './ruby-tab/gdx_for-completer';
 
 class RubyTab extends React.Component {
@@ -98,6 +99,7 @@ class RubyTab extends React.Component {
             new SoundCompleter(),
             new EventsCompleter(),
             new SensingCompleter(),
+            new VariableCompleter(),
             new GdxForCompleter()
         ];
 
