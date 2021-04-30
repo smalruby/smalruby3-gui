@@ -22,6 +22,7 @@ import MotionCompleter from './ruby-tab/motion-completer';
 import SoundCompleter from './ruby-tab/sound-completer';
 import EventsCompleter from './ruby-tab/events-completer';
 import SensingCompleter from './ruby-tab/sensing-completer';
+import ControlCompleter from './ruby-tab/control-completer';
 import GdxForCompleter from './ruby-tab/gdx_for-completer';
 import MicrobitCompleter from './ruby-tab/microbit';
 
