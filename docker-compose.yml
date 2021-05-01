@@ -1,0 +1,10 @@
+version: '3'
+services:
+
+  smalruby3-gui:
+    build: .
+    ports:
+      - 0.0.0.0:8601:8601
+    command: npm start
+    volumes: 
+      - ./:/root/smalruby3-gui
