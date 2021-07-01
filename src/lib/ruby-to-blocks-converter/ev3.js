@@ -89,6 +89,40 @@ const EV3Converter = {
                 }
                 break;
             }
+        } else if ((this._isSelf(receiver) || receiver === Opal.nil) &&
+        name === 'when' &&
+        args.length === 2 && args[0].type === 'sym' &&
+        rubyBlockArgs && rubyBlockArgs.length === 0 &&
+        rubyBlock) {
+            switch(args[0].value) {
+            case 'ev3_button_pressed':
+                if (this._isStringOrBlock(args[1])) {
+                    block = this._createBlock('ev3_whenButtonPressed', 'hat');
+                    const sensor = Ev3SensorMenu.indexOf(args[1].toString());
+                    this._addInput(
+                        block,
+                        'PORT',
+                        this._createFieldBlock('ev3_menu_sensorPorts', 'sensorPorts', sensor.toString())
+                    );
+                    this._setParent(rubyBlock, block);
+                }
+                break;
+            case 'ev3_distance_gt':
+                if (this._isNumberOrBlock(args[1])) {
+                    block = this._createBlock('ev3_whenDistanceLessThan', 'hat');
+                    this._addNumberInput(block, 'DISTANCE', 'math_number', args[1], 5);
+                    this._setParent(rubyBlock, block);
+                }
+                break;
+            case 'ev3_brightness_gt':
+                if (this._isNumberOrBlock(args[1])) {
+                    block = this._createBlock('ev3_whenBrightnessLessThan', 'hat');
+                    this._addNumberInput(block, 'DISTANCE', 'math_number', args[1], 50);
+                    this._setParent(rubyBlock, block);
+                }
+                break;
+            }
+
         }
         return block;
     }
