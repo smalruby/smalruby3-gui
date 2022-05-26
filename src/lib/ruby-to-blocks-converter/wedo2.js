@@ -104,7 +104,6 @@ const Wedo2Converter = {
                     args.length >= 1 && args[0].type === 'sym' &&
                     rubyBlockArgs && rubyBlockArgs.length === 0 &&
                     rubyBlock) {
-            console.log(args.length);
             switch (args[0].value) {
             case 'wedo2_tilted':
                 if (args.length === 2 && this._isStringOrBlock(args[1])) {
