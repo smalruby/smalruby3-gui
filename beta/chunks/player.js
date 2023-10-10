@@ -1,7 +1,7 @@
 var GUI =
 (window["webpackJsonpGUI"] = window["webpackJsonpGUI"] || []).push([[9],{
 
-/***/ 1493:
+/***/ 1494:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -12,10 +12,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var prop_types__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(1);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(51);
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(52);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(6);
-/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(48);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(50);
 /* harmony import */ var _components_box_box_jsx__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(7);
 /* harmony import */ var _containers_gui_jsx__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(125);
 /* harmony import */ var _lib_hash_parser_hoc_jsx__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(143);
@@ -88,7 +88,7 @@ react_dom__WEBPACK_IMPORTED_MODULE_3___default.a.render( /*#__PURE__*/react__WEB
 
 /***/ }),
 
-/***/ 1494:
+/***/ 1495:
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(9)(false);
@@ -111,7 +111,7 @@ exports.locals = {
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(1494);
+var content = __webpack_require__(1495);
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -133,5 +133,5 @@ if(false) {}
 
 /***/ })
 
-},[[1493,0]]]);
+},[[1494,0]]]);
 //# sourceMappingURL=player.js.map
