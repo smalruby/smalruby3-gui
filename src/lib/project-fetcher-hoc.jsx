@@ -73,7 +73,7 @@ const ProjectFetcherHOC = function (WrappedComponent) {
             }
         }
         fetchProject (projectId, loadingState) {
-            if (!this.props.projectToken) {
+            if (projectId !== '0' && !this.props.projectToken) {
                 const errorHandler = err => {
                     this.props.onError(err);
                     log.error(err);
