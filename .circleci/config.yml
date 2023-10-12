@@ -167,7 +167,7 @@ jobs:
           path: dist
   integration:
     <<: *defaults
-    parallelism: 1
+    parallelism: 2
     environment:
       JEST_JUNIT_OUTPUT_NAME: results.txt
     steps:
@@ -200,6 +200,19 @@ jobs:
           git config --global user.name $(git log --pretty=format:"%an" -n1)
       - run: npm run deploy -- -x -r https://${GH_TOKEN}@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git
       - run: npm run deploy:smalruby.app -- -x -r https://${GH_TOKEN}@github.com/$CIRCLE_PROJECT_USERNAME/smalruby.app.git
+
+  deploy-gh-pages-branch:
+    <<: *defaults
+    steps:
+      - *restore_git_cache
+      - checkout
+      - *restore_npm_cache
+      - *restore_build_cache
+      - run: |
+          git config --global user.email $(git log --pretty=format:"%ae" -n1)
+          git config --global user.name $(git log --pretty=format:"%an" -n1)
+      - run: npm run deploy -- -x -r https://${GH_TOKEN}@github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git -e $CIRCLE_BRANCH
+      - run: npm run deploy:smalruby.app -- -x -r https://${GH_TOKEN}@github.com/$CIRCLE_PROJECT_USERNAME/smalruby.app.git -e $CIRCLE_BRANCH
 
 workflows:
   version: 2
@@ -236,7 +249,6 @@ workflows:
               only:
                 - master
                 - develop
-                - beta
                 - /^hotfix\/.*/
       - lint:
           context:
@@ -268,7 +280,6 @@ workflows:
               only:
                 - master
                 - develop
-                - beta
                 - /^hotfix\/.*/
       - store_dist:
           context:
@@ -280,7 +291,6 @@ workflows:
               only:
                 - master
                 - develop
-                - beta
                 - /^hotfix\/.*/
       - deploy-gh-pages:
           context:
@@ -289,6 +299,53 @@ workflows:
             - lint
             - unit
             - integration
+            - build
+          filters:
+            branches:
+              ignore:
+                - beta
+                - /^dependabot/.*/
+                - /^renovate/.*/
+                - /^pull/.*/ # don't deploy to  gh pages on PRs.
+  build-deploy-beta:
+    jobs:
+      - setup:
+          context:
+            - dockerhub-credentials
+          filters:
+            branches:
+              only:
+                - beta
+                - /^v[0-9]+\.[0-9]+\.[0-9]+$/
+      - build:
+          context:
+            - dockerhub-credentials
+          requires:
+            - setup
+      - store_build:
+          context:
+            - dockerhub-credentials
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - beta
+                - /^v[0-9]+\.[0-9]+\.[0-9]+$/
+      - store_dist:
+          context:
+            - dockerhub-credentials
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - beta
+                - /^v[0-9]+\.[0-9]+\.[0-9]+$/
+      - deploy-gh-pages-branch:
+          context:
+            - dockerhub-credentials
+          requires:
             - build
           filters:
             branches:
