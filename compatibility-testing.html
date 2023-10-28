@@ -17,7 +17,22 @@
         }
         -->
     </style>
-  </head>
+  <meta name="apple-mobile-web-app-title" content="Smalruby" /><meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="default" /><link rel="manifest" href="manifest.146f663e812e9b1b4c6c25097ad6a8e4.json" crossorigin="use-credentials" /></head>
   <body>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function () {
+          navigator.serviceWorker.register('./service-worker.js').then(function (registration) {
+            console.log('PWA worker registration successful', registration.scope);
+          }, function (err) {
+            console.log('PWA worker registration failed', err);
+          }).catch(function (err) {
+            console.log(err);
+          });
+        });
+      } else {
+        console.log('Service Worker is not supported by browser.');
+      }
+    </script>
   <script type="text/javascript" src="lib.min.js"></script><script type="text/javascript" src="chunks/compatibilitytesting.js"></script></body>
 </html>
