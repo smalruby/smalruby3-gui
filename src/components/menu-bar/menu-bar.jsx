@@ -90,6 +90,7 @@ import smalrubyLogo from './hatti.svg';
 import {updateRubyCodeTarget} from '../../reducers/ruby-code';
 
 import sharedMessages from '../../lib/shared-messages';
+import RubyDownloader from '../../containers/ruby-downloader.jsx';
 
 const ariaMessages = defineMessages({
     tutorials: {
@@ -496,6 +497,18 @@ class MenuBar extends React.Component {
                                                 />
                                             </MenuItem>
                                         )}</SB3Downloader>
+                                        <RubyDownloader>{(className, downloadProjectCallback) => (
+                                            <MenuItem
+                                            className={className}
+                                            onClick={this.getSaveToComputerHandler(downloadProjectCallback)}
+                                            >
+                                                <FormattedMessage
+                                                    defaultMessage="Download Ruby code to your compute"
+                                                    description="Menu bar item for downloading Ruby code to your computer"
+                                                    id="gui.smalruby3.menuBar.downloadRubyCodeToComputer"
+                                                />
+                                            </MenuItem>
+                                        )}</RubyDownloader>
                                     </MenuSection>
                                 </MenuBarMenu>
                             </div>
