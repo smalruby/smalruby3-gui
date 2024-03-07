@@ -21,6 +21,7 @@ import 'ace-builds/src-noconflict/ext-language_tools';
 
 import SnippetsCompleter from './ruby-tab/snippets-completer';
 
+import actionIcon from '../components/action-menu/icon--sprite.svg';
 class RubyTab extends React.Component {
     constructor (props) {
         super(props);
@@ -93,34 +94,44 @@ class RubyTab extends React.Component {
         const completers = [new SnippetsCompleter()];
 
         return (
-            <AceEditor
-                annotations={errors}
-                editorProps={{$blockScrolling: true}}
-                fontSize={16}
-                height="inherit"
-                markers={markers}
-                mode="ruby"
-                name="ruby-editor"
-                ref={this.setAceEditorRef}
-                setOptions={{
-                    tabSize: 2,
-                    useSoftTabs: true,
-                    showInvisibles: true,
-                    enableAutoIndent: true,
-                    enableBasicAutocompletion: completers,
-                    enableLiveAutocompletion: true
-                }}
-                style={{
-                    border: '1px solid hsla(0, 0%, 0%, 0.15)',
-                    borderBottomRightRadius: '0.5rem',
-                    borderTopRightRadius: '0.5rem',
-                    fontFamily: ['Monaco', 'Menlo', 'Consolas', 'source-code-pro', 'monospace']
-                }}
-                theme="clouds"
-                value={code}
-                width="100%"
-                onChange={onChange}
-            />
+            <>
+                <AceEditor
+                    annotations={errors}
+                    editorProps={{$blockScrolling: true}}
+                    fontSize={16}
+                    height="inherit"
+                    markers={markers}
+                    mode="ruby"
+                    name="ruby-editor"
+                    ref={this.setAceEditorRef}
+                    setOptions={{
+                        tabSize: 2,
+                        useSoftTabs: true,
+                        showInvisibles: true,
+                        enableAutoIndent: true,
+                        enableBasicAutocompletion: completers,
+                        enableLiveAutocompletion: true
+                    }}
+                    style={{
+                        border: '1px solid hsla(0, 0%, 0%, 0.15)',
+                        borderBottomRightRadius: '0.5rem',
+                        borderTopRightRadius: '0.5rem',
+                        fontFamily: ['Monaco', 'Menlo', 'Consolas', 'source-code-pro', 'monospace']
+                    }}
+                    theme="clouds"
+                    value={code}
+                    width="100%"
+                    onChange={onChange}
+                />
+                <button
+                style={{ bottom: "1rem", right: "1rem", position: "absolute" }}
+                >
+                    <img
+                        src={actionIcon}
+                        alt="ruby download"
+                    />
+                </button>
+            </>
         );
     }
 }
