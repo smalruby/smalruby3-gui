@@ -31,3 +31,38 @@
     width: 2rem;
     z-index: 51;
 }
+
+.tooltip {
+  background-color: $extensions-primary !important;
+  opacity: 1 !important;
+  border: 1px solid hsla(0, 0%, 0%, .1) !important;
+  border-radius: $form-radius !important;
+  box-shadow: 0 0 .5rem hsla(0, 0%, 0%, .25) !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  z-index: $z-index-tooltip !important;
+}
+
+.tooltip:after {
+  background-color: $extensions-primary;
+}
+
+$arrow-size: 0.5rem;
+$arrow-inset: -0.25rem;
+$arrow-rounding: 0.125rem;
+
+.tooltip:after {
+    content: "";
+    border-top: 1px solid hsla(0, 0%, 0%, .1) !important;
+    border-left: 0 !important;
+    border-bottom: 0 !important;
+    border-right: 1px solid hsla(0, 0%, 0%, .1) !important;
+    border-radius: $arrow-rounding;
+    height: $arrow-size !important;
+    width: $arrow-size !important;
+}
+
+.tooltip:global(.place-left):after {
+    margin-top: $arrow-inset !important;
+    right: $arrow-inset !important;
+    transform: rotate(45deg) !important;
+}

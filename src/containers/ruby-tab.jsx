@@ -1,7 +1,7 @@
 import bindAll from 'lodash.bindall';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {injectIntl, intlShape} from 'react-intl';
+import {FormattedMessage, injectIntl, intlShape} from 'react-intl';
 import {connect} from 'react-redux';
 import AceEditor from 'react-ace';
 import {
@@ -26,6 +26,7 @@ import RubyDownloader from './ruby-downloader.jsx';
 import collectMetadata from '../lib/collect-metadata.js';
 import { closeFileMenu } from '../reducers/menus.js';
 import styles from './ruby-tab/ruby-tab.css';
+import ReactTooltip from 'react-tooltip';
 
 class RubyTab extends React.Component {
     constructor (props) {
@@ -33,7 +34,7 @@ class RubyTab extends React.Component {
         bindAll(this, [
             'setAceEditorRef'
         ]);
-        this.mainTooltipId = `tooltip-${Math.random()}`;
+        this.mainTooltipId = 'ruby-downloader-tooltip';
     }
 
     componentDidUpdate (prevProps) {
@@ -145,7 +146,8 @@ class RubyTab extends React.Component {
                         <button
                             className={styles.button}
                             onClick={this.getSaveToComputerHandler(downloadProjectCallback)}
-                            data-for={this.mainTooltipId}
+                            data-tip
+                            data-for={'ruby-downloader-tooltip'}
                         >
                             <img
                                 src={rubyIcon}
@@ -156,6 +158,13 @@ class RubyTab extends React.Component {
                         </button>
                     )}
                     </RubyDownloader>
+                    <ReactTooltip id={this.mainTooltipId} place="left" effect="solid" className={styles.tooltip}>
+                        <FormattedMessage
+                            defaultMessage="Download Ruby code to your compute"
+                            description="Menu bar item for downloading Ruby code to your computer"
+                            id="gui.smalruby3.menuBar.downloadRubyCodeToComputer"
+                        />
+                    </ReactTooltip>
                 </div>
             </>
         );
