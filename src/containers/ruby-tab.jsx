@@ -23,6 +23,8 @@ import SnippetsCompleter from './ruby-tab/snippets-completer';
 
 import actionIcon from '../components/action-menu/icon--sprite.svg';
 import RubyDownloader from './ruby-downloader.jsx';
+import collectMetadata from '../lib/collect-metadata.js';
+import { closeFileMenu } from '../reducers/menus.js';
 class RubyTab extends React.Component {
     constructor (props) {
         super(props);
@@ -81,6 +83,17 @@ class RubyTab extends React.Component {
         this.aceEditorRef = ref;
     }
 
+    getSaveToComputerHandler (downloadProjectCallback) {
+        return () => {
+            this.props.onRequestCloseFile();
+            downloadProjectCallback();
+            if (this.props.onProjectTelemetryEvent) {
+                const metadata = collectMetadata(this.props.vm, this.props.projectTitle, this.props.local);
+                this.props.onProjectTelemetryEvent('projectDidSave', metadata);
+            }
+        }
+    }
+
     render () {
         const {
             onChange,
@@ -124,12 +137,10 @@ class RubyTab extends React.Component {
                     width="100%"
                     onChange={onChange}
                 />
-                <RubyDownloader>{(downloadProjectCallback) => (
+                <RubyDownloader>{(_, downloadProjectCallback) => (
                     <button
                         style={{ bottom: "1rem", right: "1rem", position: "absolute", zIndex: "50" }}
-                        onClick={() => {
-                            
-                        }}
+                        onClick={this.getSaveToComputerHandler(downloadProjectCallback)}
                     >
                         <img
                             src={actionIcon}
@@ -149,21 +160,29 @@ RubyTab.propTypes = {
     intl: intlShape.isRequired,
     isVisible: PropTypes.bool,
     onChange: PropTypes.func,
+    onRequestCloseFile: PropTypes.func,
+    onProjectTelemetryEvent: PropTypes.func,
     rubyCode: rubyCodeShape,
     targetCodeToBlocks: PropTypes.func,
     updateRubyCodeTargetState: PropTypes.func,
-    vm: PropTypes.instanceOf(VM).isRequired
+    vm: PropTypes.instanceOf(VM).isRequired,
+    projectTitle: PropTypes.string,
+    locale: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({
     blocksTabVisible: state.scratchGui.editorTab.activeTabIndex === BLOCKS_TAB_INDEX,
     editingTarget: state.scratchGui.targets.editingTarget,
-    rubyCode: state.scratchGui.rubyCode
+    rubyCode: state.scratchGui.rubyCode,
+    vm: state.scratchGui.vm,
+    projectTitle: state.scratchGui.projectTitle,
+    locale: state.locales.local,
 });
 
 const mapDispatchToProps = dispatch => ({
     onChange: code => dispatch(updateRubyCode(code)),
-    updateRubyCodeTargetState: target => dispatch(updateRubyCodeTarget(target))
+    updateRubyCodeTargetState: target => dispatch(updateRubyCodeTarget(target)),
+    onRequestCloseFile: () => dispatch(closeFileMenu()),
 });
 
 export default RubyToBlocksConverterHOC(injectIntl(connect(

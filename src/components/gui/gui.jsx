@@ -364,6 +364,7 @@ const GUIComponent = props => {
                                     <RubyTab
                                         isVisible={rubyTabVisible}
                                         vm={vm}
+                                        onProjectTelemetryEvent={onProjectTelemetryEvent}
                                     />
                                 </TabPanel>
                             </Tabs>
