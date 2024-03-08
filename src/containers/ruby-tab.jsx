@@ -21,10 +21,11 @@ import 'ace-builds/src-noconflict/ext-language_tools';
 
 import SnippetsCompleter from './ruby-tab/snippets-completer';
 
-import actionIcon from '../components/action-menu/icon--sprite.svg';
+import rubyIcon from './ruby-tab/icon--ruby.svg';
 import RubyDownloader from './ruby-downloader.jsx';
 import collectMetadata from '../lib/collect-metadata.js';
 import { closeFileMenu } from '../reducers/menus.js';
+import styles from './ruby-tab/ruby-tab.css';
 class RubyTab extends React.Component {
     constructor (props) {
         super(props);
@@ -139,12 +140,26 @@ class RubyTab extends React.Component {
                 />
                 <RubyDownloader>{(_, downloadProjectCallback) => (
                     <button
-                        style={{ bottom: "1rem", right: "1rem", position: "absolute", zIndex: "50" }}
+                        style={{
+                            bottom: "1rem",
+                            right: "1rem",
+                            position: "absolute",
+                            zIndex: "50",
+                            width: "2.75rem",
+                            height: "2.75rem",
+                            border: "none",
+                            borderRadius: "100%",
+                            backgroundColor: "hsla(260, 60%, 60%, 1)",
+                        }}
                         onClick={this.getSaveToComputerHandler(downloadProjectCallback)}
                     >
                         <img
-                            src={actionIcon}
+                            src={rubyIcon}
                             alt="ruby download"
+                            style={{
+                                width: "2rem",
+                                zIndex: "51"
+                            }}
                         />
                     </button>
                 )}

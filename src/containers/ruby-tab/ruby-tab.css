@@ -1,0 +1,11 @@
+.button {
+  bottom: 1rem;
+  right: 1rem;
+  position: absolute;
+  z-index: 50;
+  width: 2.75rem;
+}
+
+.img {
+  width: 1.75rem;
+}
