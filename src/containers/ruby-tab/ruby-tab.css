@@ -1,11 +1,33 @@
+@import "../../css/colors.css";
+@import "../../css/units.css";
+@import "../../css/z-index.css";
+
 .button {
+    z-index: 50;
+    width: 2.75rem;
+    height: 2.75rem;
+    border: none;
+    border-radius: 100%;
+    background-color: hsla(260, 60%, 60%, 1);
+    box-shadow: 0 0 0 4px hsla(260, 60%, 60%, 0.35);
+    transition: transform, box-shadow 0.5s;
+}
+.wrapper {
+  position: absolute;
+  width: 2.75rem;
+  height: 2.75rem;
   bottom: 1rem;
   right: 1rem;
-  position: absolute;
-  z-index: 50;
-  width: 2.75rem;
+  border-radius: 100%;
+}
+.button:hover {
+  transform: scale(1.1);
+  border-radius: 100%;
+  box-shadow: 0 0 0 6px hsla(260, 60%, 60%, 0.35);
+  background-color: hsla(163, 85%, 40%, 1);
 }
 
 .img {
-  width: 1.75rem;
+    width: 2rem;
+    z-index: 51;
 }

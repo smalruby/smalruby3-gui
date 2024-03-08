@@ -26,12 +26,14 @@ import RubyDownloader from './ruby-downloader.jsx';
 import collectMetadata from '../lib/collect-metadata.js';
 import { closeFileMenu } from '../reducers/menus.js';
 import styles from './ruby-tab/ruby-tab.css';
+
 class RubyTab extends React.Component {
     constructor (props) {
         super(props);
         bindAll(this, [
             'setAceEditorRef'
         ]);
+        this.mainTooltipId = `tooltip-${Math.random()}`;
     }
 
     componentDidUpdate (prevProps) {
@@ -138,32 +140,23 @@ class RubyTab extends React.Component {
                     width="100%"
                     onChange={onChange}
                 />
-                <RubyDownloader>{(_, downloadProjectCallback) => (
-                    <button
-                        style={{
-                            bottom: "1rem",
-                            right: "1rem",
-                            position: "absolute",
-                            zIndex: "50",
-                            width: "2.75rem",
-                            height: "2.75rem",
-                            border: "none",
-                            borderRadius: "100%",
-                            backgroundColor: "hsla(260, 60%, 60%, 1)",
-                        }}
-                        onClick={this.getSaveToComputerHandler(downloadProjectCallback)}
-                    >
-                        <img
-                            src={rubyIcon}
-                            alt="ruby download"
-                            style={{
-                                width: "2rem",
-                                zIndex: "51"
-                            }}
-                        />
-                    </button>
-                )}
-                </RubyDownloader>
+                <div className={styles.wrapper}>
+                    <RubyDownloader>{(_, downloadProjectCallback) => (
+                        <button
+                            className={styles.button}
+                            onClick={this.getSaveToComputerHandler(downloadProjectCallback)}
+                            data-for={this.mainTooltipId}
+                        >
+                            <img
+                                src={rubyIcon}
+                                alt="ruby download"
+                                className={styles.img}
+                            />
+                            
+                        </button>
+                    )}
+                    </RubyDownloader>
+                </div>
             </>
         );
     }
