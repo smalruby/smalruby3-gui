@@ -22,6 +22,7 @@ import 'ace-builds/src-noconflict/ext-language_tools';
 import SnippetsCompleter from './ruby-tab/snippets-completer';
 
 import actionIcon from '../components/action-menu/icon--sprite.svg';
+import RubyDownloader from './ruby-downloader.jsx';
 class RubyTab extends React.Component {
     constructor (props) {
         super(props);
@@ -123,14 +124,20 @@ class RubyTab extends React.Component {
                     width="100%"
                     onChange={onChange}
                 />
-                <button
-                style={{ bottom: "1rem", right: "1rem", position: "absolute" }}
-                >
-                    <img
-                        src={actionIcon}
-                        alt="ruby download"
-                    />
-                </button>
+                <RubyDownloader>{(downloadProjectCallback) => (
+                    <button
+                        style={{ bottom: "1rem", right: "1rem", position: "absolute", zIndex: "50" }}
+                        onClick={() => {
+                            
+                        }}
+                    >
+                        <img
+                            src={actionIcon}
+                            alt="ruby download"
+                        />
+                    </button>
+                )}
+                </RubyDownloader>
             </>
         );
     }
