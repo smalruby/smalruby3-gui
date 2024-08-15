@@ -1,26 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="google" value="notranslate">
-    
-    <link rel="shortcut icon" href="static/title.ico">
-    <title>Smalruby 3.0 GUI: Player Example</title>
-    <script src="static/javascripts/setup-opal.js"></script>
-    <style type="text/css">
-        <!--
+<!doctype html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="google" value="notranslate"><link rel="shortcut icon" href="static/favicon.ico"><title>Smalruby: Player Example</title><script src="static/javascripts/setup-opal.js"></script><style><!--
         .ruby-error {
             background-color: pink;
             position: absolute;
             z-index: 3;
         }
-        -->
-    </style>
-  <meta name="apple-mobile-web-app-title" content="Smalruby" /><meta name="apple-mobile-web-app-capable" content="yes" /><meta name="apple-mobile-web-app-status-bar-style" content="default" /><link rel="manifest" href="manifest.146f663e812e9b1b4c6c25097ad6a8e4.json" crossorigin="use-credentials" /></head>
-  <body>
-    <script>
-      if ('serviceWorker' in navigator) {
+        --></style><script defer="defer" src="player.js"></script></head><body><script>if ('serviceWorker' in navigator) {
         window.addEventListener('load', function () {
           navigator.serviceWorker.register('./service-worker.js').then(function (registration) {
             console.log('PWA worker registration successful', registration.scope);
@@ -32,7 +16,4 @@
         });
       } else {
         console.log('Service Worker is not supported by browser.');
-      }
-    </script>
-  <script type="text/javascript" src="lib.min.js"></script><script type="text/javascript" src="chunks/player.js"></script></body>
-</html>
+      }</script></body></html>
