@@ -1,0 +1,41 @@
+{
+  "icons": [
+    {
+      "src": "auto/icon_512x512.031503df2ae5b8c6b4d8f6b20fbbbb69.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "auto/icon_384x384.924bd005663c172a29befb32e63e417b.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "auto/icon_256x256.9ad1e3af8f3cde0cdc1592d6f5c9ba0f.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "auto/icon_192x192.aeb40f4096c69f4cfff76b6bba13127f.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "auto/icon_128x128.168bfd7d90dc8e7e6933c1491e880a7f.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "auto/icon_96x96.5eb6c133aac1f5b17572af437b2d08da.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    }
+  ],
+  "name": "Smalruby",
+  "short_name": "Smalruby",
+  "orientation": "any",
+  "display": "standalone",
+  "start_url": ".",
+  "description": "GraphicaL User Interface for creating and running Smalruby 3.0 projects",
+  "background_color": "#ffffff"
+}
