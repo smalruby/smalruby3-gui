@@ -1,0 +1,1048 @@
+/*
+	object-assign
+	(c) Sindre Sorhus
+	@license MIT
+	*/
+
+/*
+ * based on code from:
+ *
+ * @license RequireJS text 0.25.0 Copyright (c) 2010-2011, The Dojo Foundation All Rights Reserved.
+ * Available via the MIT or new BSD license.
+ * see: http://github.com/jrburke/requirejs for details
+ */
+
+/*
+object-assign
+(c) Sindre Sorhus
+@license MIT
+*/
+
+/* @license
+Papa Parse
+v5.4.1
+https://github.com/mholt/PapaParse
+License: MIT
+*/
+
+/* @license twgl.js 4.24.0 Copyright (c) 2015, Gregg Tavares All Rights Reserved.
+Available via the MIT license.
+see: http://github.com/greggman/twgl.js for details */
+
+/*!
+	  Copyright (c) 2016 Jed Watson.
+	  Licensed under the MIT License (MIT), see
+	  http://jedwatson.github.io/classnames
+	*/
+
+/*!
+	Copyright (c) 2018 Jed Watson.
+	Licensed under the MIT License (MIT), see
+	http://jedwatson.github.io/classnames
+*/
+
+/*!
+
+JSZip v3.10.1 - A JavaScript class for generating and reading zip files
+<http://stuartk.com/jszip>
+
+(c) 2009-2016 Stuart Knightley <stuart [at] stuartk.com>
+Dual licenced under the MIT license or GPLv3. See https://raw.github.com/Stuk/jszip/main/LICENSE.markdown.
+
+JSZip uses the library pako released under the MIT license :
+https://github.com/nodeca/pako/blob/main/LICENSE
+*/
+
+/*!
+        * The buffer module from node.js, for the browser.
+        *
+        * @author   Feross Aboukhadijeh <http://feross.org>
+        * @license  MIT
+        */
+
+/*!
+  Copyright (c) 2015 Jed Watson.
+  Based on code that is Copyright 2013-2015, Facebook, Inc.
+  All rights reserved.
+*/
+
+/*!
+ * Adapted from jQuery UI core
+ *
+ * http://jqueryui.com
+ *
+ * Copyright 2014 jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ *
+ * http://api.jqueryui.com/category/ui-core/
+ */
+
+/*!
+ * SkyWay Copyright(c) 2022 NTT Communications Corporation
+ * peerjs Copyright(c) 2013 Michelle Bu <michelle@michellebu.com>
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <http://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * The buffer module from node.js, for the browser.
+ *
+ * @author   Feross Aboukhadijeh <https://feross.org>
+ * @license  MIT
+ */
+
+/*!
+ * cookie
+ * Copyright(c) 2012-2014 Roman Shtylman
+ * Copyright(c) 2015 Douglas Christopher Wilson
+ * MIT Licensed
+ */
+
+/*! !./node_modules/worker-loader/dist/workers/InlineWorker.js */
+
+/*! !webpack amd options */
+
+/*! *****************************************************************************
+Copyright (c) Microsoft Corporation. All rights reserved.
+Licensed under the Apache License, Version 2.0 (the "License"); you may not use
+this file except in compliance with the License. You may obtain a copy of the
+License at http://www.apache.org/licenses/LICENSE-2.0
+
+THIS CODE IS PROVIDED ON AN *AS IS* BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY IMPLIED
+WARRANTIES OR CONDITIONS OF TITLE, FITNESS FOR A PARTICULAR PURPOSE,
+MERCHANTABLITY OR NON-INFRINGEMENT.
+
+See the Apache Version 2.0 License for specific language governing permissions
+and limitations under the License.
+***************************************************************************** */
+
+/*! ../../common/transform.js */
+
+/*! ../../node_modules/arraybuffer-loader/lib/to-array-buffer.js */
+
+/*! ../common/minilog.js */
+
+/*! ../common/transform.js */
+
+/*! ../globalThis */
+
+/*! ../transport */
+
+/*! ./../../../node-libs-browser/node_modules/buffer/index.js */
+
+/*! ./../../../webpack/buildin/global.js */
+
+/*! ./../../buffer/index.js */
+
+/*! ./../../process/browser.js */
+
+/*! ./../../webpack/buildin/global.js */
+
+/*! ./../node-libs-browser/node_modules/buffer/index.js */
+
+/*! ./../node_modules/buffer/index.js */
+
+/*! ./../process/browser.js */
+
+/*! ./../webpack/buildin/global.js */
+
+/*! ./Asset */
+
+/*! ./AssetType */
+
+/*! ./BuiltinHelper */
+
+/*! ./DataFormat */
+
+/*! ./FetchTool */
+
+/*! ./FetchWorkerTool */
+
+/*! ./Helper */
+
+/*! ./ProxyTool */
+
+/*! ./ScratchStorage */
+
+/*! ./WebHelper */
+
+/*! ./array-equals */
+
+/*! ./array.js */
+
+/*! ./arrayLikeToArray.js */
+
+/*! ./arrayWithHoles.js */
+
+/*! ./assertThisInitialized.js */
+
+/*! ./binary */
+
+/*! ./bufferbuilder */
+
+/*! ./builtins/defaultBitmap.png */
+
+/*! ./builtins/defaultSound.wav */
+
+/*! ./builtins/defaultVector.svg */
+
+/*! ./byte_size */
+
+/*! ./console.js */
+
+/*! ./debug */
+
+/*! ./enumItem.js */
+
+/*! ./filter.js */
+
+/*! ./formatters/color.js */
+
+/*! ./formatters/minilog.js */
+
+/*! ./globalThis */
+
+/*! ./grammar */
+
+/*! ./indexOf.js */
+
+/*! ./interop */
+
+/*! ./is-buffer */
+
+/*! ./isType.js */
+
+/*! ./iterableToArrayLimit.js */
+
+/*! ./jquery_simple.js */
+
+/*! ./keys */
+
+/*! ./localstorage.js */
+
+/*! ./log */
+
+/*! ./manager */
+
+/*! ./nonIterableRest.js */
+
+/*! ./objectWithoutPropertiesLoose.js */
+
+/*! ./on */
+
+/*! ./parser */
+
+/*! ./polling */
+
+/*! ./polling-jsonp */
+
+/*! ./polling-xhr */
+
+/*! ./scratchFetch */
+
+/*! ./setPrototypeOf.js */
+
+/*! ./socket */
+
+/*! ./toPrimitive.js */
+
+/*! ./toPropertyKey.js */
+
+/*! ./transform */
+
+/*! ./transform.js */
+
+/*! ./transport */
+
+/*! ./transports/index */
+
+/*! ./typeof.js */
+
+/*! ./unsupportedIterableToArray.js */
+
+/*! ./url */
+
+/*! ./utf8 */
+
+/*! ./util.js */
+
+/*! ./websocket */
+
+/*! ./writer */
+
+/*! @babel/runtime/helpers/classCallCheck */
+
+/*! @babel/runtime/helpers/createClass */
+
+/*! @babel/runtime/helpers/getPrototypeOf */
+
+/*! @babel/runtime/helpers/inherits */
+
+/*! @babel/runtime/helpers/objectWithoutProperties */
+
+/*! @babel/runtime/helpers/possibleConstructorReturn */
+
+/*! @babel/runtime/helpers/readOnlyError */
+
+/*! @babel/runtime/helpers/slicedToArray */
+
+/*! @license DOMPurify 3.1.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.1.6/LICENSE */
+
+/*! @source http://purl.eligrey.com/github/canvas-toBlob.js/blob/master/canvas-toBlob.js */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/@jitsi/sdp-interop/lib/index.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/detect-browser/index.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/enum/lib/enum.js (<- Module uses injected variables (global)) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/events/events.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/has-binary2/index.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/js-binarypack/lib/binarypack.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/object-sizeof/index.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/query-string/index.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/sdp-transform/lib/index.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/socket.io-client/lib/index.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./node_modules/socket.io-parser/index.js (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Cannot concat with ./package.json (<- Module is not an ECMAScript module) */
+
+/*! ModuleConcatenation bailout: Module is not an ECMAScript module */
+
+/*! ModuleConcatenation bailout: Module uses injected variables (global) */
+
+/*! after */
+
+/*! arraybuffer.slice */
+
+/*! backo2 */
+
+/*! base64-arraybuffer */
+
+/*! base64-js */
+
+/*! blob */
+
+/*! buffer/ */
+
+/*! component-bind */
+
+/*! component-emitter */
+
+/*! component-inherit */
+
+/*! cross-fetch */
+
+/*! debug */
+
+/*! decode-uri-component */
+
+/*! engine.io-client */
+
+/*! engine.io-parser */
+
+/*! exports provided: default */
+
+/*! exports provided: indexOf */
+
+/*! exports provided: isType, isObject, isString, isNumber */
+
+/*! exports provided: name, version, description, main, types, scripts, repository, files, author, license, devDependencies, dependencies, default */
+
+/*! fastestsmallesttextencoderdecoder */
+
+/*! filter-obj */
+
+/*! has-binary2 */
+
+/*! has-cors */
+
+/*! https://mths.be/utf8js v2.1.2 by @mathias */
+
+/*! ieee754 */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! indexof */
+
+/*! isarray */
+
+/*! js-md5 */
+
+/*! microee */
+
+/*! minilog */
+
+/*! ms */
+
+/*! no static exports found */
+
+/*! parseqs */
+
+/*! parseuri */
+
+/*! safe-buffer. MIT License. Feross Aboukhadijeh <https://feross.org/opensource> */
+
+/*! sdp-transform */
+
+/*! socket.io-parser */
+
+/*! split-on-first */
+
+/*! strict-uri-encode */
+
+/*! to-array */
+
+/*! worker-loader?{"inline":true,"fallback":true}!./FetchWorkerTool.worker */
+
+/*! ws */
+
+/*! xmlhttprequest-ssl */
+
+/*! yeast */
+
+/*!********************!*\
+      !*** ./src/log.js ***!
+      \********************/
+
+/*!********************!*\
+  !*** ws (ignored) ***!
+  \********************/
+
+/*!**********************!*\
+      !*** ./src/Asset.js ***!
+      \**********************/
+
+/*!**********************!*\
+      !*** ./src/index.js ***!
+      \**********************/
+
+/*!**********************!*\
+  !*** ./package.json ***!
+  \**********************/
+
+/*!***********************!*\
+      !*** ./src/Helper.js ***!
+      \***********************/
+
+/*!**************************!*\
+      !*** ./src/AssetType.js ***!
+      \**************************/
+
+/*!**************************!*\
+      !*** ./src/FetchTool.js ***!
+      \**************************/
+
+/*!**************************!*\
+      !*** ./src/ProxyTool.js ***!
+      \**************************/
+
+/*!**************************!*\
+      !*** ./src/WebHelper.js ***!
+      \**************************/
+
+/*!***************************!*\
+      !*** ./src/DataFormat.js ***!
+      \***************************/
+
+/*!*****************************!*\
+      !*** ./src/scratchFetch.js ***!
+      \*****************************/
+
+/*!******************************!*\
+      !*** ./src/BuiltinHelper.js ***!
+      \******************************/
+
+/*!*******************************!*\
+      !*** ./src/ScratchStorage.js ***!
+      \*******************************/
+
+/*!********************************!*\
+      !*** ./src/FetchWorkerTool.js ***!
+      \********************************/
+
+/*!**********************************!*\
+  !*** ./node_modules/ms/index.js ***!
+  \**********************************/
+
+/*!**********************************!*\
+  !*** ./src/peer.js + 12 modules ***!
+  \**********************************/
+
+/*!***********************************!*\
+      !*** (webpack)/buildin/global.js ***!
+      \***********************************/
+
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+
+/*!************************************!*\
+  !*** ./node_modules/blob/index.js ***!
+  \************************************/
+
+/*!*************************************!*\
+  !*** ./node_modules/after/index.js ***!
+  \*************************************/
+
+/*!*************************************!*\
+  !*** ./node_modules/yeast/index.js ***!
+  \*************************************/
+
+/*!**************************************!*\
+      !*** ./node_modules/buffer/index.js ***!
+      \**************************************/
+
+/*!**************************************!*\
+  !*** ./node_modules/backo2/index.js ***!
+  \**************************************/
+
+/*!***************************************!*\
+      !*** ./node_modules/ieee754/index.js ***!
+      \***************************************/
+
+/*!***************************************!*\
+      !*** ./node_modules/microee/index.js ***!
+      \***************************************/
+
+/*!***************************************!*\
+      !*** ./src/builtins/defaultSound.wav ***!
+      \***************************************/
+
+/*!***************************************!*\
+  !*** ./node_modules/enum/lib/enum.js ***!
+  \***************************************/
+
+/*!***************************************!*\
+  !*** ./node_modules/events/events.js ***!
+  \***************************************/
+
+/*!***************************************!*\
+  !*** ./node_modules/ieee754/index.js ***!
+  \***************************************/
+
+/*!***************************************!*\
+  !*** ./node_modules/indexof/index.js ***!
+  \***************************************/
+
+/*!***************************************!*\
+  !*** ./node_modules/isarray/index.js ***!
+  \***************************************/
+
+/*!***************************************!*\
+  !*** ./node_modules/parseqs/index.js ***!
+  \***************************************/
+
+/*!****************************************!*\
+      !*** (webpack)/buildin/amd-options.js ***!
+      \****************************************/
+
+/*!****************************************!*\
+      !*** ./node_modules/js-md5/src/md5.js ***!
+      \****************************************/
+
+/*!****************************************!*\
+      !*** ./src/builtins/defaultBitmap.png ***!
+      \****************************************/
+
+/*!****************************************!*\
+      !*** ./src/builtins/defaultVector.svg ***!
+      \****************************************/
+
+/*!****************************************!*\
+  !*** ./node_modules/has-cors/index.js ***!
+  \****************************************/
+
+/*!****************************************!*\
+  !*** ./node_modules/parseuri/index.js ***!
+  \****************************************/
+
+/*!****************************************!*\
+  !*** ./node_modules/to-array/index.js ***!
+  \****************************************/
+
+/*!*****************************************!*\
+      !*** ./node_modules/base64-js/index.js ***!
+      \*****************************************/
+
+/*!*****************************************!*\
+      !*** ./node_modules/process/browser.js ***!
+      \*****************************************/
+
+/*!*****************************************!*\
+  !*** ./node_modules/base64-js/index.js ***!
+  \*****************************************/
+
+/*!*****************************************!*\
+  !*** ./node_modules/debug/src/debug.js ***!
+  \*****************************************/
+
+/*!*****************************************!*\
+  !*** ./node_modules/enum/lib/isType.js ***!
+  \*****************************************/
+
+/*!*****************************************!*\
+  !*** ./node_modules/process/browser.js ***!
+  \*****************************************/
+
+/*!******************************************!*\
+  !*** ./node_modules/enum/lib/indexOf.js ***!
+  \******************************************/
+
+/*!******************************************!*\
+  !*** ./node_modules/filter-obj/index.js ***!
+  \******************************************/
+
+/*!*******************************************!*\
+  !*** ./node_modules/debug/src/browser.js ***!
+  \*******************************************/
+
+/*!*******************************************!*\
+  !*** ./node_modules/enum/lib/enumItem.js ***!
+  \*******************************************/
+
+/*!*******************************************!*\
+  !*** ./node_modules/has-binary2/index.js ***!
+  \*******************************************/
+
+/*!********************************************!*\
+  !*** ./node_modules/query-string/index.js ***!
+  \********************************************/
+
+/*!*********************************************!*\
+  !*** ./node_modules/object-sizeof/index.js ***!
+  \*********************************************/
+
+/*!**********************************************!*\
+  !*** ./node_modules/component-bind/index.js ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./node_modules/detect-browser/index.js ***!
+  \**********************************************/
+
+/*!**********************************************!*\
+  !*** ./node_modules/split-on-first/index.js ***!
+  \**********************************************/
+
+/*!***********************************************!*\
+      !*** ./node_modules/minilog/lib/web/array.js ***!
+      \***********************************************/
+
+/*!***********************************************!*\
+      !*** ./node_modules/minilog/lib/web/index.js ***!
+      \***********************************************/
+
+/*!************************************************!*\
+  !*** ./node_modules/socket.io-parser/index.js ***!
+  \************************************************/
+
+/*!*************************************************!*\
+      !*** ./node_modules/minilog/lib/web/console.js ***!
+      \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./node_modules/arraybuffer.slice/index.js ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./node_modules/component-emitter/index.js ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./node_modules/component-inherit/index.js ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./node_modules/object-sizeof/byte_size.js ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./node_modules/sdp-transform/lib/index.js ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./node_modules/socket.io-client/lib/on.js ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./node_modules/socket.io-parser/binary.js ***!
+  \*************************************************/
+
+/*!*************************************************!*\
+  !*** ./node_modules/strict-uri-encode/index.js ***!
+  \*************************************************/
+
+/*!**************************************************!*\
+  !*** ./node_modules/sdp-transform/lib/parser.js ***!
+  \**************************************************/
+
+/*!**************************************************!*\
+  !*** ./node_modules/sdp-transform/lib/writer.js ***!
+  \**************************************************/
+
+/*!**************************************************!*\
+  !*** ./node_modules/socket.io-client/lib/url.js ***!
+  \**************************************************/
+
+/*!***************************************************!*\
+      !*** ./node_modules/minilog/lib/common/filter.js ***!
+      \***************************************************/
+
+/*!***************************************************!*\
+  !*** ./node_modules/engine.io-parser/lib/keys.js ***!
+  \***************************************************/
+
+/*!***************************************************!*\
+  !*** ./node_modules/engine.io-parser/lib/utf8.js ***!
+  \***************************************************/
+
+/*!***************************************************!*\
+  !*** ./node_modules/sdp-transform/lib/grammar.js ***!
+  \***************************************************/
+
+/*!****************************************************!*\
+      !*** ./node_modules/minilog/lib/common/minilog.js ***!
+      \****************************************************/
+
+/*!****************************************************!*\
+  !*** ./node_modules/decode-uri-component/index.js ***!
+  \****************************************************/
+
+/*!****************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/index.js ***!
+  \****************************************************/
+
+/*!****************************************************!*\
+  !*** ./node_modules/socket.io-client/lib/index.js ***!
+  \****************************************************/
+
+/*!****************************************************!*\
+  !*** ./node_modules/socket.io-parser/is-buffer.js ***!
+  \****************************************************/
+
+/*!*****************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/socket.js ***!
+  \*****************************************************/
+
+/*!*****************************************************!*\
+  !*** ./node_modules/socket.io-client/lib/socket.js ***!
+  \*****************************************************/
+
+/*!******************************************************!*\
+      !*** ./node_modules/minilog/lib/common/transform.js ***!
+      \******************************************************/
+
+/*!******************************************************!*\
+      !*** ./node_modules/minilog/lib/web/localstorage.js ***!
+      \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./node_modules/@jitsi/sdp-interop/lib/index.js ***!
+  \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./node_modules/engine.io-parser/lib/browser.js ***!
+  \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./node_modules/js-binarypack/lib/binarypack.js ***!
+  \******************************************************/
+
+/*!******************************************************!*\
+  !*** ./node_modules/socket.io-client/lib/manager.js ***!
+  \******************************************************/
+
+/*!*******************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
+      \*******************************************************/
+
+/*!*******************************************************!*\
+      !*** ./node_modules/minilog/lib/web/jquery_simple.js ***!
+      \*******************************************************/
+
+/*!********************************************************!*\
+  !*** ./node_modules/@jitsi/sdp-interop/lib/interop.js ***!
+  \********************************************************/
+
+/*!********************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transport.js ***!
+  \********************************************************/
+
+/*!*********************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
+      \*********************************************************/
+
+/*!*********************************************************!*\
+      !*** ./node_modules/minilog/lib/web/formatters/util.js ***!
+      \*********************************************************/
+
+/*!*********************************************************!*\
+  !*** ./node_modules/js-binarypack/lib/bufferbuilder.js ***!
+  \*********************************************************/
+
+/*!**********************************************************!*\
+      !*** ./node_modules/minilog/lib/web/formatters/color.js ***!
+      \**********************************************************/
+
+/*!**********************************************************!*\
+  !*** ./node_modules/@jitsi/sdp-interop/lib/transform.js ***!
+  \**********************************************************/
+
+/*!***********************************************************!*\
+      !*** ./node_modules/buffer/node_modules/isarray/index.js ***!
+      \***********************************************************/
+
+/*!***********************************************************!*\
+      !*** ./node_modules/cross-fetch/dist/browser-ponyfill.js ***!
+      \***********************************************************/
+
+/*!************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
+      \************************************************************/
+
+/*!************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/toPrimitive.js ***!
+      \************************************************************/
+
+/*!************************************************************!*\
+      !*** ./node_modules/minilog/lib/web/formatters/minilog.js ***!
+      \************************************************************/
+
+/*!*************************************************************!*\
+  !*** ./node_modules/@jitsi/sdp-interop/lib/array-equals.js ***!
+  \*************************************************************/
+
+/*!*************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/xmlhttprequest.js ***!
+  \*************************************************************/
+
+/*!**************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/readOnlyError.js ***!
+      \**************************************************************/
+
+/*!**************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/slicedToArray.js ***!
+      \**************************************************************/
+
+/*!**************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/toPropertyKey.js ***!
+      \**************************************************************/
+
+/*!***************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
+      \***************************************************************/
+
+/*!***************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
+      \***************************************************************/
+
+/*!***************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
+      \***************************************************************/
+
+/*!***************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/setPrototypeOf.js ***!
+      \***************************************************************/
+
+/*!***************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/index.js ***!
+  \***************************************************************/
+
+/*!****************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
+      \****************************************************************/
+
+/*!****************************************************************!*\
+      !*** ./node_modules/arraybuffer-loader/lib/to-array-buffer.js ***!
+      \****************************************************************/
+
+/*!*****************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/arrayLikeToArray.js ***!
+      \*****************************************************************/
+
+/*!*****************************************************************!*\
+      !*** ./node_modules/worker-loader/dist/workers/InlineWorker.js ***!
+      \*****************************************************************/
+
+/*!*****************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/globalThis.browser.js ***!
+  \*****************************************************************/
+
+/*!*****************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/polling.js ***!
+  \*****************************************************************/
+
+/*!*******************************************************************!*\
+  !*** ./node_modules/base64-arraybuffer/lib/base64-arraybuffer.js ***!
+  \*******************************************************************/
+
+/*!*******************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/websocket.js ***!
+  \*******************************************************************/
+
+/*!*********************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
+      \*********************************************************************/
+
+/*!*********************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/polling-xhr.js ***!
+  \*********************************************************************/
+
+/*!*********************************************************************!*\
+  !*** ./node_modules/node-libs-browser/node_modules/buffer/index.js ***!
+  \*********************************************************************/
+
+/*!**********************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
+      \**********************************************************************/
+
+/*!**********************************************************************!*\
+  !*** ./node_modules/node-libs-browser/node_modules/isarray/index.js ***!
+  \**********************************************************************/
+
+/*!***********************************************************************!*\
+  !*** ./node_modules/engine.io-client/lib/transports/polling-jsonp.js ***!
+  \***********************************************************************/
+
+/*!************************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/objectWithoutProperties.js ***!
+      \************************************************************************/
+
+/*!**************************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
+      \**************************************************************************/
+
+/*!***************************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
+      \***************************************************************************/
+
+/*!*****************************************************************************!*\
+      !*** ./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js ***!
+      \*****************************************************************************/
+
+/*!*********************************************************************************!*\
+  !*** ./node_modules/@jitsi/sdp-interop/node_modules/sdp-transform/lib/index.js ***!
+  \*********************************************************************************/
+
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@jitsi/sdp-interop/node_modules/sdp-transform/lib/parser.js ***!
+  \**********************************************************************************/
+
+/*!**********************************************************************************!*\
+  !*** ./node_modules/@jitsi/sdp-interop/node_modules/sdp-transform/lib/writer.js ***!
+  \**********************************************************************************/
+
+/*!***********************************************************************************!*\
+  !*** ./node_modules/@jitsi/sdp-interop/node_modules/sdp-transform/lib/grammar.js ***!
+  \***********************************************************************************/
+
+/*!**************************************************************************************!*\
+      !*** ./node_modules/fastestsmallesttextencoderdecoder/EncoderDecoderTogether.min.js ***!
+      \**************************************************************************************/
+
+/*!****************************************************************************************************************!*\
+      !*** ./node_modules/worker-loader/dist/cjs.js?{"inline":true,"fallback":true}!./src/FetchWorkerTool.worker.js ***!
+      \****************************************************************************************************************/
+
+/**
+                                           * [js-md5]{@link https://github.com/emn178/js-md5}
+                                           *
+                                           * @namespace md5
+                                           * @version 0.7.3
+                                           * @author Chen, Yi-Cyuan [emn178@gmail.com]
+                                           * @copyright Chen, Yi-Cyuan 2014-2017
+                                           * @license MIT
+                                           */
+
+/**
+    * CSS Vendor prefix detection and property feature testing.
+    *
+    * @copyright Oleg Slobodskoi 2015
+    * @website https://github.com/jsstyles/css-vendor
+    * @license MIT
+    */
+
+/**
+ *  StartAudioContext.js
+ *  @author Yotam Mann
+ *  @license http://opensource.org/licenses/MIT MIT License
+ *  @copyright 2016 Yotam Mann
+ */
+
+/**
+ * @license
+ * Lodash <https://lodash.com/>
+ * Copyright OpenJS Foundation and other contributors <https://openjsf.org/>
+ * Released under MIT license <https://lodash.com/license>
+ * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
+ * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+ */
+
+/**
+ * [js-md5]{@link https://github.com/emn178/js-md5}
+ *
+ * @namespace md5
+ * @version 0.7.3
+ * @author Chen, Yi-Cyuan [emn178@gmail.com]
+ * @copyright Chen, Yi-Cyuan 2014-2017
+ * @license MIT
+ */
+
+/** @license React v0.19.1
+ * scheduler.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.13.1
+ * react-is.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.14.0
+ * react-dom.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license React v16.14.0
+ * react.production.min.js
+ *
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/** @license URI.js v4.4.1 (c) 2011 Gary Court. License: http://github.com/garycourt/uri-js */
+
+//!! Deliberately using an API that's deprecated in node.js because
+
+//!! Discussion: github.com/node-browser-compat/atob/pull/9
+
+//!! this file is for browsers and we expect them to cope with it.
