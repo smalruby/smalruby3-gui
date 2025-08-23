@@ -54,13 +54,6 @@ https://github.com/nodeca/pako/blob/main/LICENSE
 */
 
 /*!
-        * The buffer module from node.js, for the browser.
-        *
-        * @author   Feross Aboukhadijeh <http://feross.org>
-        * @license  MIT
-        */
-
-/*!
   Copyright (c) 2015 Jed Watson.
   Based on code that is Copyright 2013-2015, Facebook, Inc.
   All rights reserved.
@@ -104,10 +97,6 @@ https://github.com/nodeca/pako/blob/main/LICENSE
  * MIT Licensed
  */
 
-/*! !./node_modules/worker-loader/dist/workers/InlineWorker.js */
-
-/*! !webpack amd options */
-
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation. All rights reserved.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use
@@ -123,14 +112,6 @@ See the Apache Version 2.0 License for specific language governing permissions
 and limitations under the License.
 ***************************************************************************** */
 
-/*! ../../common/transform.js */
-
-/*! ../../node_modules/arraybuffer-loader/lib/to-array-buffer.js */
-
-/*! ../common/minilog.js */
-
-/*! ../common/transform.js */
-
 /*! ../globalThis */
 
 /*! ../transport */
@@ -139,73 +120,25 @@ and limitations under the License.
 
 /*! ./../../../webpack/buildin/global.js */
 
-/*! ./../../buffer/index.js */
-
 /*! ./../../process/browser.js */
 
 /*! ./../../webpack/buildin/global.js */
 
 /*! ./../node-libs-browser/node_modules/buffer/index.js */
 
-/*! ./../node_modules/buffer/index.js */
-
 /*! ./../process/browser.js */
 
-/*! ./../webpack/buildin/global.js */
-
-/*! ./Asset */
-
-/*! ./AssetType */
-
-/*! ./BuiltinHelper */
-
-/*! ./DataFormat */
-
-/*! ./FetchTool */
-
-/*! ./FetchWorkerTool */
-
-/*! ./Helper */
-
-/*! ./ProxyTool */
-
-/*! ./ScratchStorage */
-
-/*! ./WebHelper */
-
 /*! ./array-equals */
-
-/*! ./array.js */
-
-/*! ./arrayLikeToArray.js */
-
-/*! ./arrayWithHoles.js */
-
-/*! ./assertThisInitialized.js */
 
 /*! ./binary */
 
 /*! ./bufferbuilder */
 
-/*! ./builtins/defaultBitmap.png */
-
-/*! ./builtins/defaultSound.wav */
-
-/*! ./builtins/defaultVector.svg */
-
 /*! ./byte_size */
-
-/*! ./console.js */
 
 /*! ./debug */
 
 /*! ./enumItem.js */
-
-/*! ./filter.js */
-
-/*! ./formatters/color.js */
-
-/*! ./formatters/minilog.js */
 
 /*! ./globalThis */
 
@@ -219,21 +152,9 @@ and limitations under the License.
 
 /*! ./isType.js */
 
-/*! ./iterableToArrayLimit.js */
-
-/*! ./jquery_simple.js */
-
 /*! ./keys */
 
-/*! ./localstorage.js */
-
-/*! ./log */
-
 /*! ./manager */
-
-/*! ./nonIterableRest.js */
-
-/*! ./objectWithoutPropertiesLoose.js */
 
 /*! ./on */
 
@@ -245,55 +166,25 @@ and limitations under the License.
 
 /*! ./polling-xhr */
 
-/*! ./scratchFetch */
-
-/*! ./setPrototypeOf.js */
-
 /*! ./socket */
 
-/*! ./toPrimitive.js */
-
-/*! ./toPropertyKey.js */
-
 /*! ./transform */
-
-/*! ./transform.js */
 
 /*! ./transport */
 
 /*! ./transports/index */
 
-/*! ./typeof.js */
-
-/*! ./unsupportedIterableToArray.js */
-
 /*! ./url */
 
 /*! ./utf8 */
-
-/*! ./util.js */
 
 /*! ./websocket */
 
 /*! ./writer */
 
-/*! @babel/runtime/helpers/classCallCheck */
-
-/*! @babel/runtime/helpers/createClass */
-
-/*! @babel/runtime/helpers/getPrototypeOf */
-
-/*! @babel/runtime/helpers/inherits */
-
-/*! @babel/runtime/helpers/objectWithoutProperties */
-
-/*! @babel/runtime/helpers/possibleConstructorReturn */
-
-/*! @babel/runtime/helpers/readOnlyError */
-
-/*! @babel/runtime/helpers/slicedToArray */
-
 /*! @license DOMPurify 3.1.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.1.6/LICENSE */
+
+/*! @license DOMPurify 3.2.6 | (c) Cure53 and other contributors | Released under the Apache license 2.0 and Mozilla Public License 2.0 | github.com/cure53/DOMPurify/blob/3.2.6/LICENSE */
 
 /*! @source http://purl.eligrey.com/github/canvas-toBlob.js/blob/master/canvas-toBlob.js */
 
@@ -345,8 +236,6 @@ and limitations under the License.
 
 /*! component-inherit */
 
-/*! cross-fetch */
-
 /*! debug */
 
 /*! decode-uri-component */
@@ -363,8 +252,6 @@ and limitations under the License.
 
 /*! exports provided: name, version, description, main, types, scripts, repository, files, author, license, devDependencies, dependencies, default */
 
-/*! fastestsmallesttextencoderdecoder */
-
 /*! filter-obj */
 
 /*! has-binary2 */
@@ -380,12 +267,6 @@ and limitations under the License.
 /*! indexof */
 
 /*! isarray */
-
-/*! js-md5 */
-
-/*! microee */
-
-/*! minilog */
 
 /*! ms */
 
@@ -407,8 +288,6 @@ and limitations under the License.
 
 /*! to-array */
 
-/*! worker-loader?{"inline":true,"fallback":true}!./FetchWorkerTool.worker */
-
 /*! ws */
 
 /*! xmlhttprequest-ssl */
@@ -416,64 +295,12 @@ and limitations under the License.
 /*! yeast */
 
 /*!********************!*\
-      !*** ./src/log.js ***!
-      \********************/
-
-/*!********************!*\
   !*** ws (ignored) ***!
   \********************/
 
 /*!**********************!*\
-      !*** ./src/Asset.js ***!
-      \**********************/
-
-/*!**********************!*\
-      !*** ./src/index.js ***!
-      \**********************/
-
-/*!**********************!*\
   !*** ./package.json ***!
   \**********************/
-
-/*!***********************!*\
-      !*** ./src/Helper.js ***!
-      \***********************/
-
-/*!**************************!*\
-      !*** ./src/AssetType.js ***!
-      \**************************/
-
-/*!**************************!*\
-      !*** ./src/FetchTool.js ***!
-      \**************************/
-
-/*!**************************!*\
-      !*** ./src/ProxyTool.js ***!
-      \**************************/
-
-/*!**************************!*\
-      !*** ./src/WebHelper.js ***!
-      \**************************/
-
-/*!***************************!*\
-      !*** ./src/DataFormat.js ***!
-      \***************************/
-
-/*!*****************************!*\
-      !*** ./src/scratchFetch.js ***!
-      \*****************************/
-
-/*!******************************!*\
-      !*** ./src/BuiltinHelper.js ***!
-      \******************************/
-
-/*!*******************************!*\
-      !*** ./src/ScratchStorage.js ***!
-      \*******************************/
-
-/*!********************************!*\
-      !*** ./src/FetchWorkerTool.js ***!
-      \********************************/
 
 /*!**********************************!*\
   !*** ./node_modules/ms/index.js ***!
@@ -482,10 +309,6 @@ and limitations under the License.
 /*!**********************************!*\
   !*** ./src/peer.js + 12 modules ***!
   \**********************************/
-
-/*!***********************************!*\
-      !*** (webpack)/buildin/global.js ***!
-      \***********************************/
 
 /*!***********************************!*\
   !*** (webpack)/buildin/global.js ***!
@@ -504,24 +327,8 @@ and limitations under the License.
   \*************************************/
 
 /*!**************************************!*\
-      !*** ./node_modules/buffer/index.js ***!
-      \**************************************/
-
-/*!**************************************!*\
   !*** ./node_modules/backo2/index.js ***!
   \**************************************/
-
-/*!***************************************!*\
-      !*** ./node_modules/ieee754/index.js ***!
-      \***************************************/
-
-/*!***************************************!*\
-      !*** ./node_modules/microee/index.js ***!
-      \***************************************/
-
-/*!***************************************!*\
-      !*** ./src/builtins/defaultSound.wav ***!
-      \***************************************/
 
 /*!***************************************!*\
   !*** ./node_modules/enum/lib/enum.js ***!
@@ -548,22 +355,6 @@ and limitations under the License.
   \***************************************/
 
 /*!****************************************!*\
-      !*** (webpack)/buildin/amd-options.js ***!
-      \****************************************/
-
-/*!****************************************!*\
-      !*** ./node_modules/js-md5/src/md5.js ***!
-      \****************************************/
-
-/*!****************************************!*\
-      !*** ./src/builtins/defaultBitmap.png ***!
-      \****************************************/
-
-/*!****************************************!*\
-      !*** ./src/builtins/defaultVector.svg ***!
-      \****************************************/
-
-/*!****************************************!*\
   !*** ./node_modules/has-cors/index.js ***!
   \****************************************/
 
@@ -574,14 +365,6 @@ and limitations under the License.
 /*!****************************************!*\
   !*** ./node_modules/to-array/index.js ***!
   \****************************************/
-
-/*!*****************************************!*\
-      !*** ./node_modules/base64-js/index.js ***!
-      \*****************************************/
-
-/*!*****************************************!*\
-      !*** ./node_modules/process/browser.js ***!
-      \*****************************************/
 
 /*!*****************************************!*\
   !*** ./node_modules/base64-js/index.js ***!
@@ -639,21 +422,9 @@ and limitations under the License.
   !*** ./node_modules/split-on-first/index.js ***!
   \**********************************************/
 
-/*!***********************************************!*\
-      !*** ./node_modules/minilog/lib/web/array.js ***!
-      \***********************************************/
-
-/*!***********************************************!*\
-      !*** ./node_modules/minilog/lib/web/index.js ***!
-      \***********************************************/
-
 /*!************************************************!*\
   !*** ./node_modules/socket.io-parser/index.js ***!
   \************************************************/
-
-/*!*************************************************!*\
-      !*** ./node_modules/minilog/lib/web/console.js ***!
-      \*************************************************/
 
 /*!*************************************************!*\
   !*** ./node_modules/arraybuffer.slice/index.js ***!
@@ -700,10 +471,6 @@ and limitations under the License.
   \**************************************************/
 
 /*!***************************************************!*\
-      !*** ./node_modules/minilog/lib/common/filter.js ***!
-      \***************************************************/
-
-/*!***************************************************!*\
   !*** ./node_modules/engine.io-parser/lib/keys.js ***!
   \***************************************************/
 
@@ -714,10 +481,6 @@ and limitations under the License.
 /*!***************************************************!*\
   !*** ./node_modules/sdp-transform/lib/grammar.js ***!
   \***************************************************/
-
-/*!****************************************************!*\
-      !*** ./node_modules/minilog/lib/common/minilog.js ***!
-      \****************************************************/
 
 /*!****************************************************!*\
   !*** ./node_modules/decode-uri-component/index.js ***!
@@ -744,14 +507,6 @@ and limitations under the License.
   \*****************************************************/
 
 /*!******************************************************!*\
-      !*** ./node_modules/minilog/lib/common/transform.js ***!
-      \******************************************************/
-
-/*!******************************************************!*\
-      !*** ./node_modules/minilog/lib/web/localstorage.js ***!
-      \******************************************************/
-
-/*!******************************************************!*\
   !*** ./node_modules/@jitsi/sdp-interop/lib/index.js ***!
   \******************************************************/
 
@@ -767,14 +522,6 @@ and limitations under the License.
   !*** ./node_modules/socket.io-client/lib/manager.js ***!
   \******************************************************/
 
-/*!*******************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/typeof.js ***!
-      \*******************************************************/
-
-/*!*******************************************************!*\
-      !*** ./node_modules/minilog/lib/web/jquery_simple.js ***!
-      \*******************************************************/
-
 /*!********************************************************!*\
   !*** ./node_modules/@jitsi/sdp-interop/lib/interop.js ***!
   \********************************************************/
@@ -784,44 +531,12 @@ and limitations under the License.
   \********************************************************/
 
 /*!*********************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/inherits.js ***!
-      \*********************************************************/
-
-/*!*********************************************************!*\
-      !*** ./node_modules/minilog/lib/web/formatters/util.js ***!
-      \*********************************************************/
-
-/*!*********************************************************!*\
   !*** ./node_modules/js-binarypack/lib/bufferbuilder.js ***!
   \*********************************************************/
 
 /*!**********************************************************!*\
-      !*** ./node_modules/minilog/lib/web/formatters/color.js ***!
-      \**********************************************************/
-
-/*!**********************************************************!*\
   !*** ./node_modules/@jitsi/sdp-interop/lib/transform.js ***!
   \**********************************************************/
-
-/*!***********************************************************!*\
-      !*** ./node_modules/buffer/node_modules/isarray/index.js ***!
-      \***********************************************************/
-
-/*!***********************************************************!*\
-      !*** ./node_modules/cross-fetch/dist/browser-ponyfill.js ***!
-      \***********************************************************/
-
-/*!************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/createClass.js ***!
-      \************************************************************/
-
-/*!************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/toPrimitive.js ***!
-      \************************************************************/
-
-/*!************************************************************!*\
-      !*** ./node_modules/minilog/lib/web/formatters/minilog.js ***!
-      \************************************************************/
 
 /*!*************************************************************!*\
   !*** ./node_modules/@jitsi/sdp-interop/lib/array-equals.js ***!
@@ -831,53 +546,9 @@ and limitations under the License.
   !*** ./node_modules/engine.io-client/lib/xmlhttprequest.js ***!
   \*************************************************************/
 
-/*!**************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/readOnlyError.js ***!
-      \**************************************************************/
-
-/*!**************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/slicedToArray.js ***!
-      \**************************************************************/
-
-/*!**************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/toPropertyKey.js ***!
-      \**************************************************************/
-
-/*!***************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/arrayWithHoles.js ***!
-      \***************************************************************/
-
-/*!***************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/classCallCheck.js ***!
-      \***************************************************************/
-
-/*!***************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/getPrototypeOf.js ***!
-      \***************************************************************/
-
-/*!***************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/setPrototypeOf.js ***!
-      \***************************************************************/
-
 /*!***************************************************************!*\
   !*** ./node_modules/engine.io-client/lib/transports/index.js ***!
   \***************************************************************/
-
-/*!****************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/nonIterableRest.js ***!
-      \****************************************************************/
-
-/*!****************************************************************!*\
-      !*** ./node_modules/arraybuffer-loader/lib/to-array-buffer.js ***!
-      \****************************************************************/
-
-/*!*****************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/arrayLikeToArray.js ***!
-      \*****************************************************************/
-
-/*!*****************************************************************!*\
-      !*** ./node_modules/worker-loader/dist/workers/InlineWorker.js ***!
-      \*****************************************************************/
 
 /*!*****************************************************************!*\
   !*** ./node_modules/engine.io-client/lib/globalThis.browser.js ***!
@@ -896,10 +567,6 @@ and limitations under the License.
   \*******************************************************************/
 
 /*!*********************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/iterableToArrayLimit.js ***!
-      \*********************************************************************/
-
-/*!*********************************************************************!*\
   !*** ./node_modules/engine.io-client/lib/transports/polling-xhr.js ***!
   \*********************************************************************/
 
@@ -908,32 +575,12 @@ and limitations under the License.
   \*********************************************************************/
 
 /*!**********************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/assertThisInitialized.js ***!
-      \**********************************************************************/
-
-/*!**********************************************************************!*\
   !*** ./node_modules/node-libs-browser/node_modules/isarray/index.js ***!
   \**********************************************************************/
 
 /*!***********************************************************************!*\
   !*** ./node_modules/engine.io-client/lib/transports/polling-jsonp.js ***!
   \***********************************************************************/
-
-/*!************************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/objectWithoutProperties.js ***!
-      \************************************************************************/
-
-/*!**************************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js ***!
-      \**************************************************************************/
-
-/*!***************************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/unsupportedIterableToArray.js ***!
-      \***************************************************************************/
-
-/*!*****************************************************************************!*\
-      !*** ./node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js ***!
-      \*****************************************************************************/
 
 /*!*********************************************************************************!*\
   !*** ./node_modules/@jitsi/sdp-interop/node_modules/sdp-transform/lib/index.js ***!
@@ -950,24 +597,6 @@ and limitations under the License.
 /*!***********************************************************************************!*\
   !*** ./node_modules/@jitsi/sdp-interop/node_modules/sdp-transform/lib/grammar.js ***!
   \***********************************************************************************/
-
-/*!**************************************************************************************!*\
-      !*** ./node_modules/fastestsmallesttextencoderdecoder/EncoderDecoderTogether.min.js ***!
-      \**************************************************************************************/
-
-/*!****************************************************************************************************************!*\
-      !*** ./node_modules/worker-loader/dist/cjs.js?{"inline":true,"fallback":true}!./src/FetchWorkerTool.worker.js ***!
-      \****************************************************************************************************************/
-
-/**
-                                           * [js-md5]{@link https://github.com/emn178/js-md5}
-                                           *
-                                           * @namespace md5
-                                           * @version 0.7.3
-                                           * @author Chen, Yi-Cyuan [emn178@gmail.com]
-                                           * @copyright Chen, Yi-Cyuan 2014-2017
-                                           * @license MIT
-                                           */
 
 /**
     * CSS Vendor prefix detection and property feature testing.
