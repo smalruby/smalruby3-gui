@@ -899,4 +899,189 @@ describe('RubyToBlocksConverter/Looks', () => {
             });
         });
     });
+
+    describe('costume existence check', () => {
+        let targetWithCostumes;
+
+        beforeEach(() => {
+            // Mock target with costumes
+            targetWithCostumes = {
+                getCostumes: () => [
+                    { name: 'costume1' },
+                    { name: 'costume2' }
+                ]
+            };
+        });
+
+        describe('switch_costume with costume existence check', () => {
+            test('existing costume should work', () => {
+                code = 'switch_costume("costume1")';
+                expected = [
+                    {
+                        opcode: 'looks_switchcostumeto',
+                        inputs: [
+                            {
+                                name: 'COSTUME',
+                                block: {
+                                    opcode: 'looks_costume',
+                                    fields: [
+                                        {
+                                            name: 'COSTUME',
+                                            value: 'costume1'
+                                        }
+                                    ],
+                                    shadow: true
+                                }
+                            }
+                        ]
+                    }
+                ];
+                convertAndExpectToEqualBlocks(converter, targetWithCostumes, code, expected);
+            });
+
+            test('non-existing costume should throw error', () => {
+                code = 'switch_costume("NonExistentCostume")';
+                const result = converter.targetCodeToBlocks(targetWithCostumes, code);
+                expect(result).toBeFalsy();
+                expect(converter.errors).toHaveLength(1);
+                expect(converter.errors[0].text).toContain('costume "NonExistentCostume" does not exist');
+            });
+        });
+
+        describe('costume_number and costume_name with costume existence check', () => {
+            test('costume_number should work without costume check', () => {
+                code = 'costume_number';
+                expected = [
+                    {
+                        opcode: 'looks_costumenumbername',
+                        fields: [
+                            {
+                                name: 'NUMBER_NAME',
+                                value: 'number'
+                            }
+                        ]
+                    }
+                ];
+                convertAndExpectToEqualBlocks(converter, targetWithCostumes, code, expected);
+            });
+
+            test('costume_name should work without costume check', () => {
+                code = 'costume_name';
+                expected = [
+                    {
+                        opcode: 'looks_costumenumbername',
+                        fields: [
+                            {
+                                name: 'NUMBER_NAME',
+                                value: 'name'
+                            }
+                        ]
+                    }
+                ];
+                convertAndExpectToEqualBlocks(converter, targetWithCostumes, code, expected);
+            });
+        });
+    });
+
+    describe('backdrop existence check', () => {
+        let stageWithBackdrops;
+        let converterWithVM;
+
+        beforeEach(() => {
+            // Mock stage with backdrops
+            stageWithBackdrops = {
+                getCostumes: () => [
+                    { name: 'backdrop1' },
+                    { name: 'backdrop2' }
+                ]
+            };
+            
+            // Mock converter with VM runtime
+            converterWithVM = new RubyToBlocksConverter({
+                runtime: {
+                    getTargetForStage: () => stageWithBackdrops
+                }
+            });
+        });
+
+        [
+            {
+                opcode: 'looks_switchbackdropto',
+                methodName: 'switch_backdrop'
+            },
+            {
+                opcode: 'looks_switchbackdroptoandwait',
+                methodName: 'switch_backdrop_and_wait'
+            }
+        ].forEach(info => {
+            describe(`${info.opcode} with backdrop existence check`, () => {
+                test('existing backdrop should work', () => {
+                    code = `${info.methodName}("backdrop1")`;
+                    expected = [
+                        {
+                            opcode: info.opcode,
+                            inputs: [
+                                {
+                                    name: 'BACKDROP',
+                                    block: {
+                                        opcode: 'looks_backdrops',
+                                        fields: [
+                                            {
+                                                name: 'BACKDROP',
+                                                value: 'backdrop1'
+                                            }
+                                        ],
+                                        shadow: true
+                                    }
+                                }
+                            ]
+                        }
+                    ];
+                    convertAndExpectToEqualBlocks(converterWithVM, stageWithBackdrops, code, expected);
+                });
+
+                test('non-existing backdrop should throw error', () => {
+                    code = `${info.methodName}("NonExistentBackdrop")`;
+                    const result = converterWithVM.targetCodeToBlocks(stageWithBackdrops, code);
+                    expect(result).toBeFalsy();
+                    expect(converterWithVM.errors).toHaveLength(1);
+                    expect(converterWithVM.errors[0].text).toContain('backdrop "NonExistentBackdrop" does not exist');
+                });
+            });
+        });
+
+        describe('backdrop_number and backdrop_name with backdrop existence check', () => {
+            test('backdrop_number should work without backdrop check', () => {
+                code = 'backdrop_number';
+                expected = [
+                    {
+                        opcode: 'looks_backdropnumbername',
+                        fields: [
+                            {
+                                name: 'NUMBER_NAME',
+                                value: 'number'
+                            }
+                        ]
+                    }
+                ];
+                convertAndExpectToEqualBlocks(converterWithVM, stageWithBackdrops, code, expected);
+            });
+
+            test('backdrop_name should work without backdrop check', () => {
+                code = 'backdrop_name';
+                expected = [
+                    {
+                        opcode: 'looks_backdropnumbername',
+                        fields: [
+                            {
+                                name: 'NUMBER_NAME',
+                                value: 'name'
+                            }
+                        ]
+                    }
+                ];
+                convertAndExpectToEqualBlocks(converterWithVM, stageWithBackdrops, code, expected);
+            });
+        });
+    });
 });

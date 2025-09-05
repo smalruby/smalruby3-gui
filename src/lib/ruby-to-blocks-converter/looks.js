@@ -1,5 +1,6 @@
 /* global Opal */
 import _ from 'lodash';
+import {RubyToBlocksConverterError} from './errors';
 
 /* eslint-disable no-invalid-this */
 const createBlockWithMessage = function (opcode, message, defaultMessage) {
@@ -27,6 +28,50 @@ const ForwardBackward = [
     'forward',
     'backward'
 ];
+
+/* eslint-disable no-invalid-this */
+const validateCostume = function (costumeName, args) {
+    // Skip validation if no target context (e.g., in tests)
+    if (!this._context.target || !this._context.target.getCostumes) {
+        return;
+    }
+    
+    const costumes = this._context.target.getCostumes();
+    const costumeExists = costumes.some(costume => costume.name === costumeName);
+    if (!costumeExists) {
+        throw new RubyToBlocksConverterError(
+            args[0].node,
+            `costume "${costumeName}" does not exist`
+        );
+    }
+};
+
+const validateBackdrop = function (backdropName, args) {
+    // Allow special backdrop values
+    const specialBackdrops = ['next backdrop', 'previous backdrop', 'random backdrop'];
+    if (specialBackdrops.includes(backdropName)) {
+        return;
+    }
+    
+    // Skip validation if no VM context (e.g., in tests)
+    if (!this.vm || !this.vm.runtime || !this.vm.runtime.getTargetForStage) {
+        return;
+    }
+    
+    const stage = this.vm.runtime.getTargetForStage();
+    if (!stage || !stage.getCostumes) {
+        return;
+    }
+    
+    const backdrops = stage.getCostumes();
+    const backdropExists = backdrops.some(backdrop => backdrop.name === backdropName);
+    if (!backdropExists) {
+        throw new RubyToBlocksConverterError(
+            args[0].node,
+            `backdrop "${backdropName}" does not exist`
+        );
+    }
+};
 /* eslint-enable no-invalid-this */
 
 /**
@@ -62,18 +107,21 @@ const LooksConverter = {
                 break;
             case 'switch_costume':
                 if (args.length === 1 && this._isString(args[0])) {
+                    validateCostume.call(this, args[0].toString(), args);
                     block = this._createBlock('looks_switchcostumeto', 'statement');
                     this._addInput(block, 'COSTUME', this._createFieldBlock('looks_costume', 'COSTUME', args[0]));
                 }
                 break;
             case 'switch_backdrop':
                 if (args.length === 1 && this._isString(args[0])) {
+                    validateBackdrop.call(this, args[0].toString(), args);
                     block = this._createBlock('looks_switchbackdropto', 'statement');
                     this._addInput(block, 'BACKDROP', this._createFieldBlock('looks_backdrops', 'BACKDROP', args[0]));
                 }
                 break;
             case 'switch_backdrop_and_wait':
                 if (args.length === 1 && this._isString(args[0])) {
+                    validateBackdrop.call(this, args[0].toString(), args);
                     block = this._createBlock('looks_switchbackdroptoandwait', 'statement');
                     this._addInput(block, 'BACKDROP', this._createFieldBlock('looks_backdrops', 'BACKDROP', args[0]));
                 }

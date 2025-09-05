@@ -1,11 +1,15 @@
 import bindAll from 'lodash.bindall';
+import webdriver from 'selenium-webdriver';
 import {EDIT_MENU_XPATH} from './menu-xpaths';
+
+const {By, until} = webdriver;
 
 class RubyHelper {
     constructor (seleniumHelper) {
         bindAll(this, [
             'fillInRubyProgram',
             'currentRubyProgram',
+            'dismissAlertsIfPresent',
             'expectInterconvertBetweenCodeAndRuby'
         ]);
 
@@ -27,10 +31,31 @@ class RubyHelper {
         return this.driver.executeScript(`ace.edit('ruby-editor').setValue('${code}');`);
     }
 
+    async dismissAlertsIfPresent () {
+        try {
+            // Find and dismiss any alert messages that have close buttons
+            const alertCloseButtons = await this.driver.findElements(
+                By.xpath('//div[contains(@class, "alert_alert-close-button")]')
+            );
+            for (const button of alertCloseButtons) {
+                if (await button.isDisplayed()) {
+                    await button.click();
+                    await this.driver.sleep(100); // Wait for alert to be dismissed
+                }
+            }
+        } catch (error) {
+            // Ignore errors - alerts may not be present
+        }
+    }
+
     async expectInterconvertBetweenCodeAndRuby (inputCode, expectedCode = null) {
         await this.clickText('Ruby', '*[@role="tab"]');
         await this.fillInRubyProgram(inputCode);
         await this.clickText('Code', '*[@role="tab"]');
+        
+        // Dismiss any alerts that might be blocking subsequent clicks
+        await this.dismissAlertsIfPresent();
+        
         await this.clickXpath(EDIT_MENU_XPATH);
         await this.clickText('Generate Ruby from Code');
         await this.clickText('Ruby', '*[@role="tab"]');
