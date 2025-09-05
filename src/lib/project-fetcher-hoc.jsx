@@ -135,8 +135,12 @@ const ProjectFetcherHOC = function (WrappedComponent) {
         
         async fetchProjectFromUrl (projectUrl, loadingState) {
             try {
-                // Download SB3 file from URL
-                const response = await fetch(projectUrl);
+                // Use Smalruby CORS proxy to avoid CORS restrictions
+                const corsProxyUrl = 'https://api.smalruby.app/cors-proxy';
+                const proxiedUrl = `${corsProxyUrl}?url=${encodeURIComponent(projectUrl)}`;
+                
+                // Download SB3 file from URL via Smalruby CORS proxy
+                const response = await fetch(proxiedUrl);
                 if (!response.ok) {
                     throw new Error(`HTTP ${response.status}: ${response.statusText}`);
                 }
