@@ -37,9 +37,18 @@ const HashParserHOC = function (WrappedComponent) {
             window.removeEventListener('hashchange', this.handleHashChange);
         }
         handleHashChange () {
-            const hashMatch = window.location.hash.match(/#(\d+)/);
-            const hashProjectId = hashMatch === null ? defaultProjectId : hashMatch[1];
-            this.props.setProjectId(hashProjectId.toString());
+            const hash = window.location.hash.substring(1); // Remove #
+            
+            // Check if hash is a URL (starts with http:// or https://)
+            if (hash.match(/^https?:\/\//)) {
+                // URL case: set URL as projectId
+                this.props.setProjectId(hash);
+            } else {
+                // Traditional numeric ID handling (maintain backward compatibility)
+                const hashMatch = hash.match(/^(\d+)$/);
+                const hashProjectId = hashMatch === null ? defaultProjectId : hashMatch[1];
+                this.props.setProjectId(hashProjectId.toString());
+            }
         }
         render () {
             const {

@@ -34,7 +34,10 @@ const ProjectFetcherHOC = function (WrappedComponent) {
         constructor (props) {
             super(props);
             bindAll(this, [
-                'fetchProject'
+                'fetchProject',
+                'fetchProjectFromUrl',
+                'getFilenameFromUrl',
+                'getProjectTitleFromFilename'
             ]);
             storage.setProjectHost(props.projectHost);
             storage.setProjectToken(props.projectToken);
@@ -73,6 +76,11 @@ const ProjectFetcherHOC = function (WrappedComponent) {
             }
         }
         fetchProject (projectId, loadingState) {
+            // Check if projectId is a URL
+            if (projectId.match(/^https?:\/\//)) {
+                return this.fetchProjectFromUrl(projectId, loadingState);
+            }
+            
             if (projectId !== '0' && !this.props.projectToken) {
                 const errorHandler = err => {
                     this.props.onError(err);
@@ -124,6 +132,71 @@ const ProjectFetcherHOC = function (WrappedComponent) {
                     log.error(err);
                 });
         }
+        
+        async fetchProjectFromUrl (projectUrl, loadingState) {
+            try {
+                // Download SB3 file from URL
+                const response = await fetch(projectUrl);
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                // Get as ArrayBuffer
+                const arrayBuffer = await response.arrayBuffer();
+                
+                // Load project using vm.loadProject
+                if (this.props.vm) {
+                    await this.props.vm.loadProject(arrayBuffer);
+                    
+                    // Set project title (inferred from URL)
+                    const filename = this.getFilenameFromUrl(projectUrl);
+                    if (filename && this.props.onSetProjectTitle) {
+                        const projectTitle = this.getProjectTitleFromFilename(filename);
+                        this.props.onSetProjectTitle(projectTitle);
+                    }
+                    
+                    // Notify load completion
+                    this.props.onFetchedProjectData(null, loadingState);
+                } else {
+                    throw new Error('VM instance not available');
+                }
+                
+            } catch (error) {
+                this.props.onError(error);
+                log.error(error);
+            }
+        }
+        
+        getFilenameFromUrl (url) {
+            try {
+                // Extract filename from URL path
+                const urlObj = new URL(url);
+                const path = urlObj.pathname;
+                const filename = path.substring(path.lastIndexOf('/') + 1);
+                // If no filename in path, try to extract from search params (e.g., Google Drive)
+                if (!filename || filename === '') {
+                    const params = new URLSearchParams(urlObj.search);
+                    // Google Drive specific: try to extract from id parameter
+                    const id = params.get('id');
+                    if (id) {
+                        return `project_${id}.sb3`;
+                    }
+                    return 'project.sb3';
+                }
+                return filename;
+            } catch (e) {
+                return 'project.sb3';
+            }
+        }
+        
+        getProjectTitleFromFilename (fileInputFilename) {
+            if (!fileInputFilename) return '';
+            // Only parse title with valid scratch project extensions (.sb, .sb2, and .sb3)
+            const matches = fileInputFilename.match(/^(.*)\\.sb[23]?$/);
+            if (!matches) return '';
+            return matches[1].substring(0, 100); // truncate project title to max 100 chars
+        }
+        
         render () {
             const {
                 /* eslint-disable no-unused-vars */
@@ -164,11 +237,15 @@ const ProjectFetcherHOC = function (WrappedComponent) {
         onError: PropTypes.func,
         onFetchedProjectData: PropTypes.func,
         onProjectUnchanged: PropTypes.func,
+        onSetProjectTitle: PropTypes.func,
         projectHost: PropTypes.string,
         projectToken: PropTypes.string,
         projectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         reduxProjectId: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        setProjectId: PropTypes.func
+        setProjectId: PropTypes.func,
+        vm: PropTypes.shape({
+            loadProject: PropTypes.func
+        })
     };
     ProjectFetcherComponent.defaultProps = {
         assetHost: 'https://assets.scratch.mit.edu',
