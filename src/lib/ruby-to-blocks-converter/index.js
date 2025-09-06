@@ -490,6 +490,10 @@ class RubyToBlocksConverter {
         return block instanceof Primitive && block.type === 'self';
     }
 
+    _isStage () {
+        return this._context.target && this._context.target.isStage;
+    }
+
     isString (value) {
         return this._isString(value);
     }

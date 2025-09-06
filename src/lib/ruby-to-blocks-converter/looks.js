@@ -79,7 +79,7 @@ const validateBackdrop = function (backdropName, args) {
  */
 const LooksConverter = {
     // eslint-disable-next-line no-unused-vars
-    onSend: function (receiver, name, args, rubyBlockArgs, rubyBlock) {
+    onSend: function (receiver, name, args, rubyBlockArgs, rubyBlock, node) {
         let block;
         if ((this._isSelf(receiver) || receiver === Opal.nil) && !rubyBlock) {
             switch (name) {
@@ -89,6 +89,9 @@ const LooksConverter = {
                     (args.length === 2 &&
                      this._isNumberOrStringOrBlock(args[0]) &&
                      this._isNumberOrBlock(args[1]))) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no say/think blocks');
+                    }
                     let opcode;
                     let defaultMessage;
                     if (name === 'say') {
@@ -107,6 +110,9 @@ const LooksConverter = {
                 break;
             case 'switch_costume':
                 if (args.length === 1 && this._isString(args[0])) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no costume blocks');
+                    }
                     validateCostume.call(this, args[0].toString(), args);
                     block = this._createBlock('looks_switchcostumeto', 'statement');
                     this._addInput(block, 'COSTUME', this._createFieldBlock('looks_costume', 'COSTUME', args[0]));
@@ -128,6 +134,9 @@ const LooksConverter = {
                 break;
             case 'size=':
                 if (args.length === 1 && this._isNumberOrBlock(args[0])) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no size blocks');
+                    }
                     block = this._createBlock('looks_setsizeto', 'statement');
                     this._addNumberInput(block, 'SIZE', 'math_number', args[0], 100);
                 }
@@ -154,6 +163,9 @@ const LooksConverter = {
             case 'go_to_layer':
                 if (args.length === 1 &&
                     this._isString(args[0]) && FrontBack.indexOf(args[0].toString()) >= 0) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no layer blocks');
+                    }
                     block = this._createBlock('looks_gotofrontback', 'statement');
                     this._addField(block, 'FRONT_BACK', args[0]);
                 }
@@ -161,6 +173,9 @@ const LooksConverter = {
             case 'go_layers':
                 if (args.length === 2 &&
                     this._isNumberOrBlock(args[0]) && ForwardBackward.indexOf(args[1].toString()) >= 0) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no layer blocks');
+                    }
                     block = this._createBlock('looks_goforwardbackwardlayers', 'statement');
                     this._addNumberInput(block, 'NUM', 'math_integer', args[0], 1);
                     this._addField(block, 'FORWARD_BACKWARD', args[1]);
@@ -168,6 +183,15 @@ const LooksConverter = {
                 break;
             case 'costume_number':
             case 'costume_name':
+                if (args.length === 0) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no costume blocks');
+                    }
+                    const a = name.split('_');
+                    block = this._createBlock(`looks_${a[0]}numbername`, 'value');
+                    this._addField(block, 'NUMBER_NAME', a[1]);
+                }
+                break;
             case 'backdrop_number':
             case 'backdrop_name':
                 if (args.length === 0) {
@@ -182,6 +206,9 @@ const LooksConverter = {
                 let blockType = 'statement';
                 switch (name) {
                 case 'next_costume':
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no costume blocks');
+                    }
                     opcode = 'looks_nextcostume';
                     break;
                 case 'next_backdrop':
@@ -191,12 +218,21 @@ const LooksConverter = {
                     opcode = 'looks_cleargraphiceffects';
                     break;
                 case 'show':
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no show/hide blocks');
+                    }
                     opcode = 'looks_show';
                     break;
                 case 'hide':
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no show/hide blocks');
+                    }
                     opcode = 'looks_hide';
                     break;
                 case 'size':
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no size blocks');
+                    }
                     opcode = 'looks_size';
                     blockType = 'value';
                     break;

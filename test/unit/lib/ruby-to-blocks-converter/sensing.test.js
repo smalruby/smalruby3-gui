@@ -880,4 +880,85 @@ describe('RubyToBlocksConverter/Sensing', () => {
 
     expectNoArgsMethod('sensing_dayssince2000', 'days_since_2000', 'value');
     expectNoArgsMethod('sensing_username', 'user_name', 'value');
+
+    describe('Stage/Sprite validation', () => {
+        let stageTarget;
+
+        beforeEach(() => {
+            stageTarget = {
+                isStage: true,
+                variables: {},
+                sprite: {}
+            };
+        });
+
+        test('sprite-only blocks should throw error on stage', () => {
+            const spriteOnlyCommands = [
+                'touching?("Sprite1")',
+                'touching_color?("#ff0000")',
+                'color_is_touching_color?("#ff0000", "#0000ff")',
+                'distance("Sprite1")',
+                'self.drag_mode = "draggable"'
+            ];
+
+            spriteOnlyCommands.forEach(command => {
+                const result = converter.targetCodeToBlocks(stageTarget, command);
+                expect(result).toBeFalsy();
+                expect(converter.errors).toHaveLength(1);
+                expect(converter.errors[0].text).toMatch(/Stage selected: no.*blocks?/);
+                converter.reset();
+            });
+        });
+
+        test('stage-common blocks should work on stage', () => {
+            const stageCommonCommands = [
+                'ask("What is your name?")',
+                'answer',
+                'Keyboard.pressed?("space")',
+                'Mouse.x',
+                'Mouse.y',
+                'Mouse.down?',
+                'loudness',
+                'Timer.value',
+                'Timer.reset',
+                'days_since_2000',
+                'user_name'
+            ];
+
+            stageCommonCommands.forEach(command => {
+                const result = converter.targetCodeToBlocks(stageTarget, command);
+                expect(result).toBeTruthy();
+                expect(converter.errors).toHaveLength(0);
+                converter.reset();
+            });
+        });
+
+        test('all blocks should work on sprite', () => {
+            const allCommands = [
+                'touching?("Sprite1")',
+                'touching_color?("#ff0000")',
+                'color_is_touching_color?("#ff0000", "#0000ff")',
+                'distance("Sprite1")',
+                'self.drag_mode = "draggable"',
+                'ask("What is your name?")',
+                'answer',
+                'Keyboard.pressed?("space")',
+                'Mouse.x',
+                'Mouse.y',
+                'Mouse.down?',
+                'loudness',
+                'Timer.value',
+                'Timer.reset',
+                'days_since_2000',
+                'user_name'
+            ];
+
+            allCommands.forEach(command => {
+                const result = converter.targetCodeToBlocks(target, command);
+                expect(result).toBeTruthy();
+                expect(converter.errors).toHaveLength(0);
+                converter.reset();
+            });
+        });
+    });
 });

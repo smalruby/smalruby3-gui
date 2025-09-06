@@ -1,4 +1,5 @@
 import RubyToBlocksConverter from '../../../../src/lib/ruby-to-blocks-converter';
+import {RubyToBlocksConverterError} from '../../../../src/lib/ruby-to-blocks-converter/errors';
 import {
     convertAndExpectToEqualBlocks,
     convertAndExpectRubyBlockError,
@@ -675,5 +676,66 @@ describe('RubyToBlocksConverter/Motion', () => {
             }
         ];
         convertAndExpectToEqualBlocks(converter, target, code, expected);
+    });
+
+    describe('Stage validation', () => {
+        let stageTarget;
+
+        beforeEach(() => {
+            stageTarget = {
+                isStage: true,
+                variables: {}
+            };
+        });
+
+        test('all motion blocks should throw error on stage', () => {
+            const motionCommands = [
+                'move(10)',
+                'turn_right(15)',
+                'turn_left(15)',
+                'go_to("_mouse_")',
+                'go_to([10, 20])',
+                'glide("_mouse_", secs: 1)',
+                'glide([10, 20], secs: 1)',
+                'point_towards("_mouse_")',
+                'bounce_if_on_edge',
+                'self.direction = 90',
+                'self.rotation_style = "all around"',
+                'self.x = 10',
+                'self.y = 10',
+                'self.x += 5',
+                'self.y += 5',
+                'x',
+                'y',
+                'direction'
+            ];
+
+            motionCommands.forEach(code => {
+                const res = converter.targetCodeToBlocks(stageTarget, code);
+                expect(res).toBeFalsy();
+                expect(converter.errors).toHaveLength(1);
+                expect(converter.errors[0].text).toMatch(/Stage selected: no motion blocks/);
+                
+                // Reset for next test
+                converter.reset();
+            });
+        });
+
+        test('motion blocks work fine on sprite target', () => {
+            const spriteTarget = {
+                isStage: false,
+                variables: {}
+            };
+
+            // Test a few representative motion commands work on sprite
+            ['move(10)', 'turn_right(15)', 'x'].forEach(code => {
+                const res = converter.targetCodeToBlocks(spriteTarget, code);
+                expect(res).toBeTruthy();
+                expect(converter.errors).toHaveLength(0);
+                
+                // Reset for next test
+                converter.reset();
+            });
+        });
     });
 });

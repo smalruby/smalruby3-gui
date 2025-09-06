@@ -1,5 +1,6 @@
 /* global Opal */
 import _ from 'lodash';
+import {RubyToBlocksConverterError} from './errors';
 
 /* eslint-disable no-invalid-this */
 const createControlRepeatBlock = function (times, body) {
@@ -21,7 +22,7 @@ const StopOptions = [
  */
 const ControlConverter = {
     // eslint-disable-next-line no-unused-vars
-    onSend: function (receiver, name, args, rubyBlockArgs, rubyBlock) {
+    onSend: function (receiver, name, args, rubyBlockArgs, rubyBlock, node) {
         let block;
         if (this._isSelf(receiver) || receiver === Opal.nil) {
             switch (name) {
@@ -65,6 +66,9 @@ const ControlConverter = {
                 break;
             case 'delete_this_clone':
                 if (args.length === 0) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no clone blocks');
+                    }
                     block = this._createBlock('control_delete_this_clone', 'statement');
                 }
                 break;
@@ -115,7 +119,11 @@ const ControlConverter = {
 
     register: function (converter) {
         converter.registerCallMethodWithBlock('self', 'when_start_as_a_clone', 0, 0, params => {
-            const {rubyBlock} = params;
+            const {rubyBlock, node} = params;
+
+            if (converter._isStage()) {
+                throw new RubyToBlocksConverterError(node, 'Stage selected: no clone blocks');
+            }
 
             const block = converter.createBlock('control_start_as_clone', 'hat');
             converter.setParent(rubyBlock, block);

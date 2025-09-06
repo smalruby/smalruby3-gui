@@ -192,4 +192,67 @@ describe('RubyToBlocksConverter/Control', () => {
             });
         });
     });
+
+    describe('Stage/Clone validation', () => {
+        let stageTarget;
+
+        beforeEach(() => {
+            stageTarget = {
+                isStage: true,
+                variables: {},
+                sprite: {}
+            };
+        });
+
+        test('sprite-only clone blocks should throw error on stage', () => {
+            const spriteOnlyCommands = [
+                'delete_this_clone',
+                'self.when_start_as_a_clone {}'
+            ];
+
+            spriteOnlyCommands.forEach(command => {
+                const result = converter.targetCodeToBlocks(stageTarget, command);
+                expect(result).toBeFalsy();
+                expect(converter.errors).toHaveLength(1);
+                expect(converter.errors[0].text).toMatch(/Stage selected: no clone blocks/);
+                converter.reset();
+            });
+        });
+
+        test('stage-common blocks should work on stage', () => {
+            const stageCommonCommands = [
+                'create_clone("Sprite1")',
+                'sleep(1)',
+                'repeat(3) {}',
+                'forever {}',
+                'stop("all")'
+            ];
+
+            stageCommonCommands.forEach(command => {
+                const result = converter.targetCodeToBlocks(stageTarget, command);
+                expect(result).toBeTruthy();
+                expect(converter.errors).toHaveLength(0);
+                converter.reset();
+            });
+        });
+
+        test('all blocks should work on sprite', () => {
+            const allCommands = [
+                'delete_this_clone',
+                'self.when_start_as_a_clone {}',
+                'create_clone("Sprite1")',
+                'sleep(1)',
+                'repeat(3) {}',
+                'forever {}',
+                'stop("all")'
+            ];
+
+            allCommands.forEach(command => {
+                const result = converter.targetCodeToBlocks(target, command);
+                expect(result).toBeTruthy();
+                expect(converter.errors).toHaveLength(0);
+                converter.reset();
+            });
+        });
+    });
 });

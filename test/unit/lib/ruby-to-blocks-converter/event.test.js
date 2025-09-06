@@ -104,8 +104,8 @@ describe('RubyToBlocksConverter/Event', () => {
                 });
 
                 [
-                    'self.when(:clicked, 1) { bounce_if_on_edge }',
-                    'self.when(:click) { bounce_if_on_edge }'
+                    'self.when(:clicked, 1) { sleep(1) }',
+                    'self.when(:click) { sleep(1) }'
                 ].forEach(s => {
                     convertAndExpectRubyBlockError(converter, target, s);
                 });

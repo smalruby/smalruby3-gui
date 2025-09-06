@@ -179,12 +179,69 @@ describe('Ruby Tab: Events category blocks', () => {
         });
     });
 
+    const eventsStageRuby = dedent`
+        when_flag_clicked do
+          switch_backdrop("backdrop1")
+        end
+
+        when_key_pressed("space") do
+          switch_backdrop("backdrop1")
+        end
+
+        when_clicked do
+          switch_backdrop("backdrop1")
+        end
+
+        when_backdrop_switches("backdrop1") do
+          switch_backdrop("backdrop1")
+        end
+
+        when_greater_than("loudness", 10) do
+          switch_backdrop("backdrop1")
+        end
+
+        when_receive("message1") do
+          switch_backdrop("backdrop1")
+        end
+
+        broadcast("message1")
+        broadcast_and_wait("message1")
+    `;
+
+    const eventsStageOldRuby = dedent`
+        self.when(:flag_clicked) do
+          switch_backdrop("backdrop1")
+        end
+
+        self.when(:key_pressed, "space") do
+          switch_backdrop("backdrop1")
+        end
+
+        self.when(:clicked) do
+          switch_backdrop("backdrop1")
+        end
+
+        self.when(:backdrop_switches, "backdrop1") do
+          switch_backdrop("backdrop1")
+        end
+
+        self.when(:greater_than, "loudness", 10) do
+          switch_backdrop("backdrop1")
+        end
+
+        self.when(:receive, "message1") do
+          switch_backdrop("backdrop1")
+        end
+
+        broadcast("message1")
+        broadcast_and_wait("message1")
+    `;
+
     describe('stage', () => {
         test('Ruby -> Code -> Ruby', async () => {
             await loadUri(urlFor('/'));
             await clickXpath('//span[text()="Stage"]');
-
-            await expectInterconvertBetweenCodeAndRuby(eventsRuby);
+            await expectInterconvertBetweenCodeAndRuby(eventsStageRuby);
         });
 
         test('Ruby -> Code -> Ruby (backward compatibility) ', async () => {
@@ -192,12 +249,13 @@ describe('Ruby Tab: Events category blocks', () => {
             await clickXpath('//span[text()="Stage"]');
 
             await clickText('Ruby', '*[@role="tab"]');
-            await fillInRubyProgram(eventsOldRuby);
+            await fillInRubyProgram(eventsStageOldRuby);
             await clickText('Code', '*[@role="tab"]');
             await clickXpath(EDIT_MENU_XPATH);
             await clickText('Generate Ruby from Code');
             await clickText('Ruby', '*[@role="tab"]');
-            expect(await currentRubyProgram()).toEqual(`${eventsRuby}\n`);
+            expect(await currentRubyProgram()).toEqual(`${eventsStageRuby}\n`);
         });
     });
+
 });

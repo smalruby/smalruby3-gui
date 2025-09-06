@@ -1,6 +1,7 @@
 /* global Opal */
 import _ from 'lodash';
 import {KeyOptions} from './constants';
+import {RubyToBlocksConverterError} from './errors';
 
 const DragMode = [
     'draggable',
@@ -35,6 +36,9 @@ const SensingConverter = {
             switch (name) {
             case 'touching?':
                 if (args.length === 1 && this._isStringOrBlock(args[0])) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no touching blocks');
+                    }
                     block = this._createBlock('sensing_touchingobject', 'value_boolean');
                     this._addFieldInput(
                         block, 'TOUCHINGOBJECTMENU', 'sensing_touchingobjectmenu', 'TOUCHINGOBJECTMENU',
@@ -44,12 +48,18 @@ const SensingConverter = {
                 break;
             case 'touching_color?':
                 if (args.length === 1 && this._isColorOrBlock(args[0])) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no touching blocks');
+                    }
                     block = this._createBlock('sensing_touchingcolor', 'value_boolean');
                     this._addFieldInput(block, 'COLOR', 'colour_picker', 'COLOUR', args[0], '#43066f');
                 }
                 break;
             case 'color_is_touching_color?':
                 if (args.length === 2 && this._isColorOrBlock(args[0]) && this._isColorOrBlock(args[1])) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no touching blocks');
+                    }
                     block = this._createBlock('sensing_coloristouchingcolor', 'value_boolean');
                     this._addFieldInput(block, 'COLOR', 'colour_picker', 'COLOUR', args[0], '#aad315');
                     this._addFieldInput(block, 'COLOR2', 'colour_picker', 'COLOUR', args[1], '#fca3bf');
@@ -57,6 +67,9 @@ const SensingConverter = {
                 break;
             case 'distance':
                 if (args.length === 1 && this._isStringOrBlock(args[0])) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no distance blocks');
+                    }
                     block = this._createBlock('sensing_distanceto', 'value');
                     this._addFieldInput(
                         block, 'DISTANCETOMENU', 'sensing_distancetomenu', 'DISTANCETOMENU', args[0], '_mouse_'
@@ -97,6 +110,9 @@ const SensingConverter = {
                 if (args.length === 1 &&
                     ((this._isString(args[0]) && DragMode.indexOf(args[0].toString()) >= 0) ||
                      (args[0] && (args[0].type === 'true' || args[0].type === 'false')))) {
+                    if (this._isStage()) {
+                        throw new RubyToBlocksConverterError(node, 'Stage selected: no drag mode blocks');
+                    }
                     block = this._createBlock('sensing_setdragmode', 'statement');
                     let dragMode = args[0];
                     if (dragMode.type === 'true') {
