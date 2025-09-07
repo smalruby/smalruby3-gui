@@ -1,0 +1,39 @@
+{
+    "gdx_for.when_gesture": {
+        "snippet": "gdx_for.when_gesture(\"${1:shaken}\") do\n\t${2}\nend",
+        "description": "(振られた▼) とき"
+    },
+    "gdx_for.when_sensor": {
+        "snippet": "gdx_for.when_sensor(\"${1:pushed}\") do\n\t${2}\nend",
+        "description": "force sensorが(押された▼)とき"
+    },
+    "gdx_for.when_tilted": {
+        "snippet": "gdx_for.when_tilted(\"${1:any}\") do\n\t${2}\nend",
+        "description": "(どれかの向き▼)に傾いたとき"
+    },
+    "gdx_for.force": {
+        "snippet": "gdx_for.force",
+        "description": "force"
+    },
+    "gdx_for.acceleration": {
+        "snippet": "gdx_for.acceleration(\"${1:x}\")",
+        "description": "(x▼) 方向への加速度"
+    },
+    "gdx_for.tilted?": {
+        "snippet": "gdx_for.tilted?(\"${1:any}\")",
+        "description": "(どれかの向き▼) に傾いた"
+    },
+    "gdx_for.tilt_angle": {
+        "snippet": "gdx_for.tilt_angle(\"${1:front}\")",
+        "description": "(前▼) 方向の傾き"
+    },
+    "gdx_for.falling?": {
+        "snippet": "gdx_for.falling?",
+        "description": "落下中"
+    },
+    "gdx_for.spin_speed": {
+        "snippet": "gdx_for.spin_speed(\"${1:z}\")",
+        "description": "(z▼) 回転のはやさ"
+    }
+}
+

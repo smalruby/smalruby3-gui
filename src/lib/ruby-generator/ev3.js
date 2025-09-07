@@ -16,7 +16,7 @@ export default function (Generator) {
     Generator.ev3_whenButtonPressed = function (block) {
         block.isStatement = true;
         const port = Generator.valueToCode(block, 'PORT', Generator.ORDER_NONE) || null;
-        return `${Generator.spriteName()}.when(:ev3_button_pressed, ${port}) do\n`;
+        return `ev3.when_button_pressed(${port}) do\n`;
     };
 
     Generator.ev3_menu_motorPorts = function (block) {
@@ -28,57 +28,57 @@ export default function (Generator) {
     Generator.ev3_motorSetPower = function (block) {
         const port = Generator.valueToCode(block, 'PORT', Generator.ORDER_NONE) || null;
         const power = Generator.valueToCode(block, 'POWER', Generator.ORDER_NONE) || null;
-        return `ev3_motor_set_power(${port}, ${power})\n`;
+        return `ev3.motor_set_power(${port}, ${power})\n`;
     };
 
     Generator.ev3_motorTurnClockwise = function (block) {
         const port = Generator.valueToCode(block, 'PORT', Generator.ORDER_NONE) || null;
         const time = Generator.valueToCode(block, 'TIME', Generator.ORDER_NONE) || null;
-        return `ev3_motor_turn_this_way_for(${port}, ${time})\n`;
+        return `ev3.motor_turn_this_way_for(${port}, ${time})\n`;
     };
 
     Generator.ev3_motorTurnCounterClockwise = function (block) {
         const port = Generator.valueToCode(block, 'PORT', Generator.ORDER_NONE) || null;
         const time = Generator.valueToCode(block, 'TIME', Generator.ORDER_NONE) || null;
-        return `ev3_motor_turn_that_way_for(${port}, ${time})\n`;
+        return `ev3.motor_turn_that_way_for(${port}, ${time})\n`;
     };
 
     Generator.ev3_getMotorPosition = function (block) {
         const order = Generator.ORDER_FUNCTION_CALL;
         const port = Generator.valueToCode(block, 'PORT', Generator.ORDER_NONE) || null;
-        return [`ev3_motor_position(${port})`, order];
+        return [`ev3.motor_position(${port})`, order];
     };
 
     Generator.ev3_whenDistanceLessThan = function (block) {
         block.isStatement = true;
         const distance = Generator.valueToCode(block, 'DISTANCE', Generator.ORDER_NONE) || null;
-        return `${Generator.spriteName()}.when(:ev3_distance_gt, ${distance}) do\n`;
+        return `ev3.when_distance_lt(${distance}) do\n`;
     };
 
     Generator.ev3_whenBrightnessLessThan = function (block) {
         block.isStatement = true;
         const distance = Generator.valueToCode(block, 'DISTANCE', Generator.ORDER_NONE) || null;
-        return `${Generator.spriteName()}.when(:ev3_brightness_gt, ${distance}) do\n`;
+        return `ev3.when_brightness_lt(${distance}) do\n`;
     };
 
     Generator.ev3_buttonPressed = function (block) {
         const order = Generator.ORDER_FUNCTION_CALL;
         const port = Generator.valueToCode(block, 'PORT', order) || null;
-        return [`ev3_button_pressed?(${port})`, order];
+        return [`ev3.button_pressed?(${port})`, order];
     };
 
     Generator.ev3_getDistance = function () {
-        return ['ev3_distance', Generator.ORDER_ATOMIC];
+        return ['ev3.distance', Generator.ORDER_ATOMIC];
     };
 
     Generator.ev3_getBrightness = function () {
-        return ['ev3_brightness', Generator.ORDER_ATOMIC];
+        return ['ev3.brightness', Generator.ORDER_ATOMIC];
     };
 
     Generator.ev3_beep = function (block) {
         const note = Generator.valueToCode(block, 'NOTE', Generator.ORDER_NONE) || null;
         const time = Generator.valueToCode(block, 'TIME', Generator.ORDER_NONE) || null;
-        return `ev3_beep_note(${note}, ${time})\n`;
+        return `ev3.beep_note(${note}, ${time})\n`;
     };
 
     return Generator;

@@ -21,6 +21,7 @@ import SmalrubotS1Snippets from './smalrubot-s1-snippets.json';
 import MicrobitMoreSnippets from './microbit-more-snippets.json';
 import KoshienSnippets from './koshien-snippets.json';
 import MakeySnippets from './makey-snippets.json';
+import GdxForSnippets from './gdx_for-snippets.json';
 
 class SnippetsCompleter extends BaseCompleter {
     #completions = [];
@@ -49,7 +50,8 @@ class SnippetsCompleter extends BaseCompleter {
             SmalrubotS1Snippets,
             MicrobitMoreSnippets,
             KoshienSnippets,
-            MakeySnippets
+            MakeySnippets,
+            GdxForSnippets
         ];
         snippetsList.forEach(snippets => {
             for (const [caption, item] of Object.entries(snippets)) {

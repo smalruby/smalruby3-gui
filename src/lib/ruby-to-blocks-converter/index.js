@@ -129,7 +129,10 @@ class RubyToBlocksConverter {
             PenConverter,
             MakeyMakeyConverter,
             OperatorsConverter,
-            LooksConverter
+            LooksConverter,
+            EV3Converter,
+            GdxForConverter,
+            SmalrubotS1Converter
         ].forEach(x => x.register(this));
     }
 
@@ -451,10 +454,6 @@ class RubyToBlocksConverter {
         return ['sprite', 'stage', 'variable', 'string', 'number', 'array', 'hash', 'boolean', 'nil', 'block'];
     }
 
-    createBlock (opcode, type, attributes = {}) {
-        return this._createBlock(opcode, type, attributes);
-    }
-
     setParent (block, parent) {
         return this._setParent(block, parent);
     }
@@ -595,8 +594,16 @@ class RubyToBlocksConverter {
         return _.isNumber(value) || (value && (value.type === 'int' || value.type === 'float'));
     }
 
+    isTrue (value) {
+        return this._isTrue(value);
+    }
+
     _isTrue (value) {
         return value === true || (value && value.type === 'true');
+    }
+
+    isFalse (value) {
+        return this._isFalse(value);
     }
 
     _isFalse (value) {
@@ -740,6 +747,10 @@ class RubyToBlocksConverter {
         return null;
     }
 
+    createBlock (opcode, type, attributes = {}) {
+        return this._createBlock(opcode, type, attributes);
+    }
+
     _createBlock (opcode, type, attributes = {}) {
         const block = Object.assign({
             id: Blockly.utils.genUid(),
@@ -861,6 +872,10 @@ class RubyToBlocksConverter {
             shadowBlock = this._createNumberBlock(opcode, shadowValue);
         }
         this._addInput(block, name, this._createNumberBlock(opcode, inputValue), shadowBlock);
+    }
+
+    addNoteInput (block, name, inputValue, shadowValue) {
+        return this._addNoteInput(block, name, inputValue, shadowValue);
     }
 
     _addNoteInput (block, name, inputValue, shadowValue) {
@@ -1058,14 +1073,6 @@ class RubyToBlocksConverter {
         };
         this._context.procedures[name] = procedure;
         return procedure;
-    }
-
-    getBlock (blockId) {
-        return this._context.blocks[blockId];
-    }
-
-    getSource (node) {
-        return this._getSource(node);
     }
 
     _getSource (node) {

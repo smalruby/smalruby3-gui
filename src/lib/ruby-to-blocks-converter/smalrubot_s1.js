@@ -1,4 +1,3 @@
-/* global Opal */
 import _ from 'lodash';
 
 const SmalrubotS1 = 'smalrubot_s1';
@@ -28,96 +27,120 @@ const SENSOR_POSITIONS = [
  * Smalrubot S1 extension converter
  */
 const SmalrubotS1Converter = {
-    // eslint-disable-next-line no-unused-vars
-    onSend: function (receiver, name, args, rubyBlockArgs, rubyBlock, node) {
-        let block;
-        if (this._isSelf(receiver) || receiver === Opal.nil) {
-            if (name === SmalrubotS1 && args.length === 0) {
-                block = this._createRubyExpressionBlock(SmalrubotS1, node);
+    register: function (converter) {
+        // Create the initial Ruby expression block
+        converter.registerCallMethod('self', SmalrubotS1, 0, params => {
+            const {node} = params;
+            
+            return converter.createRubyExpressionBlock(SmalrubotS1, node);
+        });
+
+        // Method calls on smalrubot_s1
+        converter.registerCallMethod(SmalrubotS1, 'action', 1, params => {
+            const {receiver, args} = params;
+            
+            if (!converter.isString(args[0]) || !ACTIONS.includes(args[0].toString())) return null;
+            
+            const block = converter.changeRubyExpressionBlock(
+                receiver, 'smalrubotS1_action', 'statement'
+            );
+            converter.addField(block, 'ACTION', args[0]);
+            return block;
+        });
+
+        converter.registerCallMethod(SmalrubotS1, 'action', 2, params => {
+            const {receiver, args} = params;
+            
+            if (!converter.isString(args[0]) || !ACTIONS.includes(args[0].toString()) ||
+                !converter.isNumberOrBlock(args[1])) return null;
+                
+            const block = converter.changeRubyExpressionBlock(
+                receiver, 'smalrubotS1_actionAndStopAfter', 'statement'
+            );
+            converter.addField(block, 'ACTION', args[0]);
+            converter.addNumberInput(block, 'SECS', 'math_number', args[1], 0.5);
+            return block;
+        });
+
+        converter.registerCallMethod(SmalrubotS1, 'bend_arm', 2, params => {
+            const {receiver, args} = params;
+            
+            if (!converter.isNumberOrBlock(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
+            
+            const block = converter.changeRubyExpressionBlock(
+                receiver, 'smalrubotS1_bendArm', 'statement'
+            );
+            converter.addNumberInput(block, 'DEGREE', 'math_number', args[0], 90);
+            converter.addNumberInput(block, 'SECS', 'math_number', args[1], 1);
+            return block;
+        });
+
+        converter.registerCallMethod(SmalrubotS1, 'sensor_value', 1, params => {
+            const {receiver, args} = params;
+            
+            if (!converter.isString(args[0]) || !SENSOR_POSITIONS.includes(args[0].toString())) return null;
+            
+            const block = converter.changeRubyExpressionBlock(
+                receiver, 'smalrubotS1_getSensorValue', 'value'
+            );
+            converter.addField(block, 'POSITION', args[0]);
+            return block;
+        });
+
+        converter.registerCallMethod(SmalrubotS1, 'led', 2, params => {
+            const {receiver, args} = params;
+            
+            if (!converter.isString(args[0]) || !POSITIONS.includes(args[0].toString()) ||
+                (!converter.isTrue(args[1]) && !converter.isFalse(args[1]))) return null;
+                
+            let opcode = 'smalrubotS1_turnLedOn';
+            if (converter.isFalse(args[1])) {
+                opcode = 'smalrubotS1_turnLedOff';
             }
-        } else if (this._equalRubyExpression(receiver, SmalrubotS1)) {
-            switch (name) {
-            case 'action':
-                if (args.length === 1 && this._isString(args[0]) && ACTIONS.includes(args[0].toString())) {
-                    block = this._changeRubyExpressionBlock(
-                        receiver, 'smalrubotS1_action', 'statement'
-                    );
-                    this._addField(block, 'ACTION', args[0]);
-                } else if (args.length === 2 &&
-                           this._isString(args[0]) && ACTIONS.includes(args[0].toString()) &&
-                           this._isNumberOrBlock(args[1])) {
-                    block = this._changeRubyExpressionBlock(
-                        receiver, 'smalrubotS1_actionAndStopAfter', 'statement'
-                    );
-                    this._addField(block, 'ACTION', args[0]);
-                    this._addNumberInput(block, 'SECS', 'math_number', args[1], 0.5);
-                }
-                break;
-            case 'bend_arm':
-                if (args.length === 2 &&
-                    this._isNumberOrBlock(args[0]) &&
-                    this._isNumberOrBlock(args[1])) {
-                    block = this._changeRubyExpressionBlock(
-                        receiver, 'smalrubotS1_bendArm', 'statement'
-                    );
-                    this._addNumberInput(block, 'DEGREE', 'math_number', args[0], 90);
-                    this._addNumberInput(block, 'SECS', 'math_number', args[1], 1);
-                }
-                break;
-            case 'sensor_value':
-                if (args.length === 1 &&
-                    this._isString(args[0]) && SENSOR_POSITIONS.includes(args[0].toString())) {
-                    block = this._changeRubyExpressionBlock(
-                        receiver, 'smalrubotS1_getSensorValue', 'value'
-                    );
-                    this._addField(block, 'POSITION', args[0]);
-                }
-                break;
-            case 'led':
-                if (args.length === 2 &&
-                    this._isString(args[0]) && POSITIONS.includes(args[0].toString()) &&
-                    (this._isTrue(args[1]) || this._isFalse(args[1]))) {
-                    let opcode = 'smalrubotS1_turnLedOn';
-                    if (this._isFalse(args[1])) {
-                        opcode = 'smalrubotS1_turnLedOff';
-                    }
-                    block = this._changeRubyExpressionBlock(
-                        receiver, opcode, 'statement'
-                    );
-                    this._addField(block, 'POSITION', args[0]);
-                }
-                break;
-            case 'get_motor_speed':
-                if (args.length === 1 &&
-                    this._isString(args[0]) && POSITIONS.includes(args[0].toString())) {
-                    block = this._changeRubyExpressionBlock(
-                        receiver, 'smalrubotS1_getMotorSpeed', 'value'
-                    );
-                    this._addField(block, 'POSITION', args[0]);
-                }
-                break;
-            case 'set_motor_speed':
-                if (args.length === 2 &&
-                    this._isString(args[0]) && POSITIONS.includes(args[0].toString()) &&
-                    this._isNumberOrBlock(args[1])) {
-                    block = this._changeRubyExpressionBlock(
-                        receiver, 'smalrubotS1_setMotorSpeed', 'statement'
-                    );
-                    this._addField(block, 'POSITION', args[0]);
-                    this._addNumberInput(block, 'SPEED', 'math_number', args[1], 100);
-                }
-                break;
-            case 'arm_calibration=':
-                if (args.length === 1 && this._isNumberOrBlock(args[0])) {
-                    block = this._changeRubyExpressionBlock(
-                        receiver, 'smalrubotS1_setArmCalibration', 'statement'
-                    );
-                    this._addNumberInput(block, 'DEGREE', 'math_number', args[0], 0);
-                }
-                break;
-            }
-        }
-        return block;
+            const block = converter.changeRubyExpressionBlock(
+                receiver, opcode, 'statement'
+            );
+            converter.addField(block, 'POSITION', args[0]);
+            return block;
+        });
+
+        converter.registerCallMethod(SmalrubotS1, 'get_motor_speed', 1, params => {
+            const {receiver, args} = params;
+            
+            if (!converter.isString(args[0]) || !POSITIONS.includes(args[0].toString())) return null;
+            
+            const block = converter.changeRubyExpressionBlock(
+                receiver, 'smalrubotS1_getMotorSpeed', 'value'
+            );
+            converter.addField(block, 'POSITION', args[0]);
+            return block;
+        });
+
+        converter.registerCallMethod(SmalrubotS1, 'set_motor_speed', 2, params => {
+            const {receiver, args} = params;
+            
+            if (!converter.isString(args[0]) || !POSITIONS.includes(args[0].toString()) ||
+                !converter.isNumberOrBlock(args[1])) return null;
+                
+            const block = converter.changeRubyExpressionBlock(
+                receiver, 'smalrubotS1_setMotorSpeed', 'statement'
+            );
+            converter.addField(block, 'POSITION', args[0]);
+            converter.addNumberInput(block, 'SPEED', 'math_number', args[1], 100);
+            return block;
+        });
+
+        converter.registerCallMethod(SmalrubotS1, 'arm_calibration=', 1, params => {
+            const {receiver, args} = params;
+            
+            if (!converter.isNumberOrBlock(args[0])) return null;
+            
+            const block = converter.changeRubyExpressionBlock(
+                receiver, 'smalrubotS1_setArmCalibration', 'statement'
+            );
+            converter.addNumberInput(block, 'DEGREE', 'math_number', args[0], 0);
+            return block;
+        });
     }
 };
 
