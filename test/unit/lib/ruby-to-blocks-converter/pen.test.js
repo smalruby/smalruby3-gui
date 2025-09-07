@@ -20,7 +20,7 @@ describe('RubyToBlocksConverter/Pen', () => {
     });
 
     test('pen_setPenColorToColor', () => {
-        code = 'self.pen_color = "#e36e1a"';
+        code = 'pen.color = "#e36e1a"';
         expected = [
             {
                 opcode: 'pen_setPenColorToColor',
@@ -44,9 +44,9 @@ describe('RubyToBlocksConverter/Pen', () => {
         convertAndExpectToEqualBlocks(converter, target, code, expected);
 
         [
-            'self.pen_color = "10"',
-            'self.pen_color = :symbol',
-            'self.pen_color = abc'
+            'pen.color = "10"',
+            'pen.color = :symbol',
+            'pen.color = abc'
         ].forEach(s => {
             convertAndExpectRubyBlockError(converter, target, s);
         });
@@ -76,7 +76,7 @@ describe('RubyToBlocksConverter/Pen', () => {
 
         describe(colorParamName, () => {
             test('pen_changePenColorParamBy', () => {
-                code = `self.pen_${colorParamName} += 10`;
+                code = `pen.${colorParamName} += 10`;
                 expected = [
                     {
                         opcode: 'pen_changePenColorParamBy',
@@ -91,7 +91,7 @@ describe('RubyToBlocksConverter/Pen', () => {
                 ];
                 convertAndExpectToEqualBlocks(converter, target, code, expected);
 
-                code = `self.pen_${colorParamName} += y`;
+                code = `pen.${colorParamName} += y`;
                 expected = [
                     {
                         opcode: 'pen_changePenColorParamBy',
@@ -108,16 +108,16 @@ describe('RubyToBlocksConverter/Pen', () => {
                 convertAndExpectToEqualBlocks(converter, target, code, expected);
 
                 [
-                    `self.pen_${colorParamName} += "10"`,
-                    `self.pen_${colorParamName} += :symbol`,
-                    `self.pen_${colorParamName} += abc`
+                    `pen.${colorParamName} += "10"`,
+                    `pen.${colorParamName} += :symbol`,
+                    `pen.${colorParamName} += abc`
                 ].forEach(s => {
                     convertAndExpectRubyBlockError(converter, target, s);
                 });
             });
 
             test('pen_setPenColorParamTo', () => {
-                code = `self.pen_${colorParamName} = 50`;
+                code = `pen.${colorParamName} = 50`;
                 expected = [
                     {
                         opcode: 'pen_setPenColorParamTo',
@@ -132,7 +132,7 @@ describe('RubyToBlocksConverter/Pen', () => {
                 ];
                 convertAndExpectToEqualBlocks(converter, target, code, expected);
 
-                code = `self.pen_${colorParamName} = y`;
+                code = `pen.${colorParamName} = y`;
                 expected = [
                     {
                         opcode: 'pen_setPenColorParamTo',
@@ -149,9 +149,9 @@ describe('RubyToBlocksConverter/Pen', () => {
                 convertAndExpectToEqualBlocks(converter, target, code, expected);
 
                 [
-                    `self.pen_${colorParamName} = "10"`,
-                    `self.pen_${colorParamName} = :symbol`,
-                    `self.pen_${colorParamName} = abc`
+                    `pen.${colorParamName} = "10"`,
+                    `pen.${colorParamName} = :symbol`,
+                    `pen.${colorParamName} = abc`
                 ].forEach(s => {
                     convertAndExpectRubyBlockError(converter, target, s);
                 });

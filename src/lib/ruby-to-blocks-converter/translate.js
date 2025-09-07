@@ -1,32 +1,29 @@
-/* global Opal */
 import _ from 'lodash';
 
 /**
  * Translate converter
  */
 const TranslateConverter = {
-    // eslint-disable-next-line no-unused-vars
-    onSend: function (receiver, name, args, rubyBlockArgs, rubyBlock) {
-        let block;
-        if ((this._isSelf(receiver) || receiver === Opal.nil) && !rubyBlock) {
-            switch (name) {
-            case 'translate':
-                if (args.length === 2 && this._isNumberOrStringOrBlock(args[0]) && this._isStringOrBlock(args[1])) {
-                    block = this._createBlock('translate_getTranslate', 'value');
-                    this._addTextInput(block, 'WORDS', args[0]);
-                    this._addInput(
-                        block,
-                        'LANGUAGE',
-                        this._createFieldBlock('translate_menu_languages', 'languages', args[1])
-                    );
-                }
-                break;
-            case 'language':
-                block = this._createBlock('translate_getViewerLanguage', 'value');
-                break;
-            }
-        }
-        return block;
+    register: function (converter) {
+        // translate method
+        converter.registerCallMethod('self', 'translate', 2, params => {
+            const {args} = params;
+            if (!converter._isNumberOrStringOrBlock(args[0]) || !converter._isStringOrBlock(args[1])) return null;
+
+            const block = converter._createBlock('translate_getTranslate', 'value');
+            converter._addTextInput(block, 'WORDS', args[0]);
+            converter._addInput(
+                block,
+                'LANGUAGE',
+                converter._createFieldBlock('translate_menu_languages', 'languages', args[1])
+            );
+            return block;
+        });
+
+        // language method
+        converter.registerCallMethod('self', 'language', 0, () =>
+            converter._createBlock('translate_getViewerLanguage', 'value')
+        );
     }
 };
 

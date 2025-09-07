@@ -1,0 +1,10 @@
+{
+    "makey.when_key_pressed": {
+        "snippet": "makey.when_key_pressed(\"${1:SPACE}\") do\n\t${2}\nend",
+        "description": "( ▼) キーが押されたとき"
+    },
+    "makey.when_pressed_in_oder": {
+        "snippet": "makey.when_pressed_in_oder(\"${1:LEFT UP RIGHT}\") do\n\t${2}\nend",
+        "description": "( ▼) キーが順番に押されたとき"
+    }
+}

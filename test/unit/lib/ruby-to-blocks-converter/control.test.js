@@ -214,7 +214,7 @@ describe('RubyToBlocksConverter/Control', () => {
                 const result = converter.targetCodeToBlocks(stageTarget, command);
                 expect(result).toBeFalsy();
                 expect(converter.errors).toHaveLength(1);
-                expect(converter.errors[0].text).toMatch(/Stage selected: no clone blocks/);
+                expect(converter.errors[0].text).toMatch(/"\{SOURCE\}" is the wrong instruction\./);
                 converter.reset();
             });
         });

@@ -1,62 +1,62 @@
 {
     "pen.clear": {
-        "snippet": "pen_clear",
+        "snippet": "Pen.clear",
         "description": "全部消す"
     },
     "pen.stamp": {
-        "snippet": "pen_stamp",
+        "snippet": "pen.stamp",
         "description": "スタンプ"
     },
     "pen.down": {
-        "snippet": "pen_down",
+        "snippet": "pen.down",
         "description": "ペンを下ろす"
     },
     "pen.up": {
-        "snippet": "pen_up",
+        "snippet": "pen.up",
         "description": "ペンを上げる"
     },
     "pen.color=#": {
-        "snippet": "self.pen_color = \"#${1:7a2d74}\"",
+        "snippet": "pen.color = \"#${1:7a2d74}\"",
         "description": "ペンの色を (#7a2d74) にする"
     },
     "pen.color+=": {
-        "snippet": "self.pen_color += ${1:10}",
+        "snippet": "pen.color += ${1:10}",
         "description": "ペンの [色▼] を (10) ずつ変える"
     },
     "pen.saturation+=": {
-        "snippet": "self.pen_saturation += ${1:10}",
+        "snippet": "pen.saturation += ${1:10}",
         "description": "ペンの [鮮やかさ▼] を (10) ずつ変える"
     },
     "pen.brightness+=": {
-        "snippet": "self.pen_brightness += ${1:10}",
+        "snippet": "pen.brightness += ${1:10}",
         "description": "ペンの [明るさ▼] を (10) ずつ変える"
     },
     "pen.transparency+=": {
-        "snippet": "self.pen_transparency += ${1:10}",
+        "snippet": "pen.transparency += ${1:10}",
         "description": "ペンの [透明度▼] を (10) ずつ変える"
     },
     "pen.color=": {
-        "snippet": "self.pen_color = ${1:50}",
+        "snippet": "pen.color = ${1:50}",
         "description": "ペンの [色▼] を (50) にする"
     },
     "pen.saturation=": {
-        "snippet": "self.pen_saturation = ${1:50}",
+        "snippet": "pen.saturation = ${1:50}",
         "description": "ペンの [鮮やかさ▼] を (50) にする"
     },
     "pen.brightness=": {
-        "snippet": "self.pen_brightness = ${1:50}",
+        "snippet": "pen.brightness = ${1:50}",
         "description": "ペンの [明るさ▼] を (50) にする"
     },
     "pen.transparency=": {
-        "snippet": "self.pen_transparency = ${1:50}",
+        "snippet": "pen.transparency = ${1:50}",
         "description": "ペンの [透明度▼] を (50) にする"
     },
     "pen.size+=": {
-        "snippet": "self.pen_size += ${1:1}",
+        "snippet": "pen.size += ${1:1}",
         "description": "ペンの太さを (1) ずつ変える"
     },
     "pen.size=": {
-        "snippet": "self.pen_size = ${1:1}",
+        "snippet": "pen.size = ${1:1}",
         "description": "ペンの太さを (1) にする"
     }
 }

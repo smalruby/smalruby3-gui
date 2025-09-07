@@ -30,137 +30,137 @@ describe('Ruby Tab: Events category blocks', () => {
         await driver.quit();
     });
 
-    const eventsRuby = dedent`
-        when_flag_clicked do
-          bounce_if_on_edge
-        end
-
-        when_key_pressed("space") do
-          bounce_if_on_edge
-        end
-
-        when_key_pressed("any") do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        when_key_pressed("a") do
-        end
-
-        when_clicked do
-          bounce_if_on_edge
-        end
-
-        when_clicked do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        when_backdrop_switches("backdrop1") do
-          bounce_if_on_edge
-        end
-
-        when_backdrop_switches("backdrop1") do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        when_greater_than("loudness", 10) do
-        end
-
-        when_greater_than("loudness", 10) do
-          bounce_if_on_edge
-        end
-
-        when_greater_than("timer", x) do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        when_receive("message1") do
-        end
-
-        when_receive("message1") do
-          bounce_if_on_edge
-        end
-
-        when_receive("message1") do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        broadcast("message1")
-        broadcast(x)
-        broadcast_and_wait("message1")
-        broadcast_and_wait(x)
-    `;
-
-    const eventsOldRuby = dedent`
-        self.when(:flag_clicked) do
-          bounce_if_on_edge
-        end
-
-        self.when(:key_pressed, "space") do
-          bounce_if_on_edge
-        end
-
-        self.when(:key_pressed, "any") do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        self.when(:key_pressed, "a") do
-        end
-
-        self.when(:clicked) do
-          bounce_if_on_edge
-        end
-
-        self.when(:clicked) do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        self.when(:backdrop_switches, "backdrop1") do
-          bounce_if_on_edge
-        end
-
-        self.when(:backdrop_switches, "backdrop1") do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        self.when(:greater_than, "loudness", 10) do
-        end
-
-        self.when(:greater_than, "loudness", 10) do
-          bounce_if_on_edge
-        end
-
-        self.when(:greater_than, "timer", x) do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        self.when(:receive, "message1") do
-        end
-
-        self.when(:receive, "message1") do
-          bounce_if_on_edge
-        end
-
-        self.when(:receive, "message1") do
-          bounce_if_on_edge
-          move(10)
-        end
-
-        broadcast("message1")
-        broadcast(x)
-        broadcast_and_wait("message1")
-        broadcast_and_wait(x)
-    `;
-
     describe('sprite', () => {
+        const eventsRuby = dedent`
+            when_flag_clicked do
+              bounce_if_on_edge
+            end
+
+            when_key_pressed("space") do
+              bounce_if_on_edge
+            end
+
+            when_key_pressed("any") do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            when_key_pressed("a") do
+            end
+
+            when_clicked do
+              bounce_if_on_edge
+            end
+
+            when_clicked do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            when_backdrop_switches("backdrop1") do
+              bounce_if_on_edge
+            end
+
+            when_backdrop_switches("backdrop1") do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            when_greater_than("loudness", 10) do
+            end
+
+            when_greater_than("loudness", 10) do
+              bounce_if_on_edge
+            end
+
+            when_greater_than("timer", x) do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            when_receive("message1") do
+            end
+
+            when_receive("message1") do
+              bounce_if_on_edge
+            end
+
+            when_receive("message1") do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            broadcast("message1")
+            broadcast(x)
+            broadcast_and_wait("message1")
+            broadcast_and_wait(x)
+        `;
+
+        const eventsOldRuby = dedent`
+            self.when(:flag_clicked) do
+              bounce_if_on_edge
+            end
+
+            self.when(:key_pressed, "space") do
+              bounce_if_on_edge
+            end
+
+            self.when(:key_pressed, "any") do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            self.when(:key_pressed, "a") do
+            end
+
+            self.when(:clicked) do
+              bounce_if_on_edge
+            end
+
+            self.when(:clicked) do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            self.when(:backdrop_switches, "backdrop1") do
+              bounce_if_on_edge
+            end
+
+            self.when(:backdrop_switches, "backdrop1") do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            self.when(:greater_than, "loudness", 10) do
+            end
+
+            self.when(:greater_than, "loudness", 10) do
+              bounce_if_on_edge
+            end
+
+            self.when(:greater_than, "timer", x) do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            self.when(:receive, "message1") do
+            end
+
+            self.when(:receive, "message1") do
+              bounce_if_on_edge
+            end
+
+            self.when(:receive, "message1") do
+              bounce_if_on_edge
+              move(10)
+            end
+
+            broadcast("message1")
+            broadcast(x)
+            broadcast_and_wait("message1")
+            broadcast_and_wait(x)
+        `;
+
         test('Ruby -> Code -> Ruby', async () => {
             await loadUri(urlFor('/'));
             await expectInterconvertBetweenCodeAndRuby(eventsRuby);
@@ -179,72 +179,72 @@ describe('Ruby Tab: Events category blocks', () => {
         });
     });
 
-    const eventsStageRuby = dedent`
-        when_flag_clicked do
-          switch_backdrop("backdrop1")
-        end
-
-        when_key_pressed("space") do
-          switch_backdrop("backdrop1")
-        end
-
-        when_clicked do
-          switch_backdrop("backdrop1")
-        end
-
-        when_backdrop_switches("backdrop1") do
-          switch_backdrop("backdrop1")
-        end
-
-        when_greater_than("loudness", 10) do
-          switch_backdrop("backdrop1")
-        end
-
-        when_receive("message1") do
-          switch_backdrop("backdrop1")
-        end
-
-        broadcast("message1")
-        broadcast_and_wait("message1")
-    `;
-
-    const eventsStageOldRuby = dedent`
-        self.when(:flag_clicked) do
-          switch_backdrop("backdrop1")
-        end
-
-        self.when(:key_pressed, "space") do
-          switch_backdrop("backdrop1")
-        end
-
-        self.when(:clicked) do
-          switch_backdrop("backdrop1")
-        end
-
-        self.when(:backdrop_switches, "backdrop1") do
-          switch_backdrop("backdrop1")
-        end
-
-        self.when(:greater_than, "loudness", 10) do
-          switch_backdrop("backdrop1")
-        end
-
-        self.when(:receive, "message1") do
-          switch_backdrop("backdrop1")
-        end
-
-        broadcast("message1")
-        broadcast_and_wait("message1")
-    `;
-
     describe('stage', () => {
+        const eventsStageRuby = dedent`
+            when_flag_clicked do
+              switch_backdrop("backdrop1")
+            end
+
+            when_key_pressed("space") do
+              switch_backdrop("backdrop1")
+            end
+
+            when_clicked do
+              switch_backdrop("backdrop1")
+            end
+
+            when_backdrop_switches("backdrop1") do
+              switch_backdrop("backdrop1")
+            end
+
+            when_greater_than("loudness", 10) do
+              switch_backdrop("backdrop1")
+            end
+
+            when_receive("message1") do
+              switch_backdrop("backdrop1")
+            end
+
+            broadcast("message1")
+            broadcast_and_wait("message1")
+        `;
+
+        const eventsStageOldRuby = dedent`
+            self.when(:flag_clicked) do
+              switch_backdrop("backdrop1")
+            end
+
+            self.when(:key_pressed, "space") do
+              switch_backdrop("backdrop1")
+            end
+
+            self.when(:clicked) do
+              switch_backdrop("backdrop1")
+            end
+
+            self.when(:backdrop_switches, "backdrop1") do
+              switch_backdrop("backdrop1")
+            end
+
+            self.when(:greater_than, "loudness", 10) do
+              switch_backdrop("backdrop1")
+            end
+
+            self.when(:receive, "message1") do
+              switch_backdrop("backdrop1")
+            end
+
+            broadcast("message1")
+            broadcast_and_wait("message1")
+        `;
+
         test('Ruby -> Code -> Ruby', async () => {
             await loadUri(urlFor('/'));
             await clickXpath('//span[text()="Stage"]');
             await expectInterconvertBetweenCodeAndRuby(eventsStageRuby);
         });
 
-        test('Ruby -> Code -> Ruby (backward compatibility) ', async () => {
+        test('Ruby -> Code -> Ruby (backward compatibility)', async () => {
             await loadUri(urlFor('/'));
             await clickXpath('//span[text()="Stage"]');
 

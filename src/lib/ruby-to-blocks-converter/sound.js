@@ -11,89 +11,106 @@ const Effect = [
  * Sound converter
  */
 const SoundConverter = {
-    // eslint-disable-next-line no-unused-vars
-    onSend: function (receiver, name, args, rubyBlockArgs, rubyBlock) {
-        let block;
-        if ((this._isSelf(receiver) || receiver === Opal.nil) && !rubyBlock) {
-            switch (name) {
-            case 'play_until_done':
-            case 'play':
-                if (args.length === 1 && this._isStringOrBlock(args[0])) {
-                    // Check if sound exists when string is specified and target has sounds
-                    if (this._isString(args[0]) && this._context.target &&
-                        this._context.target.sprite && this._context.target.sprite.sounds) {
-                        const soundName = args[0].toString();
-                        const soundExists = this._context.target.sprite.sounds.some(sound => sound.name === soundName);
-                        if (!soundExists) {
-                            throw new RubyToBlocksConverterError(
-                                args[0].node,
-                                `sound "${soundName}" does not exist`
-                            );
-                        }
-                    }
+    register: function (converter) {
+        // play_until_done method
+        converter.registerCallMethod('self', 'play_until_done', 1, params => {
+            const {args} = params;
+            if (!converter.isStringOrBlock(args[0])) return null;
 
-                    let opcode;
-                    if (name === 'play_until_done') {
-                        opcode = 'sound_playuntildone';
-                    } else {
-                        opcode = 'sound_play';
-                    }
-                    block = this._createBlock(opcode, 'statement');
-                    this._addFieldInput(block, 'SOUND_MENU', 'sound_sounds_menu', 'SOUND_MENU', args[0], '');
+            // Check if sound exists when string is specified and target has sounds
+            if (converter.isString(args[0]) && converter._context.target &&
+                converter._context.target.sprite && converter._context.target.sprite.sounds) {
+                const soundName = args[0].toString();
+                const soundExists = converter._context.target.sprite.sounds.some(sound => sound.name === soundName);
+                if (!soundExists) {
+                    throw new RubyToBlocksConverterError(
+                        args[0].node,
+                        `sound "${soundName}" does not exist`
+                    );
                 }
-                break;
-            case 'stop_all_sounds':
-            case 'clear_sound_effects':
-            case 'volume':
-                if (args.length === 0) {
-                    let opcode;
-                    let blockType;
-                    switch (name) {
-                    case 'stop_all_sounds':
-                        opcode = 'sound_stopallsounds';
-                        blockType = 'statement';
-                        break;
-                    case 'clear_sound_effects':
-                        opcode = 'sound_cleareffects';
-                        blockType = 'statement';
-                        break;
-                    case 'volume':
-                        opcode = 'sound_volume';
-                        blockType = 'value';
-                        break;
-                    }
-                    block = this._createBlock(opcode, blockType);
-                }
-                break;
-            case 'change_sound_effect_by':
-            case 'set_sound_effect':
-                if (args.length === 2 && this._isString(args[0]) && Effect.indexOf(args[0].toString()) >= 0 &&
-                    this._isNumberOrBlock(args[1])) {
-                    let opcode;
-                    let value;
-                    if (name === 'change_sound_effect_by') {
-                        opcode = 'sound_changeeffectby';
-                        value = 10;
-                    } else {
-                        opcode = 'sound_seteffectto';
-                        value = 100;
-                    }
-                    block = this._createBlock(opcode, 'statement');
-                    this._addField(block, 'EFFECT', args[0]);
-                    this._addNumberInput(block, 'VALUE', 'math_number', args[1], value);
-                }
-                break;
-            case 'volume=':
-                if (args.length === 1 && this._isNumberOrBlock(args[0])) {
-                    block = this._createBlock('sound_setvolumeto', 'statement');
-                    this._addNumberInput(block, 'VOLUME', 'math_number', args[0], 100);
-                }
-                break;
             }
-        }
-        return block;
+
+            const block = converter.createBlock('sound_playuntildone', 'statement');
+            converter.addFieldInput(block, 'SOUND_MENU', 'sound_sounds_menu', 'SOUND_MENU', args[0], '');
+            return block;
+        });
+
+        // play method
+        converter.registerCallMethod('self', 'play', 1, params => {
+            const {args} = params;
+            if (!converter.isStringOrBlock(args[0])) return null;
+
+            // Check if sound exists when string is specified and target has sounds
+            if (converter.isString(args[0]) && converter._context.target &&
+                converter._context.target.sprite && converter._context.target.sprite.sounds) {
+                const soundName = args[0].toString();
+                const soundExists = converter._context.target.sprite.sounds.some(sound => sound.name === soundName);
+                if (!soundExists) {
+                    throw new RubyToBlocksConverterError(
+                        args[0].node,
+                        `sound "${soundName}" does not exist`
+                    );
+                }
+            }
+
+            const block = converter.createBlock('sound_play', 'statement');
+            converter.addFieldInput(block, 'SOUND_MENU', 'sound_sounds_menu', 'SOUND_MENU', args[0], '');
+            return block;
+        });
+
+        // stop_all_sounds method
+        converter.registerCallMethod('self', 'stop_all_sounds', 0, () =>
+            converter.createBlock('sound_stopallsounds', 'statement')
+        );
+
+        // clear_sound_effects method
+        converter.registerCallMethod('self', 'clear_sound_effects', 0, () =>
+            converter.createBlock('sound_cleareffects', 'statement')
+        );
+
+        converter.registerCallMethod('self', 'volume', 0, params => {
+            const {receiver} = params;
+            if (!converter._isSelf(receiver) && receiver !== Opal.nil) return null;
+
+            return converter.createBlock('sound_volume', 'value');
+        });
+
+        // change_sound_effect_by method
+        converter.registerCallMethod('self', 'change_sound_effect_by', 2, params => {
+            const {args} = params;
+            if (!converter.isString(args[0]) || Effect.indexOf(args[0].toString()) < 0) return null;
+            if (!converter.isNumberOrBlock(args[1])) return null;
+
+            const block = converter.createBlock('sound_changeeffectby', 'statement');
+            converter.addField(block, 'EFFECT', args[0]);
+            converter.addNumberInput(block, 'VALUE', 'math_number', args[1], 10);
+            return block;
+        });
+
+        // set_sound_effect method
+        converter.registerCallMethod('self', 'set_sound_effect', 2, params => {
+            const {args} = params;
+            if (!converter.isString(args[0]) || Effect.indexOf(args[0].toString()) < 0) return null;
+            if (!converter.isNumberOrBlock(args[1])) return null;
+
+            const block = converter.createBlock('sound_seteffectto', 'statement');
+            converter.addField(block, 'EFFECT', args[0]);
+            converter.addNumberInput(block, 'VALUE', 'math_number', args[1], 100);
+            return block;
+        });
+
+        // volume= method
+        converter.registerCallMethod('self', 'volume=', 1, params => {
+            const {args} = params;
+            if (!converter.isNumberOrBlock(args[0])) return null;
+
+            const block = converter.createBlock('sound_setvolumeto', 'statement');
+            converter.addNumberInput(block, 'VOLUME', 'math_number', args[0], 100);
+            return block;
+        });
     },
 
+    // Keep onOpAsgn for volume+= operator
     // eslint-disable-next-line no-unused-vars
     onOpAsgn: function (lh, operator, rh) {
         let block;

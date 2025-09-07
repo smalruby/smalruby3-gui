@@ -1,6 +1,5 @@
 /* global Opal */
 import _ from 'lodash';
-import {RubyToBlocksConverterError} from './errors';
 
 /* eslint-disable no-invalid-this */
 const createControlRepeatBlock = function (times, body) {
@@ -64,14 +63,6 @@ const ControlConverter = {
                     this._addInput(block, 'CLONE_OPTION', optionBlock, optionBlock);
                 }
                 break;
-            case 'delete_this_clone':
-                if (args.length === 0) {
-                    if (this._isStage()) {
-                        throw new RubyToBlocksConverterError(node, 'Stage selected: no clone blocks');
-                    }
-                    block = this._createBlock('control_delete_this_clone', 'statement');
-                }
-                break;
             }
         } else if (this._isNumberOrBlock(receiver)) {
             switch (name) {
@@ -118,17 +109,17 @@ const ControlConverter = {
     },
 
     register: function (converter) {
-        converter.registerCallMethodWithBlock('self', 'when_start_as_a_clone', 0, 0, params => {
-            const {rubyBlock, node} = params;
-
-            if (converter._isStage()) {
-                throw new RubyToBlocksConverterError(node, 'Stage selected: no clone blocks');
-            }
-
+        converter.registerCallMethodWithBlock('sprite', 'when_start_as_a_clone', 0, 0, params => {
+            const {rubyBlock} = params;
             const block = converter.createBlock('control_start_as_clone', 'hat');
             converter.setParent(rubyBlock, block);
             return block;
         });
+
+        // delete_this_clone method (sprite only)
+        converter.registerCallMethod('sprite', 'delete_this_clone', 0, () =>
+            converter._createBlock('control_delete_this_clone', 'statement')
+        );
 
         // backward compatibility
         converter.registerCallMethodWithBlock('self', 'when', 1, 0, params => {

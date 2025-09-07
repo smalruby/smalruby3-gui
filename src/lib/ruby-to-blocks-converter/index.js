@@ -112,6 +112,7 @@ class RubyToBlocksConverter {
         this.reset();
 
         [
+            VariablesConverter,
             EventConverter,
             ControlConverter,
             MicroBitConverter,
@@ -120,7 +121,15 @@ class RubyToBlocksConverter {
             Wedo2Converter,
             MicrobitMoreConverter,
             MeshConverter,
-            KoshienConverter
+            KoshienConverter,
+            BoostConverter,
+            TranslateConverter,
+            SoundConverter,
+            MusicConverter,
+            PenConverter,
+            MakeyMakeyConverter,
+            OperatorsConverter,
+            LooksConverter
         ].forEach(x => x.register(this));
     }
 
@@ -288,11 +297,26 @@ class RubyToBlocksConverter {
     }
 
     registerCallMethodWithBlock (receiverName, name, numArgs, numRubyBlockArgs, createBlockFunc) {
+        if (receiverName === 'any') {
+            this._anyReceiverNames().forEach(rn => {
+                this.registerCallMethodWithBlock(rn, name, numArgs, numRubyBlockArgs, createBlockFunc);
+            });
+            return;
+        }
+
+        if (_.isArray(receiverName)) {
+            receiverName.forEach(rn => {
+                this.registerCallMethodWithBlock(rn, name, numArgs, numRubyBlockArgs, createBlockFunc);
+            });
+            return;
+        }
+
         if (receiverName === 'self') {
             this.registerCallMethodWithBlock('sprite', name, numArgs, numRubyBlockArgs, createBlockFunc);
             this.registerCallMethodWithBlock('stage', name, numArgs, numRubyBlockArgs, createBlockFunc);
             return;
         }
+
         let methodToNumArgs = this._receiverToMethods[receiverName];
         if (!methodToNumArgs) methodToNumArgs = this._receiverToMethods[receiverName] = {};
 
@@ -350,6 +374,27 @@ class RubyToBlocksConverter {
         return null;
     }
 
+    /**
+     * Determines the receiver name for method call registration and lookup.
+     * This method analyzes the receiver object from Ruby AST and returns the corresponding
+     * receiver name string used in the register pattern system.
+     *
+     * @param {*} receiver - The receiver object from Ruby AST (primitives, blocks, constants, etc.)
+     * @returns {string|null} The receiver name string, or null if cannot be determined:
+     *   - 'stage': when receiver is self/nil and current target is stage
+     *   - 'sprite': when receiver is self/nil and current target is sprite
+     *   - 'variable': when receiver is a variable block type
+     *   - 'string': when receiver is a string primitive
+     *   - 'number': when receiver is a number primitive (int/float)
+     *   - 'array': when receiver is an array primitive
+     *   - 'hash': when receiver is a hash primitive
+     *   - 'boolean': when receiver is true/false primitive
+     *   - 'nil': when receiver is nil primitive
+     *   - 'block': when receiver is any other block type
+     *   - {string}: the const string representation (e.g., '::Math', '::Math::E') when receiver is const
+     *   - {string}: the text value when receiver is a ruby_expression block
+     *   - null: fallback when receiver type cannot be determined
+     */
     _getReceiverName (receiver) {
         if (this._isSelf(receiver) || receiver === Opal.nil) {
             if (this._context.target && this._context.target.isStage) {
@@ -358,12 +403,52 @@ class RubyToBlocksConverter {
             return 'sprite';
         }
 
+        if (this.isVariableBlockType(receiver)) {
+            return 'variable';
+        }
+
+        if (this._isString(receiver)) {
+            return 'string';
+        }
+
+        if (this._isNumber(receiver)) {
+            return 'number';
+        }
+
+        if (this._isArray(receiver)) {
+            return 'array';
+        }
+
+        if (this._isHash(receiver)) {
+            return 'hash';
+        }
+
+        if (this._isTrue(receiver) || this._isFalse(receiver)) {
+            return 'boolean';
+        }
+
+        if (this.isNil(receiver)) {
+            return 'nil';
+        }
+
+        if (this._isConst(receiver)) {
+            return receiver.toString();
+        }
+
         if (this._isBlock(receiver) && receiver.opcode === 'ruby_expression') {
             const textBlock = this._context.blocks[receiver.inputs.EXPRESSION.block];
             return textBlock.fields.TEXT.value;
         }
 
+        if (this._isBlock(receiver)) {
+            return 'block';
+        }
+
         return null;
+    }
+
+    _anyReceiverNames () {
+        return ['sprite', 'stage', 'variable', 'string', 'number', 'array', 'hash', 'boolean', 'nil', 'block'];
     }
 
     createBlock (opcode, type, attributes = {}) {
@@ -578,6 +663,10 @@ class RubyToBlocksConverter {
         return this._isNumber(block) || this._isString(block) || this._isValueBlock(block);
     }
 
+    isColorOrBlock (colorOrBlock) {
+        return this._isColorOrBlock(colorOrBlock);
+    }
+
     _isColorOrBlock (colorOrBlock) {
         return this._isBlock(colorOrBlock) || (this._isString(colorOrBlock) && ColorRegexp.test(colorOrBlock));
     }
@@ -615,8 +704,16 @@ class RubyToBlocksConverter {
         return this.getBlockType(block) === 'value_variable' && block.opcode === 'data_listcontents';
     }
 
+    isRubyExpression (block) {
+        return this._isRubyExpression(block);
+    }
+
     _isRubyExpression (block) {
         return this._isBlock(block) && block.opcode === 'ruby_expression';
+    }
+
+    getRubyExpression (block) {
+        return this._getRubyExpression(block);
     }
 
     _getRubyExpression (block) {
@@ -659,6 +756,10 @@ class RubyToBlocksConverter {
         this._context.blocks[block.id] = block;
         this._context.blockTypes[block.id] = type;
         return block;
+    }
+
+    createFieldBlock (opcode, fieldName, value) {
+        return this._createFieldBlock(opcode, fieldName, value);
     }
 
     _createFieldBlock (opcode, fieldName, value) {
@@ -959,6 +1060,14 @@ class RubyToBlocksConverter {
         return procedure;
     }
 
+    getBlock (blockId) {
+        return this._context.blocks[blockId];
+    }
+
+    getSource (node) {
+        return this._getSource(node);
+    }
+
     _getSource (node) {
         const expression = node.$loc().$expression();
         if (expression === Opal.nil) {
@@ -1047,6 +1156,13 @@ class RubyToBlocksConverter {
     _changeBlock (block, opcode, blockType) {
         block.opcode = opcode;
         this._setBlockType(block, blockType);
+        return block;
+    }
+
+    changeRubyExpression (block, node) {
+        block.node = node;
+        const expressionBlock = this._context.blocks[block.inputs.EXPRESSION.block];
+        expressionBlock.fields.TEXT.value = this._getSource(node);
         return block;
     }
 
@@ -1456,13 +1572,13 @@ class RubyToBlocksConverter {
         const originalVarName = node.children[0].toString();
         // Normalize variable name to snake_case lowercase for consistency
         const normalizedVarName = this._toSnakeCaseLowercase(originalVarName);
-        
+
         // Check both original and normalized names in local variables
         let variable = this._context.localVariables[normalizedVarName];
         if (!variable) {
             variable = this._context.localVariables[originalVarName];
         }
-        
+
         if (variable) {
             const block = this._callConvertersHandler('onVar', 'local', variable);
             if (block) {
