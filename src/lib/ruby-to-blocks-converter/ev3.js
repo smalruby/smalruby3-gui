@@ -9,13 +9,13 @@ const Ev3SensorMenu = ['1', '2', '3', '4'];
  */
 const EV3Converter = {
     register: function (converter) {
-        converter.registerCallMethod('self', Ev3, 0, params => {
+        converter.registerOnSend('self', Ev3, 0, params => {
             const {node} = params;
 
             return converter.createRubyExpressionBlock(Ev3, node);
         });
 
-        converter.registerCallMethod(Ev3, 'motor_turn_this_way_for', 2, params => {
+        converter.registerOnSend(Ev3, 'motor_turn_this_way_for', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isString(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -32,7 +32,7 @@ const EV3Converter = {
         });
 
         // backward compatibility
-        converter.registerCallMethod('self', 'ev3_motor_turn_this_way_for', 2, params => {
+        converter.registerOnSend('self', 'ev3_motor_turn_this_way_for', 2, params => {
             const {args} = params;
 
             if (!converter.isString(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -48,7 +48,7 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Ev3, 'motor_turn_that_way_for', 2, params => {
+        converter.registerOnSend(Ev3, 'motor_turn_that_way_for', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isString(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -64,7 +64,7 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Ev3, 'motor_turn_that_way_for', 2, params => {
+        converter.registerOnSend(Ev3, 'motor_turn_that_way_for', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isString(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -80,7 +80,7 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Ev3, 'motor_turn_that_way_for', 2, params => {
+        converter.registerOnSend(Ev3, 'motor_turn_that_way_for', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isString(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -98,7 +98,7 @@ const EV3Converter = {
 
 
         // backward compatibility
-        converter.registerCallMethod('self', 'ev3_motor_turn_that_way_for', 2, params => {
+        converter.registerOnSend('self', 'ev3_motor_turn_that_way_for', 2, params => {
             const {args} = params;
 
             if (!converter.isString(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -114,7 +114,7 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Ev3, 'motor_set_power', 2, params => {
+        converter.registerOnSend(Ev3, 'motor_set_power', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isString(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -132,7 +132,7 @@ const EV3Converter = {
 
 
         // backward compatibility
-        converter.registerCallMethod('self', 'ev3_motor_set_power', 2, params => {
+        converter.registerOnSend('self', 'ev3_motor_set_power', 2, params => {
             const {args} = params;
 
             if (!converter.isString(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -148,7 +148,7 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Ev3, 'motor_position', 1, params => {
+        converter.registerOnSend(Ev3, 'motor_position', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isString(args[0])) return null;
@@ -164,7 +164,7 @@ const EV3Converter = {
         });
 
         // backward compatibility
-        converter.registerCallMethod('self', 'ev3_motor_position', 1, params => {
+        converter.registerOnSend('self', 'ev3_motor_position', 1, params => {
             const {args} = params;
 
             if (!converter.isString(args[0])) return null;
@@ -179,7 +179,7 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Ev3, 'button_pressed?', 1, params => {
+        converter.registerOnSend(Ev3, 'button_pressed?', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isString(args[0])) return null;
@@ -195,7 +195,7 @@ const EV3Converter = {
         });
 
         // backward compatibility
-        converter.registerCallMethod('self', 'ev3_button_pressed?', 1, params => {
+        converter.registerOnSend('self', 'ev3_button_pressed?', 1, params => {
             const {args} = params;
 
             if (!converter.isString(args[0])) return null;
@@ -210,29 +210,29 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Ev3, 'distance', 0, params => {
+        converter.registerOnSend(Ev3, 'distance', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'ev3_getDistance', 'value');
         });
 
         // backward compatibility
-        converter.registerCallMethod('self', 'ev3_distance', 0, () =>
+        converter.registerOnSend('self', 'ev3_distance', 0, () =>
             converter.createBlock('ev3_getDistance', 'value')
         );
 
-        converter.registerCallMethod(Ev3, 'brightness', 0, params => {
+        converter.registerOnSend(Ev3, 'brightness', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'ev3_getBrightness', 'value');
         });
 
         // backward compatibility
-        converter.registerCallMethod('self', 'ev3_brightness', 0, () =>
+        converter.registerOnSend('self', 'ev3_brightness', 0, () =>
             converter.createBlock('ev3_getBrightness', 'value')
         );
 
-        converter.registerCallMethod(Ev3, 'beep_note', 2, params => {
+        converter.registerOnSend(Ev3, 'beep_note', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isNumberOrBlock(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -244,7 +244,7 @@ const EV3Converter = {
         });
 
         // backward compatibility
-        converter.registerCallMethod('self', 'ev3_beep_note', 2, params => {
+        converter.registerOnSend('self', 'ev3_beep_note', 2, params => {
             const {args} = params;
 
             if (!converter.isNumberOrBlock(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -255,7 +255,7 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(Ev3, 'when_button_pressed', 1, 0, params => {
+        converter.registerOnSendWithBlock(Ev3, 'when_button_pressed', 1, 0, params => {
             console.log(Ev3, 'when_button_pressed', 1, 0, params);
             const {receiver, args, rubyBlock} = params;
 
@@ -277,7 +277,7 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(Ev3, 'when_distance_lt', 1, 0, params => {
+        converter.registerOnSendWithBlock(Ev3, 'when_distance_lt', 1, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (!converter.isNumberOrBlock(args[0])) return null;
@@ -288,7 +288,7 @@ const EV3Converter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(Ev3, 'when_brightness_lt', 1, 0, params => {
+        converter.registerOnSendWithBlock(Ev3, 'when_brightness_lt', 1, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (!converter.isNumberOrBlock(args[0])) return null;
@@ -300,7 +300,7 @@ const EV3Converter = {
         });
 
         // backward compatibility
-        converter.registerCallMethodWithBlock('self', 'when', 2, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when', 2, 0, params => {
             const {args, rubyBlock} = params;
 
             if (args[0].type !== 'sym') return null;

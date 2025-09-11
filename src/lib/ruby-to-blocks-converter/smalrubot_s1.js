@@ -29,14 +29,14 @@ const SENSOR_POSITIONS = [
 const SmalrubotS1Converter = {
     register: function (converter) {
         // Create the initial Ruby expression block
-        converter.registerCallMethod('self', SmalrubotS1, 0, params => {
+        converter.registerOnSend('self', SmalrubotS1, 0, params => {
             const {node} = params;
             
             return converter.createRubyExpressionBlock(SmalrubotS1, node);
         });
 
         // Method calls on smalrubot_s1
-        converter.registerCallMethod(SmalrubotS1, 'action', 1, params => {
+        converter.registerOnSend(SmalrubotS1, 'action', 1, params => {
             const {receiver, args} = params;
             
             if (!converter.isString(args[0]) || !ACTIONS.includes(args[0].toString())) return null;
@@ -48,7 +48,7 @@ const SmalrubotS1Converter = {
             return block;
         });
 
-        converter.registerCallMethod(SmalrubotS1, 'action', 2, params => {
+        converter.registerOnSend(SmalrubotS1, 'action', 2, params => {
             const {receiver, args} = params;
             
             if (!converter.isString(args[0]) || !ACTIONS.includes(args[0].toString()) ||
@@ -62,7 +62,7 @@ const SmalrubotS1Converter = {
             return block;
         });
 
-        converter.registerCallMethod(SmalrubotS1, 'bend_arm', 2, params => {
+        converter.registerOnSend(SmalrubotS1, 'bend_arm', 2, params => {
             const {receiver, args} = params;
             
             if (!converter.isNumberOrBlock(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
@@ -75,7 +75,7 @@ const SmalrubotS1Converter = {
             return block;
         });
 
-        converter.registerCallMethod(SmalrubotS1, 'sensor_value', 1, params => {
+        converter.registerOnSend(SmalrubotS1, 'sensor_value', 1, params => {
             const {receiver, args} = params;
             
             if (!converter.isString(args[0]) || !SENSOR_POSITIONS.includes(args[0].toString())) return null;
@@ -87,7 +87,7 @@ const SmalrubotS1Converter = {
             return block;
         });
 
-        converter.registerCallMethod(SmalrubotS1, 'led', 2, params => {
+        converter.registerOnSend(SmalrubotS1, 'led', 2, params => {
             const {receiver, args} = params;
             
             if (!converter.isString(args[0]) || !POSITIONS.includes(args[0].toString()) ||
@@ -104,7 +104,7 @@ const SmalrubotS1Converter = {
             return block;
         });
 
-        converter.registerCallMethod(SmalrubotS1, 'get_motor_speed', 1, params => {
+        converter.registerOnSend(SmalrubotS1, 'get_motor_speed', 1, params => {
             const {receiver, args} = params;
             
             if (!converter.isString(args[0]) || !POSITIONS.includes(args[0].toString())) return null;
@@ -116,7 +116,7 @@ const SmalrubotS1Converter = {
             return block;
         });
 
-        converter.registerCallMethod(SmalrubotS1, 'set_motor_speed', 2, params => {
+        converter.registerOnSend(SmalrubotS1, 'set_motor_speed', 2, params => {
             const {receiver, args} = params;
             
             if (!converter.isString(args[0]) || !POSITIONS.includes(args[0].toString()) ||
@@ -130,7 +130,7 @@ const SmalrubotS1Converter = {
             return block;
         });
 
-        converter.registerCallMethod(SmalrubotS1, 'arm_calibration=', 1, params => {
+        converter.registerOnSend(SmalrubotS1, 'arm_calibration=', 1, params => {
             const {receiver, args} = params;
             
             if (!converter.isNumberOrBlock(args[0])) return null;

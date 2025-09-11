@@ -24,13 +24,13 @@ const VideoStateMenu = [
  */
 const VideoConverter = {
     register: function (converter) {
-        converter.registerCallMethod('self', VideoSensing, 0, params => {
+        converter.registerOnSend('self', VideoSensing, 0, params => {
             const {node} = params;
 
             return converter.createRubyExpressionBlock(VideoSensing, node);
         });
 
-        converter.registerCallMethodWithBlock(VideoSensing, 'when_video_motion_greater_than', 1, 0, params => {
+        converter.registerOnSendWithBlock(VideoSensing, 'when_video_motion_greater_than', 1, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (!converter.isNumberOrBlock(args[0])) return null;
@@ -41,7 +41,7 @@ const VideoConverter = {
             return block;
         });
 
-        converter.registerCallMethod(VideoSensing, 'video_on', 2, params => {
+        converter.registerOnSend(VideoSensing, 'video_on', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -69,7 +69,7 @@ const VideoConverter = {
             return block;
         });
 
-        converter.registerCallMethod(VideoSensing, 'video_turn', 1, params => {
+        converter.registerOnSend(VideoSensing, 'video_turn', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -87,7 +87,7 @@ const VideoConverter = {
             return block;
         });
 
-        converter.registerCallMethod(VideoSensing, 'video_transparency=', 1, params => {
+        converter.registerOnSend(VideoSensing, 'video_transparency=', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isNumberOrBlock(args[0])) return null;

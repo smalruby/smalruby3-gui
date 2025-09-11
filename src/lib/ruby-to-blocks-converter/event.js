@@ -12,7 +12,7 @@ const GreaterThanMenu = [
  */
 const EventConverter = {
     register: function (converter) {
-        converter.registerCallMethodWithBlock('self', 'when_flag_clicked', 0, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when_flag_clicked', 0, 0, params => {
             const {rubyBlock} = params;
 
             const block = converter.createBlock('event_whenflagclicked', 'hat');
@@ -20,7 +20,7 @@ const EventConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock('self', 'when_key_pressed', 1, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when_key_pressed', 1, 0, params => {
             const {args, rubyBlock} = params;
 
             if (!converter.isString(args[0])) return null;
@@ -32,7 +32,7 @@ const EventConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock('self', 'when_clicked', 0, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when_clicked', 0, 0, params => {
             const {receiverName, rubyBlock} = params;
 
             let opcode = 'event_whenthisspriteclicked';
@@ -42,7 +42,7 @@ const EventConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock('self', 'when_backdrop_switches', 1, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when_backdrop_switches', 1, 0, params => {
             const {args, rubyBlock} = params;
 
             if (!converter.isString(args[0])) return null;
@@ -53,7 +53,7 @@ const EventConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock('self', 'when_greater_than', 2, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when_greater_than', 2, 0, params => {
             const {args, rubyBlock} = params;
 
             if (!converter.isString(args[0])) return null;
@@ -68,7 +68,7 @@ const EventConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock('self', 'when_receive', 1, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when_receive', 1, 0, params => {
             const {args, rubyBlock} = params;
 
             if (!converter.isString(args[0])) return null;
@@ -112,17 +112,17 @@ const EventConverter = {
             converter.addInput(block, 'BROADCAST_INPUT', inputBlock, shadowBlock);
             return block;
         };
-        converter.registerCallMethod(
+        converter.registerOnSend(
             'self', 'broadcast', 1,
             params => createBroadcastBlockFunc(params, 'event_broadcast')
         );
-        converter.registerCallMethod(
+        converter.registerOnSend(
             'self', 'broadcast_and_wait', 1,
             params => createBroadcastBlockFunc(params, 'event_broadcastandwait')
         );
 
         // backward compatibility
-        converter.registerCallMethodWithBlock('self', 'when', 1, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when', 1, 0, params => {
             const {args} = params;
 
             if (args[0].type !== 'sym') return null;
@@ -144,7 +144,7 @@ const EventConverter = {
         });
 
         // backward compatibility
-        converter.registerCallMethodWithBlock('self', 'when', 2, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when', 2, 0, params => {
             const {args} = params;
 
             if (args[0].type !== 'sym') return null;
@@ -171,7 +171,7 @@ const EventConverter = {
         });
 
         // backward compatibility
-        converter.registerCallMethodWithBlock('self', 'when', 3, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when', 3, 0, params => {
             const {args} = params;
 
             if (args[0].type !== 'sym') return null;

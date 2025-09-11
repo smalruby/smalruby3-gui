@@ -7,51 +7,51 @@ const Pen = 'pen';
  */
 const PenConverter = {
     register: function (converter) {
-        converter.registerCallMethod('::Pen', 'clear', 0, () =>
+        converter.registerOnSend('::Pen', 'clear', 0, () =>
             converter.createBlock('pen_clear', 'statement')
         );
 
         // backward compatibility
-        converter.registerCallMethod('self', 'pen_clear', 0, () =>
+        converter.registerOnSend('self', 'pen_clear', 0, () =>
             converter.createBlock('pen_clear', 'statement')
         );
 
-        converter.registerCallMethod('sprite', Pen, 0, params => {
+        converter.registerOnSend('sprite', Pen, 0, params => {
             const {node} = params;
             return converter.createRubyExpressionBlock(Pen, node);
         });
 
-        converter.registerCallMethod(Pen, 'stamp', 0, params => {
+        converter.registerOnSend(Pen, 'stamp', 0, params => {
             const {receiver} = params;
             return converter.changeRubyExpressionBlock(receiver, 'pen_stamp', 'statement');
         });
 
         // backward compatibility
-        converter.registerCallMethod('sprite', 'pen_stamp', 0, () =>
+        converter.registerOnSend('sprite', 'pen_stamp', 0, () =>
             converter.createBlock('pen_stamp', 'statement')
         );
 
-        converter.registerCallMethod(Pen, 'down', 0, params => {
+        converter.registerOnSend(Pen, 'down', 0, params => {
             const {receiver} = params;
             return converter.changeRubyExpressionBlock(receiver, 'pen_penDown', 'statement');
         });
 
         // backward compatibility
-        converter.registerCallMethod('sprite', 'pen_down', 0, () =>
+        converter.registerOnSend('sprite', 'pen_down', 0, () =>
             converter.createBlock('pen_penDown', 'statement')
         );
 
-        converter.registerCallMethod(Pen, 'up', 0, params => {
+        converter.registerOnSend(Pen, 'up', 0, params => {
             const {receiver} = params;
             return converter.changeRubyExpressionBlock(receiver, 'pen_penUp', 'statement');
         });
 
         // backward compatibility
-        converter.registerCallMethod('sprite', 'pen_up', 0, () =>
+        converter.registerOnSend('sprite', 'pen_up', 0, () =>
             converter.createBlock('pen_penUp', 'statement')
         );
 
-        converter.registerCallMethod(Pen, 'color=', 1, params => {
+        converter.registerOnSend(Pen, 'color=', 1, params => {
             const {receiver, args} = params;
             if (!converter.isNumberOrBlock(args[0]) && !converter.isColorOrBlock(args[0])) return null;
 
@@ -71,7 +71,7 @@ const PenConverter = {
         });
 
         // backward compatibility
-        converter.registerCallMethod('sprite', 'pen_color=', 1, params => {
+        converter.registerOnSend('sprite', 'pen_color=', 1, params => {
             const {args} = params;
 
             if (converter.isNumberOrBlock(args[0])) {
@@ -90,7 +90,7 @@ const PenConverter = {
             return null;
         });
 
-        converter.registerCallMethod(Pen, 'saturation=', 1, params => {
+        converter.registerOnSend(Pen, 'saturation=', 1, params => {
             const {receiver, args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -104,7 +104,7 @@ const PenConverter = {
         });
 
         // backward compatibility
-        converter.registerCallMethod('sprite', 'pen_saturation=', 1, params => {
+        converter.registerOnSend('sprite', 'pen_saturation=', 1, params => {
             const {args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -117,7 +117,7 @@ const PenConverter = {
             return block;
         });
 
-        converter.registerCallMethod(Pen, 'brightness=', 1, params => {
+        converter.registerOnSend(Pen, 'brightness=', 1, params => {
             const {receiver, args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -131,7 +131,7 @@ const PenConverter = {
         });
 
         // backward compatibility
-        converter.registerCallMethod('sprite', 'pen_brightness=', 1, params => {
+        converter.registerOnSend('sprite', 'pen_brightness=', 1, params => {
             const {args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -144,7 +144,7 @@ const PenConverter = {
             return block;
         });
 
-        converter.registerCallMethod(Pen, 'transparency=', 1, params => {
+        converter.registerOnSend(Pen, 'transparency=', 1, params => {
             const {receiver, args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -158,7 +158,7 @@ const PenConverter = {
         });
 
         // backward compatibility
-        converter.registerCallMethod('sprite', 'pen_transparency=', 1, params => {
+        converter.registerOnSend('sprite', 'pen_transparency=', 1, params => {
             const {args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -171,7 +171,7 @@ const PenConverter = {
             return block;
         });
 
-        converter.registerCallMethod(Pen, 'size=', 1, params => {
+        converter.registerOnSend(Pen, 'size=', 1, params => {
             const {receiver, args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -181,7 +181,7 @@ const PenConverter = {
         });
 
         // backward compatibility
-        converter.registerCallMethod('sprite', 'pen_size=', 1, params => {
+        converter.registerOnSend('sprite', 'pen_size=', 1, params => {
             const {args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -192,7 +192,7 @@ const PenConverter = {
 
         // for +=
         ['color', 'saturation', 'brightness', 'transparency', 'size'].forEach(methodName => {
-            converter.registerCallMethod(Pen, methodName, 0, params => {
+            converter.registerOnSend(Pen, methodName, 0, params => {
                 const {receiver, node} = params;
 
                 return converter.changeRubyExpression(receiver, node);

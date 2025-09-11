@@ -80,7 +80,7 @@ const validateBackdrop = function (backdropName, args) {
 const LooksConverter = {
     register: function (converter) {
         ['say', 'think'].forEach(methodName => {
-            converter.registerCallMethod('sprite', methodName, 1, params => {
+            converter.registerOnSend('sprite', methodName, 1, params => {
                 const {args} = params;
                 if (!converter._isNumberOrStringOrBlock(args[0])) return null;
 
@@ -99,7 +99,7 @@ const LooksConverter = {
         });
 
         ['say', 'think'].forEach(methodName => {
-            converter.registerCallMethod('sprite', methodName, 2, params => {
+            converter.registerOnSend('sprite', methodName, 2, params => {
                 const {args} = params;
                 if (!converter._isNumberOrStringOrBlock(args[0]) || !converter._isNumberOrBlock(args[1])) return null;
 
@@ -119,7 +119,7 @@ const LooksConverter = {
             });
         });
 
-        converter.registerCallMethod('sprite', 'switch_costume', 1, params => {
+        converter.registerOnSend('sprite', 'switch_costume', 1, params => {
             const {args} = params;
             if (!converter._isString(args[0])) return null;
 
@@ -129,7 +129,7 @@ const LooksConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'switch_backdrop', 1, params => {
+        converter.registerOnSend('self', 'switch_backdrop', 1, params => {
             const {args} = params;
             if (!converter._isString(args[0])) return null;
 
@@ -139,7 +139,7 @@ const LooksConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'switch_backdrop_and_wait', 1, params => {
+        converter.registerOnSend('self', 'switch_backdrop_and_wait', 1, params => {
             const {args} = params;
             if (!converter._isString(args[0])) return null;
 
@@ -149,7 +149,7 @@ const LooksConverter = {
             return block;
         });
 
-        converter.registerCallMethod('sprite', 'size=', 1, params => {
+        converter.registerOnSend('sprite', 'size=', 1, params => {
             const {args} = params;
             if (!converter._isNumberOrBlock(args[0])) return null;
 
@@ -158,7 +158,7 @@ const LooksConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'change_effect_by', 2, params => {
+        converter.registerOnSend('self', 'change_effect_by', 2, params => {
             const {args} = params;
             if (!converter._isString(args[0]) || Effects.indexOf(args[0].toString().toUpperCase()) < 0) return null;
             if (!converter._isNumberOrBlock(args[1])) return null;
@@ -169,7 +169,7 @@ const LooksConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'set_effect', 2, params => {
+        converter.registerOnSend('self', 'set_effect', 2, params => {
             const {args} = params;
             if (!converter._isString(args[0]) || Effects.indexOf(args[0].toString().toUpperCase()) < 0) return null;
             if (!converter._isNumberOrBlock(args[1])) return null;
@@ -180,7 +180,7 @@ const LooksConverter = {
             return block;
         });
 
-        converter.registerCallMethod('sprite', 'go_to_layer', 1, params => {
+        converter.registerOnSend('sprite', 'go_to_layer', 1, params => {
             const {args} = params;
             if (!converter._isString(args[0]) || FrontBack.indexOf(args[0].toString()) < 0) return null;
 
@@ -189,7 +189,7 @@ const LooksConverter = {
             return block;
         });
 
-        converter.registerCallMethod('sprite', 'go_layers', 2, params => {
+        converter.registerOnSend('sprite', 'go_layers', 2, params => {
             const {args} = params;
             if (!converter._isNumberOrBlock(args[0]) || ForwardBackward.indexOf(args[1].toString()) < 0) return null;
 
@@ -200,7 +200,7 @@ const LooksConverter = {
         });
 
         ['costume_number', 'costume_name'].forEach(methodName => {
-            converter.registerCallMethod('sprite', methodName, 0, () => {
+            converter.registerOnSend('sprite', methodName, 0, () => {
                 const a = methodName.split('_');
                 const block = converter._createBlock(`looks_${a[0]}numbername`, 'value');
                 converter._addField(block, 'NUMBER_NAME', a[1]);
@@ -209,7 +209,7 @@ const LooksConverter = {
         });
 
         ['backdrop_number', 'backdrop_name'].forEach(methodName => {
-            converter.registerCallMethod('self', methodName, 0, params => {
+            converter.registerOnSend('self', methodName, 0, params => {
                 const {receiver} = params;
                 if (!converter._isSelf(receiver) && receiver !== Opal.nil) return null;
 
@@ -220,27 +220,27 @@ const LooksConverter = {
             });
         });
 
-        converter.registerCallMethod('sprite', 'next_costume', 0, () =>
+        converter.registerOnSend('sprite', 'next_costume', 0, () =>
             converter._createBlock('looks_nextcostume', 'statement')
         );
 
-        converter.registerCallMethod('self', 'next_backdrop', 0, () =>
+        converter.registerOnSend('self', 'next_backdrop', 0, () =>
             converter._createBlock('looks_nextbackdrop', 'statement')
         );
 
-        converter.registerCallMethod('self', 'clear_graphic_effects', 0, () =>
+        converter.registerOnSend('self', 'clear_graphic_effects', 0, () =>
             converter._createBlock('looks_cleargraphiceffects', 'statement')
         );
 
-        converter.registerCallMethod('sprite', 'show', 0, () =>
+        converter.registerOnSend('sprite', 'show', 0, () =>
             converter._createBlock('looks_show', 'statement')
         );
 
-        converter.registerCallMethod('sprite', 'hide', 0, () =>
+        converter.registerOnSend('sprite', 'hide', 0, () =>
             converter._createBlock('looks_hide', 'statement')
         );
 
-        converter.registerCallMethod('sprite', 'size', 0, () =>
+        converter.registerOnSend('sprite', 'size', 0, () =>
             converter._createBlock('looks_size', 'value')
         );
     },

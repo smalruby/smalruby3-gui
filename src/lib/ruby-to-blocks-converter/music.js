@@ -5,7 +5,7 @@ import _ from 'lodash';
  */
 const MusicConverter = {
     register: function (converter) {
-        converter.registerCallMethod('self', 'play_drum', 1, params => {
+        converter.registerOnSend('self', 'play_drum', 1, params => {
             const {args} = params;
             if (!converter._isHash(args[0]) || args[0].size !== 2) return null;
 
@@ -23,7 +23,7 @@ const MusicConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'rest', 1, params => {
+        converter.registerOnSend('self', 'rest', 1, params => {
             const {args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -32,7 +32,7 @@ const MusicConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'play_note', 1, params => {
+        converter.registerOnSend('self', 'play_note', 1, params => {
             const {args} = params;
             if (!converter._isHash(args[0]) || args[0].size !== 2) return null;
 
@@ -46,7 +46,7 @@ const MusicConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'instrument=', 1, params => {
+        converter.registerOnSend('self', 'instrument=', 1, params => {
             const {args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -59,7 +59,7 @@ const MusicConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'tempo=', 1, params => {
+        converter.registerOnSend('self', 'tempo=', 1, params => {
             const {args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -68,7 +68,7 @@ const MusicConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'tempo', 0, () =>
+        converter.registerOnSend('self', 'tempo', 0, () =>
             converter.createBlock('music_getTempo', 'value')
         );
     },

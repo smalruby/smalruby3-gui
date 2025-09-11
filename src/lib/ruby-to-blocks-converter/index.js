@@ -89,26 +89,16 @@ class RubyToBlocksConverter {
     constructor (vm) {
         this.vm = vm;
         this._translator = message => message.defaultMessage;
-        this._converters = [
-            MusicConverter,
-            PenConverter,
-            EV3Converter,
-            GdxForConverter,
-            SmalrubotS1Converter,
-            BoostConverter,
-            TranslateConverter,
-            MakeyMakeyConverter,
-
-            MotionConverter,
-            LooksConverter,
-            SoundConverter,
-            ControlConverter,
-            SensingConverter,
-            OperatorsConverter,
-            VariablesConverter,
-            MyBlocksConverter
-        ];
         this._receiverToMethods = {};
+        this._receiverToMyBlocks = {};
+        this._onIfHandlers = [];
+        this._onUntilHandlers = [];
+        this._onOpAsgnHandlers = [];
+        this._onAndHandlers = [];
+        this._onOrHandlers = [];
+        this._onVarHandlers = [];
+        this._onVasgnHandlers = [];
+        this._onDefsHandlers = [];
         this.reset();
 
         [
@@ -132,7 +122,10 @@ class RubyToBlocksConverter {
             LooksConverter,
             EV3Converter,
             GdxForConverter,
-            SmalrubotS1Converter
+            SmalrubotS1Converter,
+            MotionConverter,
+            SensingConverter,
+            MyBlocksConverter
         ].forEach(x => x.register(this));
     }
 
@@ -299,24 +292,24 @@ class RubyToBlocksConverter {
         });
     }
 
-    registerCallMethodWithBlock (receiverName, name, numArgs, numRubyBlockArgs, createBlockFunc) {
+    registerOnSendWithBlock (receiverName, name, numArgs, numRubyBlockArgs, createBlockFunc) {
         if (receiverName === 'any') {
             this._anyReceiverNames().forEach(rn => {
-                this.registerCallMethodWithBlock(rn, name, numArgs, numRubyBlockArgs, createBlockFunc);
+                this.registerOnSendWithBlock(rn, name, numArgs, numRubyBlockArgs, createBlockFunc);
             });
             return;
         }
 
         if (_.isArray(receiverName)) {
             receiverName.forEach(rn => {
-                this.registerCallMethodWithBlock(rn, name, numArgs, numRubyBlockArgs, createBlockFunc);
+                this.registerOnSendWithBlock(rn, name, numArgs, numRubyBlockArgs, createBlockFunc);
             });
             return;
         }
 
         if (receiverName === 'self') {
-            this.registerCallMethodWithBlock('sprite', name, numArgs, numRubyBlockArgs, createBlockFunc);
-            this.registerCallMethodWithBlock('stage', name, numArgs, numRubyBlockArgs, createBlockFunc);
+            this.registerOnSendWithBlock('sprite', name, numArgs, numRubyBlockArgs, createBlockFunc);
+            this.registerOnSendWithBlock('stage', name, numArgs, numRubyBlockArgs, createBlockFunc);
             return;
         }
 
@@ -337,20 +330,95 @@ class RubyToBlocksConverter {
         createBlockFuncs.push(createBlockFunc);
     }
 
-    registerCallMethod (receiverName, name, numArgs, createBlockFunc) {
-        this.registerCallMethodWithBlock(receiverName, name, numArgs, 'none', createBlockFunc);
+    registerOnSend (receiverName, name, numArgs, createBlockFunc) {
+        this.registerOnSendWithBlock(receiverName, name, numArgs, 'none', createBlockFunc);
+    }
+
+    registerOnSendMyBlock (receiverName, myBlockHandler) {
+        if (receiverName === 'any') {
+            this._anyReceiverNames().forEach(rn => this.registerOnSendMyBlock(rn, myBlockHandler));
+            return;
+        }
+
+        if (_.isArray(receiverName)) {
+            receiverName.forEach(rn => this.registerOnSendMyBlock(rn, myBlockHandler));
+            return;
+        }
+
+        if (receiverName === 'self') {
+            this.registerOnSendMyBlock('sprite', myBlockHandler);
+            this.registerOnSendMyBlock('stage', myBlockHandler);
+            return;
+        }
+
+        if (!this._receiverToMyBlocks[receiverName]) {
+            this._receiverToMyBlocks[receiverName] = [];
+        }
+        this._receiverToMyBlocks[receiverName].push(myBlockHandler);
+    }
+
+    registerOnIf (handler) {
+        this._onIfHandlers.push(handler);
+    }
+
+    registerOnUntil (handler) {
+        this._onUntilHandlers.push(handler);
+    }
+
+    registerOnOpAsgn (handler) {
+        this._onOpAsgnHandlers.push(handler);
+    }
+
+    registerOnAnd (handler) {
+        this._onAndHandlers.push(handler);
+    }
+
+    registerOnOr (handler) {
+        this._onOrHandlers.push(handler);
+    }
+
+    registerOnVar (handler) {
+        this._onVarHandlers.push(handler);
+    }
+
+    registerOnVasgn (handler) {
+        this._onVasgnHandlers.push(handler);
+    }
+
+    registerOnDefs (handler) {
+        this._onDefsHandlers.push(handler);
     }
 
     callMethod (receiver, name, args, rubyBlockArgs, rubyBlock, node) {
         const receiverName = this._getReceiverName(receiver);
         if (!receiverName) return null;
 
+        // Check for my-block procedure calls
+        if (this._receiverToMyBlocks[receiverName]) {
+            const procedure = this._lookupProcedure(name);
+            if (procedure) {
+                const params = {
+                    receiver: receiver,
+                    receiverName: receiverName,
+                    name: name,
+                    args: args,
+                    rubyBlockArgs: rubyBlockArgs,
+                    rubyBlock: rubyBlock,
+                    node: node,
+                    procedure: procedure
+                };
+
+                for (const handler of this._receiverToMyBlocks[receiverName]) {
+                    const block = handler.apply(this, [params]);
+                    if (block) return block;
+                }
+            }
+        }
+
         const methodToNumArgs = this._receiverToMethods[receiverName];
         if (!methodToNumArgs) return null;
-
         const numArgsToNumRubyBlockArgs = methodToNumArgs[name];
         if (!numArgsToNumRubyBlockArgs) return null;
-
         const numRubyBlockArgsToCreateBlockFuncs = numArgsToNumRubyBlockArgs[args.length];
         if (!numRubyBlockArgsToCreateBlockFuncs) return null;
 
@@ -440,7 +508,15 @@ class RubyToBlocksConverter {
 
         if (this._isBlock(receiver) && receiver.opcode === 'ruby_expression') {
             const textBlock = this._context.blocks[receiver.inputs.EXPRESSION.block];
-            return textBlock.fields.TEXT.value;
+            const text = textBlock.fields.TEXT.value;
+
+            // Sprite call pattern detection
+            const SpriteCallRe = /^sprite\("(.*)"\)$/;
+            if (SpriteCallRe.test(text)) {
+                return 'sprite_call';
+            }
+
+            return text;
         }
 
         if (this._isBlock(receiver)) {
@@ -454,13 +530,67 @@ class RubyToBlocksConverter {
         return ['sprite', 'stage', 'variable', 'string', 'number', 'array', 'hash', 'boolean', 'nil', 'block'];
     }
 
+    _getSpriteCallName (receiver) {
+        if (this._isBlock(receiver) && receiver.opcode === 'ruby_expression') {
+            const textBlock = this._context.blocks[receiver.inputs.EXPRESSION.block];
+            const text = textBlock.fields.TEXT.value;
+            const SpriteCallRe = /^sprite\("(.*)"\)$/;
+            const match = SpriteCallRe.exec(text);
+            if (match) {
+                return match[1];
+            }
+        }
+        return null;
+    }
+
+    _isSpriteCall (receiver) {
+        return this._getSpriteCallName(receiver) !== null;
+    }
+
     setParent (block, parent) {
         return this._setParent(block, parent);
     }
 
     _callConvertersHandler (handlerName, ...args) {
-        for (let i = 0; i < this._converters.length; i++) {
-            const converter = this._converters[i];
+        // First, check registered handlers based on handlerName
+        const handlersMap = {
+            onIf: this._onIfHandlers,
+            onUntil: this._onUntilHandlers,
+            onOpAsgn: this._onOpAsgnHandlers,
+            onAnd: this._onAndHandlers,
+            onOr: this._onOrHandlers,
+            onVar: this._onVarHandlers,
+            onVasgn: this._onVasgnHandlers,
+            onDefs: this._onDefsHandlers
+        };
+
+        const handlers = handlersMap[handlerName];
+        if (handlers) {
+            for (const handler of handlers) {
+                const block = handler.apply(this, args);
+                if (block) {
+                    return block;
+                }
+            }
+        }
+
+        // Then, check legacy converter objects for remaining unmigrated handlers
+        const legacyConverters = [
+            MusicConverter,
+            PenConverter,
+            EV3Converter,
+            GdxForConverter,
+            SmalrubotS1Converter,
+            BoostConverter,
+            TranslateConverter,
+            MakeyMakeyConverter,
+            LooksConverter,
+            SoundConverter,
+            SensingConverter
+        ];
+        
+        for (let i = 0; i < legacyConverters.length; i++) {
+            const converter = legacyConverters[i];
             if (Object.prototype.hasOwnProperty.call(converter, handlerName)) {
                 const block = converter[handlerName].apply(this, args);
                 if (block) {
@@ -468,6 +598,7 @@ class RubyToBlocksConverter {
                 }
             }
         }
+
         return null;
     }
 
@@ -1166,10 +1297,10 @@ class RubyToBlocksConverter {
         return block;
     }
 
-    changeRubyExpression (block, node) {
+    changeRubyExpression (block, node, source = null) {
         block.node = node;
         const expressionBlock = this._context.blocks[block.inputs.EXPRESSION.block];
-        expressionBlock.fields.TEXT.value = this._getSource(node);
+        expressionBlock.fields.TEXT.value = source || this._getSource(node);
         return block;
     }
 

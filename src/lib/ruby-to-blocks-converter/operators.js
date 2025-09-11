@@ -8,14 +8,14 @@ const MathE = '::Math::E';
  */
 const OperatorsConverter = {
     register: function (converter) {
-        converter.registerCallMethod('self', 'rand', 1, params => {
+        converter.registerOnSend('self', 'rand', 1, params => {
             const {args} = params;
             if (!converter._isBlock(args[0]) || args[0].opcode !== 'ruby_range') return null;
 
             return converter._changeBlock(args[0], 'operator_random', 'value');
         });
 
-        converter.registerCallMethod(['string', 'block'], '[]', 1, params => {
+        converter.registerOnSend(['string', 'block'], '[]', 1, params => {
             const {receiver, args} = params;
             if (!converter._isNumberOrBlock(args[0])) return null;
 
@@ -29,7 +29,7 @@ const OperatorsConverter = {
             return block;
         });
 
-        converter.registerCallMethod(['string', 'block'], 'length', 0, params => {
+        converter.registerOnSend(['string', 'block'], 'length', 0, params => {
             const {receiver} = params;
 
             const block = converter._createBlock('operator_length', 'value');
@@ -37,7 +37,7 @@ const OperatorsConverter = {
             return block;
         });
 
-        converter.registerCallMethod(['string', 'block'], 'include?', 1, params => {
+        converter.registerOnSend(['string', 'block'], 'include?', 1, params => {
             const {receiver, args} = params;
             if (!converter._isStringOrBlock(args[0])) return null;
 
@@ -48,7 +48,7 @@ const OperatorsConverter = {
         });
 
         ['+', '-', '*', '/', '%'].forEach(operator => {
-            converter.registerCallMethod(['variable', 'number', 'block'], operator, 1, params => {
+            converter.registerOnSend(['variable', 'number', 'block'], operator, 1, params => {
                 const {receiver, args} = params;
                 let rh = args[0];
                 if (_.isArray(rh)) {
@@ -78,7 +78,7 @@ const OperatorsConverter = {
             });
         });
 
-        converter.registerCallMethod(['variable', 'string', 'block'], '+', 1, params => {
+        converter.registerOnSend(['variable', 'string', 'block'], '+', 1, params => {
             const {receiver, args} = params;
             let rh = args[0];
             if (_.isArray(rh)) {
@@ -97,7 +97,7 @@ const OperatorsConverter = {
         });
 
         ['>', '<', '=='].forEach(operator => {
-            converter.registerCallMethod('any', operator, 1, params => {
+            converter.registerOnSend('any', operator, 1, params => {
                 const {receiver, args} = params;
                 let rh = args[0];
                 if (_.isArray(rh)) {
@@ -123,7 +123,7 @@ const OperatorsConverter = {
             });
         });
 
-        converter.registerCallMethod(['variable', 'boolean', 'block'], '!', 0, params => {
+        converter.registerOnSend(['variable', 'boolean', 'block'], '!', 0, params => {
             const {receiver} = params;
 
             const block = converter._createBlock('operator_not', 'value_boolean');
@@ -137,7 +137,7 @@ const OperatorsConverter = {
             return block;
         });
 
-        converter.registerCallMethod(['variable', 'number', 'block'], 'round', 0, params => {
+        converter.registerOnSend(['variable', 'number', 'block'], 'round', 0, params => {
             const {receiver} = params;
 
             const block = converter._createBlock('operator_round', 'value');
@@ -146,7 +146,7 @@ const OperatorsConverter = {
         });
 
         ['abs', 'floor', 'ceil'].forEach(methodName => {
-            converter.registerCallMethod(['variable', 'number', 'block'], methodName, 0, params => {
+            converter.registerOnSend(['variable', 'number', 'block'], methodName, 0, params => {
                 const {receiver} = params;
 
                 let operator = methodName;
@@ -161,7 +161,7 @@ const OperatorsConverter = {
         });
 
         ['sqrt', 'sin', 'cos', 'tan', 'asin', 'acos', 'atan', 'log', 'log10'].forEach(methodName => {
-            converter.registerCallMethod(Math, methodName, 1, params => {
+            converter.registerOnSend(Math, methodName, 1, params => {
                 const {args} = params;
                 let rh = args[0];
                 if (_.isArray(rh)) {
@@ -189,7 +189,7 @@ const OperatorsConverter = {
             });
         });
 
-        converter.registerCallMethod(MathE, '**', 1, params => {
+        converter.registerOnSend(MathE, '**', 1, params => {
             const {args} = params;
             let rh = args[0];
             if (_.isArray(rh)) {
@@ -205,7 +205,7 @@ const OperatorsConverter = {
             return block;
         });
 
-        converter.registerCallMethod('number', '**', 1, params => {
+        converter.registerOnSend('number', '**', 1, params => {
             const {receiver, args} = params;
             let rh = args[0];
             if (_.isArray(rh)) {
@@ -221,40 +221,39 @@ const OperatorsConverter = {
             converter._addNumberInput(block, 'NUM', 'math_number', rh, '');
             return block;
         });
-    },
 
-    // eslint-disable-next-line no-unused-vars
-    onAnd: function (operands) {
-        const block = this._createBlock('operator_and', 'value_boolean');
-        operands.forEach(o => {
-            if (o) {
-                o.parent = block.id;
+        // Register onXxx handlers
+        converter.registerOnAnd(operands => {
+            const block = converter._createBlock('operator_and', 'value_boolean');
+            operands.forEach(o => {
+                if (o) {
+                    o.parent = block.id;
+                }
+            });
+            if (!converter._isFalse(operands[0])) {
+                converter._addInput(block, 'OPERAND1', converter._createTextBlock(operands[0]));
             }
+            if (!converter._isFalse(operands[1])) {
+                converter._addInput(block, 'OPERAND2', converter._createTextBlock(operands[1]));
+            }
+            return block;
         });
-        if (!this._isFalse(operands[0])) {
-            this._addInput(block, 'OPERAND1', this._createTextBlock(operands[0]));
-        }
-        if (!this._isFalse(operands[1])) {
-            this._addInput(block, 'OPERAND2', this._createTextBlock(operands[1]));
-        }
-        return block;
-    },
 
-    // eslint-disable-next-line no-unused-vars
-    onOr: function (operands) {
-        const block = this._createBlock('operator_or', 'value_boolean');
-        operands.forEach(o => {
-            if (o) {
-                o.parent = block.id;
+        converter.registerOnOr(operands => {
+            const block = converter._createBlock('operator_or', 'value_boolean');
+            operands.forEach(o => {
+                if (o) {
+                    o.parent = block.id;
+                }
+            });
+            if (!converter._isFalse(operands[0])) {
+                converter._addInput(block, 'OPERAND1', converter._createTextBlock(operands[0]));
             }
+            if (!converter._isFalse(operands[1])) {
+                converter._addInput(block, 'OPERAND2', converter._createTextBlock(operands[1]));
+            }
+            return block;
         });
-        if (!this._isFalse(operands[0])) {
-            this._addInput(block, 'OPERAND1', this._createTextBlock(operands[0]));
-        }
-        if (!this._isFalse(operands[1])) {
-            this._addInput(block, 'OPERAND2', this._createTextBlock(operands[1]));
-        }
-        return block;
     }
 };
 

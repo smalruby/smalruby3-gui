@@ -41,13 +41,13 @@ const LanguageMenu = [
  */
 const Text2SpeechConverter = {
     register: function (converter) {
-        converter.registerCallMethod('self', Text2Speech, 0, params => {
+        converter.registerOnSend('self', Text2Speech, 0, params => {
             const {node} = params;
 
             return converter.createRubyExpressionBlock(Text2Speech, node);
         });
 
-        converter.registerCallMethod(Text2Speech, 'speak', 1, params => {
+        converter.registerOnSend(Text2Speech, 'speak', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -57,7 +57,7 @@ const Text2SpeechConverter = {
             return block;
         });
 
-        converter.registerCallMethod(Text2Speech, 'voice=', 1, params => {
+        converter.registerOnSend(Text2Speech, 'voice=', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -75,7 +75,7 @@ const Text2SpeechConverter = {
             return block;
         });
 
-        converter.registerCallMethod(Text2Speech, 'language=', 1, params => {
+        converter.registerOnSend(Text2Speech, 'language=', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;

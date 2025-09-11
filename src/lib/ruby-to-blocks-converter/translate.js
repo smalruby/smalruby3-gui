@@ -6,7 +6,7 @@ import _ from 'lodash';
 const TranslateConverter = {
     register: function (converter) {
         // translate method
-        converter.registerCallMethod('self', 'translate', 2, params => {
+        converter.registerOnSend('self', 'translate', 2, params => {
             const {args} = params;
             if (!converter._isNumberOrStringOrBlock(args[0]) || !converter._isStringOrBlock(args[1])) return null;
 
@@ -21,7 +21,7 @@ const TranslateConverter = {
         });
 
         // language method
-        converter.registerCallMethod('self', 'language', 0, () =>
+        converter.registerOnSend('self', 'language', 0, () =>
             converter._createBlock('translate_getViewerLanguage', 'value')
         );
     }

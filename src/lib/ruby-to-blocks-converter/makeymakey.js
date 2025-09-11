@@ -7,13 +7,13 @@ const Makey = 'makey';
  */
 const MakeyMakeyConverter = {
     register: function (converter) {
-        converter.registerCallMethod('self', Makey, 0, params => {
+        converter.registerOnSend('self', Makey, 0, params => {
             const {node} = params;
 
             return converter.createRubyExpressionBlock(Makey, node);
         });
 
-        converter.registerCallMethodWithBlock(Makey, 'when_key_pressed', 1, 0, params => {
+        converter.registerOnSendWithBlock(Makey, 'when_key_pressed', 1, 0, params => {
             console.log(Makey, 'when_key_pressed', 1, 0, params);
             const {receiver, args, rubyBlock} = params;
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -28,7 +28,7 @@ const MakeyMakeyConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(Makey, 'when_pressed_in_oder', 1, 0, params => {
+        converter.registerOnSendWithBlock(Makey, 'when_pressed_in_oder', 1, 0, params => {
             const {receiver, args, rubyBlock} = params;
             if (!converter.isStringOrBlock(args[0])) return null;
 
@@ -43,7 +43,7 @@ const MakeyMakeyConverter = {
         });
 
         // backward compatibility
-        converter.registerCallMethodWithBlock('self', 'when', 2, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when', 2, 0, params => {
             const {args, rubyBlock} = params;
             if (args.length === 2 && args[0].type === 'sym' && rubyBlock) {
                 switch (args[0].value) {

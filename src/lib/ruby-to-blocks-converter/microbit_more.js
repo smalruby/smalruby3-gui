@@ -102,13 +102,13 @@ const ConnectionStateMenu = [
  */
 const MicrobitMoreConverter = {
     register: function (converter) {
-        converter.registerCallMethod('self', MicrobitMore, 0, params => {
+        converter.registerOnSend('self', MicrobitMore, 0, params => {
             const {node} = params;
 
             return converter.createRubyExpressionBlock(MicrobitMore, node);
         });
 
-        converter.registerCallMethodWithBlock(MicrobitMore, 'when_microbit', 1, 0, params => {
+        converter.registerOnSendWithBlock(MicrobitMore, 'when_microbit', 1, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (!converter.isString(args[0])) return null;
@@ -122,7 +122,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(MicrobitMore, 'when_button_is', 2, 0, params => {
+        converter.registerOnSendWithBlock(MicrobitMore, 'when_button_is', 2, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (converter.isString(args[0])) {
@@ -149,7 +149,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'button_pressed?', 1, params => {
+        converter.registerOnSend(MicrobitMore, 'button_pressed?', 1, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -167,7 +167,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(MicrobitMore, 'when_pin_is', 2, 0, params => {
+        converter.registerOnSendWithBlock(MicrobitMore, 'when_pin_is', 2, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (converter.isString(args[0])) {
@@ -195,7 +195,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'pin_is_touched?', 1, params => {
+        converter.registerOnSend(MicrobitMore, 'pin_is_touched?', 1, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -213,7 +213,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(MicrobitMore, 'when', 1, 0, params => {
+        converter.registerOnSendWithBlock(MicrobitMore, 'when', 1, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (converter.isString(args[0])) {
@@ -231,7 +231,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'display_pattern', 5, params => {
+        converter.registerOnSend(MicrobitMore, 'display_pattern', 5, params => {
             const {receiver, args} = params;
 
             if (!args.every(x => converter.isString(x))) return null;
@@ -247,7 +247,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'display_pattern', 1, params => {
+        converter.registerOnSend(MicrobitMore, 'display_pattern', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isBlock(args[0])) return null;
@@ -257,7 +257,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'display_text_delay', 2, params => {
+        converter.registerOnSend(MicrobitMore, 'display_text_delay', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -269,49 +269,49 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'clear_display', 0, params => {
+        converter.registerOnSend(MicrobitMore, 'clear_display', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'microbitMore_displayClear', 'statement');
         });
 
-        converter.registerCallMethod(MicrobitMore, 'light_intensity', 0, params => {
+        converter.registerOnSend(MicrobitMore, 'light_intensity', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'microbitMore_getLightLevel', 'value');
         });
 
-        converter.registerCallMethod(MicrobitMore, 'temperature', 0, params => {
+        converter.registerOnSend(MicrobitMore, 'temperature', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'microbitMore_getTemperature', 'value');
         });
 
-        converter.registerCallMethod(MicrobitMore, 'angle_with_north', 0, params => {
+        converter.registerOnSend(MicrobitMore, 'angle_with_north', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'microbitMore_getCompassHeading', 'value');
         });
 
-        converter.registerCallMethod(MicrobitMore, 'pitch', 0, params => {
+        converter.registerOnSend(MicrobitMore, 'pitch', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'microbitMore_getPitch', 'value');
         });
 
-        converter.registerCallMethod(MicrobitMore, 'roll', 0, params => {
+        converter.registerOnSend(MicrobitMore, 'roll', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'microbitMore_getRoll', 'value');
         });
 
-        converter.registerCallMethod(MicrobitMore, 'sound_level', 0, params => {
+        converter.registerOnSend(MicrobitMore, 'sound_level', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'microbitMore_getSoundLevel', 'value');
         });
 
-        converter.registerCallMethod(MicrobitMore, 'magnetic_force', 1, params => {
+        converter.registerOnSend(MicrobitMore, 'magnetic_force', 1, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -328,7 +328,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'acceleration', 1, params => {
+        converter.registerOnSend(MicrobitMore, 'acceleration', 1, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -345,7 +345,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'analog_value', 1, params => {
+        converter.registerOnSend(MicrobitMore, 'analog_value', 1, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -362,7 +362,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'set_pin_to_input_pull', 2, params => {
+        converter.registerOnSend(MicrobitMore, 'set_pin_to_input_pull', 2, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -388,7 +388,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'is_pin_high?', 1, params => {
+        converter.registerOnSend(MicrobitMore, 'is_pin_high?', 1, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -405,7 +405,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'set_digital', 2, params => {
+        converter.registerOnSend(MicrobitMore, 'set_digital', 2, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -432,7 +432,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'set_analog', 2, params => {
+        converter.registerOnSend(MicrobitMore, 'set_analog', 2, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -451,7 +451,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'set_servo', 2, params => {
+        converter.registerOnSend(MicrobitMore, 'set_servo', 2, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -471,7 +471,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'play_tone', 2, params => {
+        converter.registerOnSend(MicrobitMore, 'play_tone', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isNumberOrBlock(args[0])) return null;
@@ -483,13 +483,13 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'stop_tone', 0, params => {
+        converter.registerOnSend(MicrobitMore, 'stop_tone', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'microbitMore_stopTone', 'statement');
         });
 
-        converter.registerCallMethod(MicrobitMore, 'listen_event_on', 2, params => {
+        converter.registerOnSend(MicrobitMore, 'listen_event_on', 2, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -516,7 +516,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(MicrobitMore, 'when_catch_at_pin', 2, 0, params => {
+        converter.registerOnSendWithBlock(MicrobitMore, 'when_catch_at_pin', 2, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (converter.isString(args[0])) {
@@ -544,7 +544,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'value_of', 2, params => {
+        converter.registerOnSend(MicrobitMore, 'value_of', 2, params => {
             const {receiver, args} = params;
 
             if (converter.isString(args[0])) {
@@ -571,7 +571,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(MicrobitMore, 'when_data_received_from_microbit', 1, 0, params => {
+        converter.registerOnSendWithBlock(MicrobitMore, 'when_data_received_from_microbit', 1, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -582,7 +582,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'data', 0, params => {
+        converter.registerOnSend(MicrobitMore, 'data', 0, params => {
             const {receiver, node} = params;
 
             const block = converter.changeRubyExpressionBlock(receiver, 'ruby_expression', 'value_boolean');
@@ -591,7 +591,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMoreData, '[]', 1, params => {
+        converter.registerOnSend(MicrobitMoreData, '[]', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -601,7 +601,7 @@ const MicrobitMoreConverter = {
             return block;
         });
 
-        converter.registerCallMethod(MicrobitMore, 'send_data_to_microbit', 2, params => {
+        converter.registerOnSend(MicrobitMore, 'send_data_to_microbit', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;

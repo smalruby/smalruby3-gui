@@ -36,13 +36,13 @@ const TiltDirectionMenu = TiltDirectionAnyMenu.slice(0, 4);
  */
 const Wedo2Converter = {
     register: function (converter) {
-        converter.registerCallMethod('self', Wedo2, 0, params => {
+        converter.registerOnSend('self', Wedo2, 0, params => {
             const {node} = params;
 
             return converter.createRubyExpressionBlock(Wedo2, node);
         });
 
-        converter.registerCallMethod(Wedo2, 'turn_on_for', 2, params => {
+        converter.registerOnSend(Wedo2, 'turn_on_for', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -79,10 +79,10 @@ const Wedo2Converter = {
             );
             return block;
         };
-        converter.registerCallMethod(Wedo2, 'turn_on', 1, params => createMotorToggleBlock('wedo2_motorOn', params));
-        converter.registerCallMethod(Wedo2, 'turn_off', 1, params => createMotorToggleBlock('wedo2_motorOff', params));
+        converter.registerOnSend(Wedo2, 'turn_on', 1, params => createMotorToggleBlock('wedo2_motorOn', params));
+        converter.registerOnSend(Wedo2, 'turn_off', 1, params => createMotorToggleBlock('wedo2_motorOff', params));
 
-        converter.registerCallMethod(Wedo2, 'set_power', 2, params => {
+        converter.registerOnSend(Wedo2, 'set_power', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -102,7 +102,7 @@ const Wedo2Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Wedo2, 'set_direction', 2, params => {
+        converter.registerOnSend(Wedo2, 'set_direction', 2, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -130,7 +130,7 @@ const Wedo2Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Wedo2, 'light_color=', 1, params => {
+        converter.registerOnSend(Wedo2, 'light_color=', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isNumberOrBlock(args[0])) return null;
@@ -140,7 +140,7 @@ const Wedo2Converter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(Wedo2, 'when_distance', 2, 0, params => {
+        converter.registerOnSendWithBlock(Wedo2, 'when_distance', 2, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -154,7 +154,7 @@ const Wedo2Converter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock(Wedo2, 'when_tilted', 1, 0, params => {
+        converter.registerOnSendWithBlock(Wedo2, 'when_tilted', 1, 0, params => {
             const {receiver, args, rubyBlock} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -173,13 +173,13 @@ const Wedo2Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Wedo2, 'distance', 0, params => {
+        converter.registerOnSend(Wedo2, 'distance', 0, params => {
             const {receiver} = params;
 
             return converter.changeRubyExpressionBlock(receiver, 'wedo2_getDistance', 'value');
         });
 
-        converter.registerCallMethod(Wedo2, 'tilted?', 1, params => {
+        converter.registerOnSend(Wedo2, 'tilted?', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;
@@ -197,7 +197,7 @@ const Wedo2Converter = {
             return block;
         });
 
-        converter.registerCallMethod(Wedo2, 'tilt_angle', 1, params => {
+        converter.registerOnSend(Wedo2, 'tilt_angle', 1, params => {
             const {receiver, args} = params;
 
             if (!converter.isStringOrBlock(args[0])) return null;

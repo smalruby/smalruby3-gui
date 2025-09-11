@@ -13,7 +13,7 @@ const Effect = [
 const SoundConverter = {
     register: function (converter) {
         // play_until_done method
-        converter.registerCallMethod('self', 'play_until_done', 1, params => {
+        converter.registerOnSend('self', 'play_until_done', 1, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0])) return null;
 
@@ -36,7 +36,7 @@ const SoundConverter = {
         });
 
         // play method
-        converter.registerCallMethod('self', 'play', 1, params => {
+        converter.registerOnSend('self', 'play', 1, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0])) return null;
 
@@ -59,16 +59,16 @@ const SoundConverter = {
         });
 
         // stop_all_sounds method
-        converter.registerCallMethod('self', 'stop_all_sounds', 0, () =>
+        converter.registerOnSend('self', 'stop_all_sounds', 0, () =>
             converter.createBlock('sound_stopallsounds', 'statement')
         );
 
         // clear_sound_effects method
-        converter.registerCallMethod('self', 'clear_sound_effects', 0, () =>
+        converter.registerOnSend('self', 'clear_sound_effects', 0, () =>
             converter.createBlock('sound_cleareffects', 'statement')
         );
 
-        converter.registerCallMethod('self', 'volume', 0, params => {
+        converter.registerOnSend('self', 'volume', 0, params => {
             const {receiver} = params;
             if (!converter._isSelf(receiver) && receiver !== Opal.nil) return null;
 
@@ -76,7 +76,7 @@ const SoundConverter = {
         });
 
         // change_sound_effect_by method
-        converter.registerCallMethod('self', 'change_sound_effect_by', 2, params => {
+        converter.registerOnSend('self', 'change_sound_effect_by', 2, params => {
             const {args} = params;
             if (!converter.isString(args[0]) || Effect.indexOf(args[0].toString()) < 0) return null;
             if (!converter.isNumberOrBlock(args[1])) return null;
@@ -88,7 +88,7 @@ const SoundConverter = {
         });
 
         // set_sound_effect method
-        converter.registerCallMethod('self', 'set_sound_effect', 2, params => {
+        converter.registerOnSend('self', 'set_sound_effect', 2, params => {
             const {args} = params;
             if (!converter.isString(args[0]) || Effect.indexOf(args[0].toString()) < 0) return null;
             if (!converter.isNumberOrBlock(args[1])) return null;
@@ -100,7 +100,7 @@ const SoundConverter = {
         });
 
         // volume= method
-        converter.registerCallMethod('self', 'volume=', 1, params => {
+        converter.registerOnSend('self', 'volume=', 1, params => {
             const {args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 

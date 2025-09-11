@@ -5,7 +5,7 @@ import _ from 'lodash';
  */
 const BoostConverter = {
     register: function (converter) {
-        converter.registerCallMethod('self', 'boost_motor_turn_on_for', 2, params => {
+        converter.registerOnSend('self', 'boost_motor_turn_on_for', 2, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
 
@@ -19,7 +19,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'boost_motor_turn_on_for', 1, params => {
+        converter.registerOnSend('self', 'boost_motor_turn_on_for', 1, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0])) return null;
 
@@ -32,7 +32,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'boost_motor_turn_this_way_for', 2, params => {
+        converter.registerOnSend('self', 'boost_motor_turn_this_way_for', 2, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
 
@@ -46,7 +46,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'boost_motor_turn_off_for', 1, params => {
+        converter.registerOnSend('self', 'boost_motor_turn_off_for', 1, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0])) return null;
 
@@ -59,7 +59,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'boost_motor_set_power_for', 2, params => {
+        converter.registerOnSend('self', 'boost_motor_set_power_for', 2, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0]) || !converter.isNumberOrBlock(args[1])) return null;
 
@@ -73,7 +73,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'boost_motor_set_direction_for', 2, params => {
+        converter.registerOnSend('self', 'boost_motor_set_direction_for', 2, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0]) || !converter.isStringOrBlock(args[1])) return null;
 
@@ -91,7 +91,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'boost_motor_get_position', 1, params => {
+        converter.registerOnSend('self', 'boost_motor_get_position', 1, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0])) return null;
 
@@ -104,7 +104,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'boost_seeing_color?', 1, params => {
+        converter.registerOnSend('self', 'boost_seeing_color?', 1, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0])) return null;
 
@@ -117,7 +117,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'boost_get_tilt_angle', 1, params => {
+        converter.registerOnSend('self', 'boost_get_tilt_angle', 1, params => {
             const {args} = params;
             if (!converter.isStringOrBlock(args[0])) return null;
 
@@ -130,7 +130,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethod('self', 'boost_set_light_color', 1, params => {
+        converter.registerOnSend('self', 'boost_set_light_color', 1, params => {
             const {args} = params;
             if (!converter.isNumberOrBlock(args[0])) return null;
 
@@ -139,7 +139,7 @@ const BoostConverter = {
             return block;
         });
 
-        converter.registerCallMethodWithBlock('self', 'when', 2, 0, params => {
+        converter.registerOnSendWithBlock('self', 'when', 2, 0, params => {
             const {args, rubyBlock} = params;
 
             if (args[0].type !== 'sym' || !converter.isStringOrBlock(args[1])) return null;
