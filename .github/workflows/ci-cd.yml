@@ -92,6 +92,9 @@ jobs:
                 MESH_GRAPHQL_ENDPOINT: ${{ secrets.MESH_GRAPHQL_ENDPOINT }}
                 MESH_API_KEY: ${{ secrets.MESH_API_KEY }}
                 MESH_AWS_REGION: ${{ secrets.MESH_AWS_REGION }}
+                MESH_DATA_UPDATE_INTERVAL_MS: ${{ vars.MESH_DATA_UPDATE_INTERVAL_MS }}
+                MESH_EVENT_BATCH_INTERVAL_MS: ${{ vars.MESH_EVENT_BATCH_INTERVAL_MS }}
+                MESH_PERIODIC_DATA_SYNC_INTERVAL_MS: ${{ vars.MESH_PERIODIC_DATA_SYNC_INTERVAL_MS }}
               run: npm run build
             - name: Store Build Output
               uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
@@ -156,6 +159,9 @@ jobs:
                 MESH_GRAPHQL_ENDPOINT: ${{ secrets.MESH_GRAPHQL_ENDPOINT }}
                 MESH_API_KEY: ${{ secrets.MESH_API_KEY }}
                 MESH_AWS_REGION: ${{ secrets.MESH_AWS_REGION }}
+                MESH_DATA_UPDATE_INTERVAL_MS: ${{ vars.MESH_DATA_UPDATE_INTERVAL_MS }}
+                MESH_EVENT_BATCH_INTERVAL_MS: ${{ vars.MESH_EVENT_BATCH_INTERVAL_MS }}
+                MESH_PERIODIC_DATA_SYNC_INTERVAL_MS: ${{ vars.MESH_PERIODIC_DATA_SYNC_INTERVAL_MS }}
               run: npm exec node ./scripts/postbuild.mjs
             - name: Prepare deployment files for smalruby3-gui GitHub Pages
               if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
@@ -187,6 +193,9 @@ jobs:
                 MESH_GRAPHQL_ENDPOINT: ${{ secrets.MESH_GRAPHQL_ENDPOINT }}
                 MESH_API_KEY: ${{ secrets.MESH_API_KEY }}
                 MESH_AWS_REGION: ${{ secrets.MESH_AWS_REGION }}
+                MESH_DATA_UPDATE_INTERVAL_MS: ${{ vars.MESH_DATA_UPDATE_INTERVAL_MS }}
+                MESH_EVENT_BATCH_INTERVAL_MS: ${{ vars.MESH_EVENT_BATCH_INTERVAL_MS }}
+                MESH_PERIODIC_DATA_SYNC_INTERVAL_MS: ${{ vars.MESH_PERIODIC_DATA_SYNC_INTERVAL_MS }}
               run: npm exec node ./scripts/postbuild.mjs
             - name: Prepare deployment files for branch GitHub Pages
               if: |
