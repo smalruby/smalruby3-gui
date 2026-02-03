@@ -138,15 +138,6 @@ jobs:
             - name: Prepare deployment files
               if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
               run: touch build/.nojekyll
-            - name: Deploy playground to Smalruby.app GitHub Pages
-              uses: peaceiris/actions-gh-pages@373f7f263a76c20808c831209c920827a82a2847 # v3
-              if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
-              with:
-                deploy_key: ${{ secrets.SMALRUBY_APP_DEPLOY_KEY }}
-                publish_dir: ./build
-                full_commit_message: "Build for ${{ github.sha }} ${{ github.event.head_commit.message }}"
-                cname: smalruby.app
-                external_repository: smalruby/smalruby.app
             - name: Rebuild for smalruby3-gui GitHub Pages
               if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
               env:
