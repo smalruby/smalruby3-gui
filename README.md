@@ -1,4 +1,13 @@
 # smalruby3-gui
+
+> **⚠️ このリポジトリは非推奨です (This repository is obsolete)**
+>
+> このリポジトリは [smalruby/smalruby3-editor](https://github.com/smalruby/smalruby3-editor) に統合されました。
+> 今後の開発・利用はそちらをご参照ください。
+>
+> This repository has been superseded by [smalruby/smalruby3-editor](https://github.com/smalruby/smalruby3-editor).
+> Please use that repository for all future development and usage.
+
 #### Smalruby3 GUI is a set of React components that comprise the interface for creating and running Smalruby 3.0 projects. It forked from [LLK/scratch-gui](https://github.com/LLK/scratch-gui) .
 
 [![Introduce Smalruby 3 based Scratch 3.0](https://img.youtube.com/vi/UNkinwLk6uQ/0.jpg)](https://www.youtube.com/watch?v=UNkinwLk6uQ)
