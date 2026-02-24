@@ -741,7 +741,10 @@ Blocks.propTypes = {
     isRtl: PropTypes.bool,
     isVisible: PropTypes.bool,
     locale: PropTypes.string.isRequired,
-    messages: PropTypes.objectOf(PropTypes.string),
+    messages: PropTypes.objectOf(PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.object
+    ])),
     onActivateColorPicker: PropTypes.func,
     onActivateCustomProcedures: PropTypes.func,
     onOpenConnectionModal: PropTypes.func,
